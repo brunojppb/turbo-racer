@@ -1,4 +1,4 @@
-# Turbo Cache
+# Turborepo Cache
 
 An open-source backend for managing your [Turborepo](https://turborepo.org/) cache.
 
