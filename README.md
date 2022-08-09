@@ -2,6 +2,16 @@
 
 An open-source backend for managing your [Turborepo](https://turborepo.org/) cache.
 
+## Features
+
+- [ ] Store and provide artifacts
+  - [ ] Using file system
+  - [ ] Using S3
+- [ ] Web UI for managing
+  - [ ] Teams
+  - [ ] Tokens
+  - [ ] purging Artifacts
+
 ## Dependencies
 
 To run this app locally, you will the following dependencies installed:
@@ -11,7 +21,7 @@ To run this app locally, you will the following dependencies installed:
 - Postgres 14
   - The simplest way is to have [Docker](https://docs.docker.com/engine/install/centos/) installed and run `docker-compose up`. It will
     start up a Postgres container for your dev server.
-## Starting
+## Starting development
 
 To start your Phoenix server:
 
