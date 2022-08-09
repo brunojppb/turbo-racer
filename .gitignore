@@ -20,6 +20,15 @@
 .vscode
 *.iml
 
+# Temp files
+.DS_Store
+*.iml
+
+# Dialyzer Persistent Lookup Table (PLT) files
+# See: https://www.erlang.org/doc/apps/dialyzer/dialyzer_chapter.html
+/priv/plts
+/priv/plts
+
 # The directory Mix downloads your dependencies sources to.
 /deps/
 

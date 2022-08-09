@@ -1,4 +1,17 @@
-# Turbo
+# Turbo Cache
+
+An open-source backend for managing your [Turborepo](https://turborepo.org/) cache.
+
+## Dependencies
+
+To run this app locally, you will the following dependencies installed:
+
+- Elixir
+  - You can setup with asdf following this guide [here](https://thinkingelixir.com/install-elixir-using-asdf/).
+- Postgres 14
+  - The simplest way is to have [Docker](https://docs.docker.com/engine/install/centos/) installed and run `docker-compose up`. It will
+    start up a Postgres container for your dev server.
+## Starting
 
 To start your Phoenix server:
 
@@ -8,12 +21,6 @@ To start your Phoenix server:
 
 Now you can visit [`localhost:4000`](http://localhost:4000) from your browser.
 
-Ready to run in production? Please [check our deployment guides](https://hexdocs.pm/phoenix/deployment.html).
+## Ready for Production
 
-## Learn more
-
-  * Official website: https://www.phoenixframework.org/
-  * Guides: https://hexdocs.pm/phoenix/overview.html
-  * Docs: https://hexdocs.pm/phoenix
-  * Forum: https://elixirforum.com/c/phoenix-forum
-  * Source: https://github.com/phoenixframework/phoenix
+Deployment guides coming soon...
