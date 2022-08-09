@@ -1,0 +1,70 @@
+name: Checks
+on: push
+concurrency:
+  group: ${{ github.ref }}
+  cancel-in-progress: false
+
+jobs:
+  checks:
+    runs-on: ubuntu-latest
+
+    services:
+      db:
+        image: postgres:14
+        ports: ["5432:5432"]
+        env:
+          POSTGRES_USER: turbo
+          POSTGRES_PASSWORD: turbo
+          POSTGRES_DB: turbo_test
+        options: >-
+          --health-cmd pg_isready
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+
+      - name: Setup Elixir
+        uses: erlef/setup-beam@v1
+        id: beam
+        with:
+          otp-version: "24.1.7"
+          elixir-version: "1.13.4"
+
+      - name: Fetch cached dependencies
+        uses: actions/cache@v3
+        id: mix-cache
+        with:
+          path: |
+            deps
+            _build
+            priv/plts
+          key: |
+            ${{ runner.os }}-${{ steps.beam.outputs.elixir-version }}-${{ steps.beam.outputs.otp-version }}-${{ hashFiles('mix.lock') }}
+          restore-keys: |
+            ${{ runner.os }}-${{ steps.beam.outputs.elixir-version }}-${{ steps.beam.outputs.otp-version }}-${{ hashFiles('mix.lock') }}
+            ${{ runner.os }}-${{ steps.beam.outputs.elixir-version }}-${{ steps.beam.outputs.otp-version }}
+      
+      - name: Install dependencies
+        run: mix deps.get
+      
+      - name: Dialyzer
+        run: mix dialyzer
+
+      # Create PLTs for dialyzer checks
+      - name: Create PLTs
+        if: steps.mix-cache.outputs.cache-hit != 'true'
+        run: mix dialyzer --plt
+
+      - name: Code format
+        run: mix format --check-formatted
+
+      - name: Unused dependencies
+        run: mix deps.unlock --check-unused
+      
+      - name: Compile
+        run: mix compile --warnings-as-errors
+
+      - name: Tests
+        run: mix test --trace --color

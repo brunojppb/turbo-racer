@@ -1,0 +1,15 @@
+version: "3.7"
+
+services:
+
+  dev_db:
+    image: postgres:14.2
+    container_name: pg_turbo_dev
+    environment:
+      - POSTGRES_USER=turbo
+      - POSTGRES_PASSWORD=turbo
+      - POSTGRES_DB=turbo_dev
+    ports:
+      - "5432:5432"
+    volumes:
+      - ./db:/var/lib/postgresql/data
