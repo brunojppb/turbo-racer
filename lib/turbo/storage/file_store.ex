@@ -23,6 +23,12 @@ defmodule Turbo.Storage.FileStore do
   """
   @callback get_file(filename :: String.t()) :: Turbo.result(Enumerable.t())
 
+  @doc """
+  Delete the given file.
+  Return the deleted filename in case of success
+  """
+  @callback delete_file(filename :: String.t()) :: Turbo.result(String.t())
+
   @spec put_file(temp_file_path :: String.t(), filename :: String.t()) :: Turbo.result(String.t())
   def put_file(temp_file_path, filename), do: impl().put_file(temp_file_path, filename)
 
@@ -31,6 +37,9 @@ defmodule Turbo.Storage.FileStore do
 
   @spec get_file(filename :: String.t()) :: Turbo.result(Stream)
   def get_file(filename), do: impl().get_file(filename)
+
+  @spec delete_file(filename :: String.t()) :: Turbo.result(String.t())
+  def delete_file(filename), do: impl().delete_file(filename)
 
   @spec impl() :: __MODULE__.t()
   defp impl() do

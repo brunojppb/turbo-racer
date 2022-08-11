@@ -15,6 +15,23 @@ defmodule Turbo.Storage.LocalFileStore do
   end
 
   @impl FileStore
+  def delete_file(filename) when is_binary(filename) do
+    path = build_path(filename)
+
+    if File.exists?(path) do
+      case File.rm(path) do
+        :ok ->
+          {:ok, filename}
+
+        {:error, _reason} ->
+          {:error, "Could not delete file #{filename}"}
+      end
+    else
+      {:error, "File #{filename} not found"}
+    end
+  end
+
+  @impl FileStore
   def put_data(data, filename) do
     file_path = build_path(filename)
     :ok = File.write(file_path, data)
@@ -43,6 +60,6 @@ defmodule Turbo.Storage.LocalFileStore do
       File.mkdir(upload_dir())
     end
 
-    upload_dir() <> "/" <> filename
+    Path.join(upload_dir(), filename)
   end
 end
