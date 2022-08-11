@@ -4,8 +4,8 @@ An open-source backend for managing your [Turborepo](https://turborepo.org/) cac
 
 ## Features
 
-- [ ] Store and provide artifacts
-  - [ ] Using file system
+- [x] Store and provide artifacts
+  - [x] Using file system
   - [ ] Using S3
 - [ ] Web UI for managing
   - [ ] Teams
