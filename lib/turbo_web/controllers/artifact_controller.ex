@@ -6,17 +6,17 @@ defmodule TurboWeb.ArtifactController do
   # Max size of uploaded artifacts
   @max_length 100_000_000
 
-  def create(conn, %{"id" => id} = _params) do
+  def create(conn, %{"hash" => hash} = _params) do
     # TODO: Check if there is more chunks to read
     # and bail in case payload is larger than the limit
     {:ok, body_data, conn} = read_body(conn, length: @max_length)
 
-    {:ok, filename} = FileStore.put_data(body_data, id)
+    {:ok, filename} = FileStore.put_data(body_data, hash)
     send_resp(conn, 200, filename)
   end
 
-  def show(conn, %{"id" => id} = _params) do
-    FileStore.get_file(id)
+  def show(conn, %{"hash" => hash} = _params) do
+    FileStore.get_file(hash)
     |> stream_resp(conn)
   end
 

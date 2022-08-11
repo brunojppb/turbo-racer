@@ -22,8 +22,8 @@ defmodule TurboWeb.Router do
 
   # TODO: Add auth and team authorization pipelines
   scope "/v8", TurboWeb do
-    get "/artifacts/:id", ArtifactController, :show
-    put "/artifacts/:id", ArtifactController, :create
+    get "/artifacts/:hash", ArtifactController, :show
+    put "/artifacts/:hash", ArtifactController, :create
   end
 
   # Other scopes may use custom stacks.
