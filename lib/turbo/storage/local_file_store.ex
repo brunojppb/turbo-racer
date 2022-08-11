@@ -4,18 +4,26 @@ defmodule Turbo.Storage.LocalFileStore do
   @behaviour FileStore
 
   @impl FileStore
-  def get(filename) do
+  def get_file(filename) do
     path = build_path(filename)
 
     if File.exists?(path) do
-      {:ok, File.stream!(path)}
+      {:ok, File.stream!(path, [], 2048)}
     else
       {:error, "#{filename} not found"}
     end
   end
 
   @impl FileStore
-  def put(temp_file_path, filename) do
+  def put_data(data, filename) do
+    file_path = build_path(filename)
+    :ok = File.write(file_path, data)
+
+    {:ok, filename}
+  end
+
+  @impl FileStore
+  def put_file(temp_file_path, filename) do
     temp_file_path
     |> File.copy(build_path(filename))
     |> case do
@@ -28,5 +36,13 @@ defmodule Turbo.Storage.LocalFileStore do
   end
 
   defp upload_dir(), do: Application.app_dir(:turbo, "priv/uploads")
-  defp build_path(filename), do: upload_dir() <> "/" <> filename
+
+  # Make sure that the upload folder exists first
+  defp build_path(filename) do
+    if not File.exists?(upload_dir()) do
+      File.mkdir(upload_dir())
+    end
+
+    upload_dir() <> "/" <> filename
+  end
 end
