@@ -1,4 +1,12 @@
 defmodule TurboWeb.ArtifactController do
+  @moduledoc """
+  Reference API implementation for the the artifacts contract defined in the original
+  [Turborepo client](https://github.com/vercel/turborepo/blob/main/cli/internal/client/client.go)
+
+  This module should expose two endpoints:
+  - GET /v8/artifacts/:hash
+  - PUT /v8/artifacts/:hash
+  """
   use TurboWeb, :controller
   alias Turbo.Storage.FileStore
   require Logger
