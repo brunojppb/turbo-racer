@@ -1,7 +1,7 @@
 defmodule TurboWeb.ArtifactController do
   use TurboWeb, :controller
-  require Logger
   alias Turbo.Storage.FileStore
+  require Logger
 
   # Max size of uploaded artifacts
   @max_length 100_000_000
@@ -12,7 +12,11 @@ defmodule TurboWeb.ArtifactController do
     {:ok, body_data, conn} = read_body(conn, length: @max_length)
 
     {:ok, filename} = FileStore.put_data(body_data, hash)
-    send_resp(conn, 200, filename)
+
+    # TODO: Add x-artifact-duration that should be stored in the DB
+    conn
+    |> put_resp_content_type("application/json")
+    |> send_resp(201, Jason.encode!(%{filename: filename}))
   end
 
   def show(conn, %{"hash" => hash} = _params) do
