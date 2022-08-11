@@ -29,6 +29,9 @@
 /priv/plts
 /priv/plts
 
+# File uploads storage when using a local file store
+/priv/uploads
+
 # The directory Mix downloads your dependencies sources to.
 /deps/
 

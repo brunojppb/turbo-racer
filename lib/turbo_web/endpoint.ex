@@ -1,6 +1,9 @@
 defmodule TurboWeb.Endpoint do
   use Phoenix.Endpoint, otp_app: :turbo
 
+  # Max of ~300mb for body size uploads
+  @max_body_size_in_bytes 300_000_000
+
   # The session will be stored in the cookie and signed,
   # this means its contents can be read but not tampered with.
   # Set :encryption_salt if you would also like to encrypt it.
@@ -41,7 +44,8 @@ defmodule TurboWeb.Endpoint do
   plug Plug.Parsers,
     parsers: [:urlencoded, :multipart, :json],
     pass: ["*/*"],
-    json_decoder: Phoenix.json_library()
+    json_decoder: Phoenix.json_library(),
+    length: @max_body_size_in_bytes
 
   plug Plug.MethodOverride
   plug Plug.Head
