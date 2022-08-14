@@ -2,6 +2,11 @@
 
 An open-source backend for managing your [Turborepo](https://turborepo.org/) cache.
 
+> **Note**
+> This is not ready for production yet. It can already be used for storing
+> artifacts in the filesystem, but there is no token enforcement yet.
+> I will create a tag and prepare a Github Release once it is ready.
+
 ## Features
 
 - [x] Store and provide artifacts
