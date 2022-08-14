@@ -1,0 +1,29 @@
+<header class="container mx-auto flex justify-between items-center py-4">
+  <%= link to: Routes.page_path(@conn, :index) do %>
+    Turbo Racer Logo
+  <% end %>
+
+  <nav class="font-bold">
+    <ul class="flex gap-2 md:gap-4">
+      <%= if @current_user do %>
+        <li>
+          <%= link("Teams",
+            to: Routes.user_registration_path(@conn, :new),
+            class: "bg-purple-700 hover:bg-purple-600 text-white py-2 px-4 rounded-md"
+          ) %>
+        </li>
+      <% else %>
+        <li>
+          <%= link("Signup",
+            to: Routes.user_registration_path(@conn, :new)
+          ) %>
+        </li>
+        <li>
+          <%= link("Log in",
+            to: Routes.user_session_path(@conn, :new)
+          ) %>
+        </li>
+      <% end %>
+    </ul>
+  </nav>
+</header>

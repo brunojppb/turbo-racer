@@ -1,0 +1,11 @@
+
+<footer class="container mx-auto pb-16 text-sm leading-6 border-solid border-t-2 mt-16">
+  <ul>
+    <%= if function_exported?(Routes, :live_dashboard_path, 2) do %>
+      <li><%= link("LiveDashboard", to: Routes.live_dashboard_path(@conn, :home)) %></li>
+    <% end %>
+    <li>
+      <%= link("Github", to: "https://github.com/brunojppb/turborepo-cache" ) %>
+    </li>
+  </ul>
+</footer>

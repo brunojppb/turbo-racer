@@ -4,8 +4,9 @@ defmodule TurboWeb.UserSessionController do
   alias Turbo.Accounts
   alias TurboWeb.UserAuth
 
-  def new(conn, _params) do
-    render(conn, "new.html", error_message: nil)
+  def new(conn, params) do
+    maybe_redirect_path = params["redirect_path"]
+    render(conn, "new.html", error_message: nil, redirect_path: maybe_redirect_path)
   end
 
   def create(conn, %{"user" => user_params}) do
