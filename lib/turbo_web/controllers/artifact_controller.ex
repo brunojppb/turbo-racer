@@ -27,6 +27,12 @@ defmodule TurboWeb.ArtifactController do
     |> send_resp(201, Jason.encode!(%{filename: filename}))
   end
 
+  # TODO: Looks like this is an analytics endpoint used by Vercel
+  # to collect metrics. We could probably aggregate on it later on
+  def events(conn, _params) do
+    send_resp(conn, 201, Jason.encode!(%{}))
+  end
+
   def show(conn, %{"hash" => hash} = _params) do
     FileStore.get_file(hash)
     |> stream_resp(conn)

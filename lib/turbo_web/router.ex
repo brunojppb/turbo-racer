@@ -24,6 +24,12 @@ defmodule TurboWeb.Router do
   scope "/v8", TurboWeb do
     get "/artifacts/:hash", ArtifactController, :show
     put "/artifacts/:hash", ArtifactController, :create
+    post "/artifacts/events", ArtifactController, :events
+  end
+
+  scope "/v2", TurboWeb do
+    get "/teams", TeamController, :teams
+    get "/user", TeamController, :user
   end
 
   # Other scopes may use custom stacks.
