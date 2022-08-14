@@ -23,4 +23,9 @@ defmodule TurboWeb.ArtifactControllerTest do
     assert response(conn, 200) =~ "i_am_some_binary"
     {:ok, _} = FileStore.delete_file(hash)
   end
+
+  test "POST /v8/artifacts/events should respond with an empty JSON", %{conn: conn} do
+    conn = post(conn, "/v8/artifacts/events")
+    assert json_response(conn, 201) == %{}
+  end
 end

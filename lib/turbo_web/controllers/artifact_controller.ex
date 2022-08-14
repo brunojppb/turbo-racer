@@ -30,7 +30,7 @@ defmodule TurboWeb.ArtifactController do
   # TODO: Looks like this is an analytics endpoint used by Vercel
   # to collect metrics. We could probably aggregate on it later on
   def events(conn, _params) do
-    send_resp(conn, 201, Jason.encode!(%{}))
+    send_json_resp(conn, 201, %{})
   end
 
   def show(conn, %{"hash" => hash} = _params) do

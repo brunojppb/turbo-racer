@@ -25,7 +25,18 @@ defmodule TurboWeb do
       import TurboWeb.Gettext
       alias TurboWeb.Router.Helpers, as: Routes
 
-      # Send stream to the client by reducing over the stream
+      @doc """
+      Render response in JSON format with the appropriate headers
+      """
+      def send_json_resp(conn, http_status, map) do
+        conn
+        |> put_resp_header("content-type", "application/json")
+        |> send_resp(http_status, Jason.encode!(map))
+      end
+
+      @doc """
+      Send stream to the client by reducing over the stream
+      """
       def send_chunked_stream(conn, stream) do
         Enum.reduce_while(stream, conn, fn file_chunk, conn ->
           case chunk(conn, file_chunk) do
