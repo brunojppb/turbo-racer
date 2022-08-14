@@ -24,6 +24,19 @@ defmodule TurboWeb do
       import Plug.Conn
       import TurboWeb.Gettext
       alias TurboWeb.Router.Helpers, as: Routes
+
+      # Send stream to the client by reducing over the stream
+      def send_chunked_stream(conn, stream) do
+        Enum.reduce_while(stream, conn, fn file_chunk, conn ->
+          case chunk(conn, file_chunk) do
+            {:ok, conn} ->
+              {:cont, conn}
+
+            {:error, :closed} ->
+              {:halt, conn}
+          end
+        end)
+      end
     end
   end
 

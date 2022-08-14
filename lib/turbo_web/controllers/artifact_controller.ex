@@ -41,17 +41,4 @@ defmodule TurboWeb.ArtifactController do
     |> send_chunked(200)
     |> send_chunked_stream(stream)
   end
-
-  # reduce over the stream and send chunks to the client
-  defp send_chunked_stream(conn, stream) do
-    Enum.reduce_while(stream, conn, fn file_chunk, conn ->
-      case chunk(conn, file_chunk) do
-        {:ok, conn} ->
-          {:cont, conn}
-
-        {:error, :closed} ->
-          {:halt, conn}
-      end
-    end)
-  end
 end
