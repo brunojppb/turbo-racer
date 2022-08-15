@@ -15,9 +15,11 @@ defmodule TurboWeb.TeamController do
 
   def create(conn, %{"team" => params}) do
     user = conn.assigns[:current_user]
+
     case Teams.create(user, params) do
       {:ok, _team} ->
         redirect(conn, to: Routes.team_path(conn, :index))
+
       {:error, changeset} ->
         render(conn, "new.html", changeset: changeset)
     end

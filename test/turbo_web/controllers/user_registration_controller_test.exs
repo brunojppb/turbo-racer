@@ -33,8 +33,10 @@ defmodule TurboWeb.UserRegistrationControllerTest do
 
       # Now do a logged in request and assert on the menu
       conn = get(conn, "/")
+      assert "/teams" = redir_path = redirected_to(conn, 302)
+      conn = get(recycle(conn), redir_path)
       response = html_response(conn, 200)
-      assert response =~ "Teams</a>"
+      assert response =~ "Add new team</a>"
       assert response =~ "Logout</a>"
     end
 
