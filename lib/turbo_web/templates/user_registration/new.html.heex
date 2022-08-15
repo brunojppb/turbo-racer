@@ -1,0 +1,39 @@
+<div class="container mx-auto flex flex-col items-center">
+  <h1 class="font-bold text-3xl">Create Your Account</h1>
+
+  <.form
+    let={f}
+    for={@changeset}
+    action={Routes.user_registration_path(@conn, :create)}
+    class="auth-form"
+  >
+    <%= if @changeset.action do %>
+      <div class="alert alert-danger">
+        <p>Oops, something went wrong! Please check the errors below.</p>
+      </div>
+    <% end %>
+
+    <fieldset class="flex flex-col">
+      <%= label(f, :email, class: "font-semibold") %>
+      <%= email_input(f, :email, required: true, class: "input-primary") %>
+      <%= error_tag(f, :email) %>
+    </fieldset>
+
+    <fieldset class="flex flex-col mt-2">
+      <%= label(f, :password, class: "font-semibold") %>
+      <%= password_input(f, :password, required: true, class: "input-primary") %>
+      <%= error_tag(f, :password) %>
+    </fieldset>
+
+    <div>
+      <%= submit("Register", class: "btn-primary mt-4") %>
+    </div>
+  </.form>
+
+  <p>
+    <%= link("Log in", to: Routes.user_session_path(@conn, :new)) %> | <%= link(
+      "Forgot your password?",
+      to: Routes.user_reset_password_path(@conn, :new)
+    ) %>
+  </p>
+</div>

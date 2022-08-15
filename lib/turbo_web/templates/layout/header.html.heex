@@ -1,0 +1,37 @@
+<header class="container mx-auto flex justify-between items-center py-4">
+  <%= link to: Routes.page_path(@conn, :index) do %>
+    <img src={Routes.static_path(@conn, "/images/turbo-racer.svg")} alt="Turbo Racer Logo" />
+  <% end %>
+
+  <nav class="font-bold">
+    <ul class="flex gap-2 md:gap-4">
+      <%= if @current_user do %>
+      <%# #TODO: Replace with valid App links once the admin UI is ready %>
+        <li>
+          <%= link("Go to App",
+            to: Routes.user_registration_path(@conn, :new),
+            class: "btn-primary"
+          ) %>
+        </li>
+        <li>
+          <%= link("Logout",
+            to: Routes.user_session_path(@conn, :delete), 
+            method: :delete,
+            class: "btn-danger"
+          ) %>
+        </li>
+      <% else %>
+        <li>
+          <%= link("Signup",
+            to: Routes.user_registration_path(@conn, :new)
+          ) %>
+        </li>
+        <li>
+          <%= link("Log in",
+            to: Routes.user_session_path(@conn, :new)
+          ) %>
+        </li>
+      <% end %>
+    </ul>
+  </nav>
+</header>
