@@ -1,1 +1,36 @@
-<h1>Teams</h1>
+<h1 class="text-4xl">Teams</h1>
+
+<%= link "Add new team", to: Routes.team_path(@conn, :new), class: "underline mt-4 inline-block" %>
+
+<div class="overflow-x-auto relative mt-4">
+    <table class="w-full text-sm text-left text-gray-500">
+        <thead class="text-xs text-gray-700 uppercase bg-gray-50 ">
+            <tr>
+                <th scope="col" class="py-3 px-6">
+                    Team name
+                </th>
+                <th scope="col" class="py-3 px-6">
+                    Created at
+                </th>
+                <th scope="col" class="py-3 px-6">
+                    Actions
+                </th>
+            </tr>
+        </thead>
+        <tbody>
+          <%= for team <- @teams do %>
+            <tr class="bg-white border-b">
+                <th scope="row" class="py-4 px-6 font-medium text-gray-900 whitespace-nowrap ">
+                    <%= team.name %>
+                </th>
+                <td class="py-4 px-6">
+                    <%= team.inserted_at %> UTC
+                </td>
+                <td class="py-4 px-6">
+                  <a href="#" class="underline">Add token</a> | <a href="#" class="underline">delete</a>
+                </td>
+            </tr>
+          <% end %>
+        </tbody>
+    </table>
+</div>

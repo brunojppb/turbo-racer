@@ -19,7 +19,7 @@ defmodule Turbo.Models.Team do
           updated_at: NaiveDateTime.t()
         }
 
-  def changeset(team, user, attrs) do
+  def changeset(team, user, attrs \\ %{}) do
     team
     |> cast(attrs, [:name])
     |> validate_required([:name])

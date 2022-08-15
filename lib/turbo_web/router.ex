@@ -92,6 +92,8 @@ defmodule TurboWeb.Router do
     get "/users/settings/confirm_email/:token", UserSettingsController, :confirm_email
 
     get "/teams", TeamController, :index
+    get "/teams/new", TeamController, :new
+    post "/teams", TeamController, :create
   end
 
   scope "/", TurboWeb do
