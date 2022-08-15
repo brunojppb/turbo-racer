@@ -5,7 +5,7 @@ defmodule Turbo.Models.Team do
 
   schema "teams" do
     field :name, :string
-    belongs_to :user, Turbo.Accounts.User
+    belongs_to :user, User
 
     timestamps()
   end
