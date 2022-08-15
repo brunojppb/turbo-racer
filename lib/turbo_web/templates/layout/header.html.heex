@@ -8,16 +8,16 @@
       <%= if @current_user do %>
       <%# #TODO: Replace with valid App links once the admin UI is ready %>
         <li>
-          <%= link("Go to App",
-            to: Routes.user_registration_path(@conn, :new),
-            class: "btn-primary"
+          <%= link("Teams",
+            to: Routes.team_path(@conn, :index),
+            class: "underline"
           ) %>
         </li>
         <li>
           <%= link("Logout",
             to: Routes.user_session_path(@conn, :delete), 
             method: :delete,
-            class: "btn-danger"
+            class: "underline"
           ) %>
         </li>
       <% else %>

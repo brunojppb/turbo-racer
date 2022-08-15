@@ -34,7 +34,7 @@ defmodule TurboWeb.UserRegistrationControllerTest do
       # Now do a logged in request and assert on the menu
       conn = get(conn, "/")
       response = html_response(conn, 200)
-      assert response =~ "Go to App</a>"
+      assert response =~ "Teams</a>"
       assert response =~ "Logout</a>"
     end
 
