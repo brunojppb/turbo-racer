@@ -98,6 +98,7 @@ defmodule TurboWeb.Router do
 
     get "/teams/:team_id/tokens", TeamTokenController, :index
     post "/teams/:team_id/tokens", TeamTokenController, :create
+    delete "/teams/:team_id/tokens/:id", TeamTokenController, :delete
   end
 
   scope "/", TurboWeb do

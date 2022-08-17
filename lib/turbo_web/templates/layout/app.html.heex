@@ -1,6 +1,8 @@
 <main class="container mx-auto">
   <%= if get_flash(@conn, :info) != nil do %>
-    <p class="alert alert-info" role="alert"><%= get_flash(@conn, :info) %></p>
+    <div class="p-4 mb-4 text-sm text-green-700 bg-green-100 rounded-lg" role="alert">
+        <%= get_flash(@conn, :info) %>
+    </div>
   <% end %>
   <%= if get_flash(@conn, :error) != nil do %>
     <p class="alert alert-danger" role="alert"><%= get_flash(@conn, :error) %></p>

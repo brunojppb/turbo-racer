@@ -5,7 +5,6 @@ defmodule Turbo.Teams do
   alias Turbo.Models.{Team, TeamToken}
 
   @rand_size 32
-  @hash_algorithm :sha256
 
   def change(user) do
     %Team{}
@@ -20,9 +19,9 @@ defmodule Turbo.Teams do
   end
 
   def delete(team_id) do
-    {deleted_rows, _} = from(t in Team, where: t.id == ^team_id) |> Repo.delete_all()
+    {rows_deleted, _} = from(t in Team, where: t.id == ^team_id) |> Repo.delete_all()
 
-    if deleted_rows > 0 do
+    if rows_deleted > 0 do
       {:ok, team_id}
     else
       {:error, "Could not delete team #{team_id}"}
@@ -45,6 +44,16 @@ defmodule Turbo.Teams do
     tokens = tokens_query |> Repo.all()
 
     {team, tokens}
+  end
+
+  def delete_token(token_id) do
+    {rows_deleted, _} = from(t in TeamToken, where: t.id == ^token_id) |> Repo.delete_all()
+
+    if rows_deleted > 0 do
+      {:ok, token_id}
+    else
+      {:error, "Could not delete token with ID #{token_id}"}
+    end
   end
 
   @doc """

@@ -1,6 +1,12 @@
 <h1 class="text-4xl">Teams</h1>
 
-<%= link "Add new team", to: Routes.team_path(@conn, :new), class: "underline mt-4 inline-block" %>
+<p class="mt-4">
+    Turborepo artifacts are scoped by teams.
+    Tokens associated with a given team only give access to artifacts created by its associated team.
+</p>
+<div class="flex">
+    <%= link "Add new team", to: Routes.team_path(@conn, :new), class: "btn-primary inline mt-4" %>
+</div>
 
 <div class="overflow-x-auto relative mt-4">
     <table class="w-full text-sm text-left text-gray-500">
