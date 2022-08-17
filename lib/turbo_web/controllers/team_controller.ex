@@ -25,6 +25,23 @@ defmodule TurboWeb.TeamController do
     end
   end
 
+  def delete(conn, %{"id" => team_id} = _params) do
+    Teams.delete(team_id)
+
+    {flash_level, message} =
+      case Teams.delete(team_id) do
+        {:ok, _} ->
+          {:info, "Team #{team_id} deleted"}
+
+        {:error, _} ->
+          {:error, "Could not delete team with ID #{team_id}"}
+      end
+
+    conn
+    |> put_flash(flash_level, message)
+    |> redirect(to: Routes.team_path(conn, :index))
+  end
+
   # TODO: These endpoints seem to be used by Vercel only
   # But we can probably hook up an UI here later on.
   def user(conn, _params) do

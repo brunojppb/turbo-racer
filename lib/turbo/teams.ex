@@ -16,6 +16,16 @@ defmodule Turbo.Teams do
     |> Repo.insert()
   end
 
+  def delete(team_id) do
+    {deleted_rows, _} = from(t in Team, where: t.id == ^team_id) |> Repo.delete_all()
+
+    if deleted_rows > 0 do
+      {:ok, team_id}
+    else
+      {:error, "Could not delete team #{team_id}"}
+    end
+  end
+
   def get_all() do
     Team
     |> Repo.all()

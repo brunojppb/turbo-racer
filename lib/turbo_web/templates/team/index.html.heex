@@ -7,6 +7,9 @@
         <thead class="text-xs text-gray-700 uppercase bg-gray-50 ">
             <tr>
                 <th scope="col" class="py-3 px-6">
+                    ID
+                </th>
+                <th scope="col" class="py-3 px-6">
                     Team name
                 </th>
                 <th scope="col" class="py-3 px-6">
@@ -21,13 +24,21 @@
           <%= for team <- @teams do %>
             <tr class="bg-white border-b">
                 <th scope="row" class="py-4 px-6 font-medium text-gray-900 whitespace-nowrap ">
+                    <%= team.id %>
+                </th>
+                <th scope="row" class="py-4 px-6 font-medium text-gray-900 whitespace-nowrap ">
                     <%= team.name %>
                 </th>
                 <td class="py-4 px-6">
                     <%= team.inserted_at %> UTC
                 </td>
                 <td class="py-4 px-6">
-                  <a href="#" class="underline">Add token</a> | <a href="#" class="underline">delete</a>
+                  <a href="#" class="underline text-slate-700">Manage tokens</a> |
+                  <%= link "Delete Team",
+                        to: Routes.team_path(@conn, :delete, team),
+                        method: :delete,
+                        data: [confirm: "Are you sure you want to delete team ID #{team.id}?"],
+                        class: "underline text-red-700" %>
                 </td>
             </tr>
           <% end %>
