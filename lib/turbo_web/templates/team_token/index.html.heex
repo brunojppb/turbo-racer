@@ -1,0 +1,46 @@
+<h1 class="text-4xl">Team <%= @team.name %></h1>
+<h2 class="text-2xl text-slate-500 mt-2 pl-2">Tokens</h2>
+
+<div>
+    <.form
+        let={f}
+        for={@conn}
+        action={Routes.team_token_path(@conn, :create, @team.id)}
+        as={:token}
+        >
+
+        <%= hidden_input(f, :team_id, value: @team.id) %>
+        <%= submit("Generate new token", class: "btn-primary mt-4") %>
+    </.form>
+</div>
+
+<section class="mt-8">
+    <%= if Enum.empty?(@tokens) do %>
+        <p>There are no tokens for this team yet. Please add one.</p>
+    <% else %>
+    <table class="w-full text-sm text-left text-gray-500">
+        <thead class="text-xs text-gray-700 uppercase bg-gray-50 ">
+        <tr>
+            <th scope="col" class="py-3 px-6">
+                Token
+            </th>
+            <th scope="col" class="py-3 px-6">
+                Actions
+            </th>
+        </tr>
+        </thead>
+        <tbody>
+            <%= for token <- @tokens do %>
+            <tr class="bg-white border-b">
+                <th scope="row" class="py-4 px-6 font-medium text-gray-900 whitespace-nowrap ">
+                    <%= token.token %>
+                </th>
+                <td class="py-4 px-6">
+                    <a href="#">Delete token</a>
+                </td>
+            </tr>
+            <% end %>
+        </tbody>
+    </table>
+    <% end %>
+</section>

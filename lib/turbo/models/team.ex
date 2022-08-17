@@ -2,10 +2,12 @@ defmodule Turbo.Models.Team do
   use Ecto.Schema
   import Ecto.Changeset
   alias Turbo.Accounts.User
+  alias Turbo.Models.TeamToken
 
   schema "teams" do
     field :name, :string
     belongs_to :user, User
+    has_many :tokens, TeamToken
 
     timestamps()
   end
@@ -15,6 +17,7 @@ defmodule Turbo.Models.Team do
           name: String.t(),
           user_id: integer(),
           user: User.t() | Ecto.Association.NotLoaded.t(),
+          tokens: list(TeamToken.t()) | Ecto.Association.NotLoaded.t(),
           inserted_at: NaiveDateTime.t(),
           updated_at: NaiveDateTime.t()
         }

@@ -33,7 +33,9 @@
                     <%= team.inserted_at %> UTC
                 </td>
                 <td class="py-4 px-6">
-                  <a href="#" class="underline text-slate-700">Manage tokens</a> |
+                    <%= link "Manage tokens",
+                        to: Routes.team_token_path(@conn, :index, team),
+                        class: "underline text-slate-700" %> |
                   <%= link "Delete Team",
                         to: Routes.team_path(@conn, :delete, team),
                         method: :delete,
