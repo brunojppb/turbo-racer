@@ -22,7 +22,7 @@ defmodule Turbo.Artifacts do
     end
   end
 
-  @spec get(hash :: String.t(), team :: Team.t()) :: Turbo.result({Artifact.t(), Enumerable.t()})
+  @spec get(hash :: String.t(), team :: Team.t()) :: Turbo.result(Enumerable.t())
   def get(hash, team) do
     query = from a in Artifact, where: a.hash == ^hash and a.team_id == ^team.id
 

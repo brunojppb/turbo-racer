@@ -8,34 +8,44 @@ defmodule TurboWeb.ArtifactController do
   - PUT /v8/artifacts/:hash
   """
   use TurboWeb, :controller
-  alias Turbo.Storage.FileStore
+  alias Turbo.Artifacts
   require Logger
 
   # Max size of uploaded artifacts
   @max_length 100_000_000
 
-  def create(conn, %{"hash" => hash} = _params) do
-    # TODO: Check if there is more chunks to read
-    # and bail in case payload is larger than the limit
-    {:ok, body_data, conn} = read_body(conn, length: @max_length)
+  def create(conn, %{"hash" => hash, "slug" => team_name} = _params) do
+    team = conn.assigns[:team]
 
-    {:ok, filename} = FileStore.put_data(body_data, hash)
+    if team.name != team_name do
+      conn
+      |> send_json_resp(404, %{error: "artifact not found"})
+    else
+      {:ok, body_data, conn} = read_body(conn, length: @max_length)
+      {:ok, artifact} = Artifacts.create(body_data, hash, team)
 
-    # TODO: Add x-artifact-duration that should be stored in the DB
-    conn
-    |> put_resp_content_type("application/json")
-    |> send_resp(201, Jason.encode!(%{filename: filename}))
+      conn
+      |> put_resp_content_type("application/json")
+      |> send_resp(201, Jason.encode!(%{filename: artifact.hash}))
+    end
   end
 
-  # TODO: Looks like this is an analytics endpoint used by Vercel
+  # Looks like this is an analytics endpoint used by Vercel
   # to collect metrics. We could probably aggregate on it later on
   def events(conn, _params) do
     send_json_resp(conn, 201, %{})
   end
 
-  def show(conn, %{"hash" => hash} = _params) do
-    FileStore.get_file(hash)
-    |> stream_resp(conn)
+  def show(conn, %{"hash" => hash, "slug" => team_name} = _params) do
+    team = conn.assigns[:team]
+
+    if team.name != team_name do
+      conn
+      |> send_json_resp(404, %{error: "artifact not found"})
+    else
+      Artifacts.get(hash, team)
+      |> stream_resp(conn)
+    end
   end
 
   defp stream_resp({:error, _}, conn) do
