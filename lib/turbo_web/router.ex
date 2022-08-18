@@ -90,6 +90,15 @@ defmodule TurboWeb.Router do
     get "/users/settings", UserSettingsController, :edit
     put "/users/settings", UserSettingsController, :update
     get "/users/settings/confirm_email/:token", UserSettingsController, :confirm_email
+
+    get "/teams", TeamController, :index
+    get "/teams/new", TeamController, :new
+    post "/teams", TeamController, :create
+    delete "/teams/:id", TeamController, :delete
+
+    get "/teams/:team_id/tokens", TeamTokenController, :index
+    post "/teams/:team_id/tokens", TeamTokenController, :create
+    delete "/teams/:team_id/tokens/:id", TeamTokenController, :delete
   end
 
   scope "/", TurboWeb do

@@ -34,8 +34,10 @@ defmodule TurboWeb.UserSessionControllerTest do
 
       # Now do a logged in request and assert on the menu
       conn = get(conn, "/")
+      assert "/teams" = redir_path = redirected_to(conn, 302)
+      conn = get(recycle(conn), redir_path)
       response = html_response(conn, 200)
-      assert response =~ "Go to App</a>"
+      assert response =~ "Add new team</a>"
       assert response =~ "Logout</a>"
     end
 

@@ -11,6 +11,15 @@ defmodule Turbo.Accounts.User do
     timestamps()
   end
 
+  @type t :: %__MODULE__{
+          id: integer(),
+          email: String.t(),
+          hashed_password: String.t(),
+          confirmed_at: NaiveDateTime.t(),
+          inserted_at: NaiveDateTime.t(),
+          updated_at: NaiveDateTime.t()
+        }
+
   @doc """
   A user changeset for registration.
 

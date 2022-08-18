@@ -1,0 +1,55 @@
+<h1 class="text-4xl">Teams</h1>
+
+<p class="mt-4">
+    Turborepo artifacts are scoped by teams.
+    Tokens associated with a given team only give access to artifacts created by its associated team.
+</p>
+<div class="flex">
+    <%= link "Add new team", to: Routes.team_path(@conn, :new), class: "btn-primary inline mt-4" %>
+</div>
+
+<div class="overflow-x-auto relative mt-4">
+    <table class="w-full text-sm text-left text-gray-500">
+        <thead class="text-xs text-gray-700 uppercase bg-gray-50 ">
+            <tr>
+                <th scope="col" class="py-3 px-6">
+                    ID
+                </th>
+                <th scope="col" class="py-3 px-6">
+                    Team name
+                </th>
+                <th scope="col" class="py-3 px-6">
+                    Created at
+                </th>
+                <th scope="col" class="py-3 px-6">
+                    Actions
+                </th>
+            </tr>
+        </thead>
+        <tbody>
+          <%= for team <- @teams do %>
+            <tr class="bg-white border-b">
+                <th scope="row" class="py-4 px-6 font-medium text-gray-900 whitespace-nowrap ">
+                    <%= team.id %>
+                </th>
+                <th scope="row" class="py-4 px-6 font-medium text-gray-900 whitespace-nowrap ">
+                    <%= team.name %>
+                </th>
+                <td class="py-4 px-6">
+                    <%= team.inserted_at %> UTC
+                </td>
+                <td class="py-4 px-6">
+                    <%= link "Manage tokens",
+                        to: Routes.team_token_path(@conn, :index, team),
+                        class: "underline text-slate-700" %> |
+                  <%= link "Delete Team",
+                        to: Routes.team_path(@conn, :delete, team),
+                        method: :delete,
+                        data: [confirm: "Are you sure you want to delete team ID #{team.id}?"],
+                        class: "underline text-red-700" %>
+                </td>
+            </tr>
+          <% end %>
+        </tbody>
+    </table>
+</div>
