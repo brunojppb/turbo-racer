@@ -6,7 +6,7 @@
     for={@conn}
     action={Routes.user_session_path(@conn, :create)}
     as={:user}
-    class="auth-form"
+    class="center-form"
   >
     <%= if @error_message do %>
       <div class="alert alert-danger">

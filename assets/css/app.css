@@ -5,7 +5,7 @@
 @layer utilities {
 
   .invalid-feedback {
-      @apply py-2 text-red-500 italic;
+      @apply py-2 italic text-red-500;
   }
 
   .alert {
@@ -21,22 +21,22 @@
   }
 
   .btn-primary {
-      @apply bg-slate-900 hover:bg-slate-700 focus:outline-none focus:ring-2 focus:ring-slate-400 focus:ring-offset-2 focus:ring-offset-slate-50 text-white font-semibold h-12 px-6 rounded-lg w-full flex items-center justify-center sm:w-auto;
+      @apply flex items-center justify-center w-full h-12 px-6 font-semibold text-white rounded-lg bg-slate-900 hover:bg-slate-700 focus:outline-none focus:ring-2 focus:ring-slate-400 focus:ring-offset-2 focus:ring-offset-slate-50 sm:w-auto;
   }
 
   .btn-danger {
-    @apply bg-red-700 hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-slate-400 focus:ring-offset-2 focus:ring-offset-slate-50 text-white font-semibold h-12 px-6 rounded-lg w-full flex items-center justify-center sm:w-auto;
+    @apply flex items-center justify-center w-full h-12 px-6 font-semibold text-white bg-red-700 rounded-lg hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-slate-400 focus:ring-offset-2 focus:ring-offset-slate-50 sm:w-auto;
 }
 
   .input-primary {
-      @apply border rounded w-full py-3 px-3 text-gray-700 leading-tight border-slate-300 mt-1;
+      @apply w-full px-3 py-3 mt-1 leading-tight text-gray-700 border rounded border-slate-300;
   }
 
-  .auth-form {
-      @apply px-8 pt-6 pb-8 mb-4 w-full max-w-md mt-8;
+  .center-form {
+      @apply w-full max-w-md px-8 pt-6 pb-8 mt-8 mb-4;
   }
 
   .checkbox {
-      @apply w-4 h-4 text-blue-600 bg-gray-100 rounded border-gray-300 focus:ring-blue-500 focus:ring-2;
+      @apply w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 focus:ring-2;
   }
 }
