@@ -1,10 +1,8 @@
 defmodule Turbo.Teams do
-  import Ecto.Query, warn: false
+  import Ecto.Query
   alias Turbo.Repo
   alias Turbo.Accounts.User
   alias Turbo.Models.{Team, TeamToken}
-
-  @rand_size 32
 
   def change(user) do
     %Team{}
@@ -28,16 +26,20 @@ defmodule Turbo.Teams do
     end
   end
 
+  @spec get(team_id :: integer() | binary()) :: Team.t() | nil
   def get(team_id) do
     Team
     |> Repo.get(team_id)
   end
 
+  @spec get_all() :: list(Team.t())
   def get_all() do
     Team
     |> Repo.all()
   end
 
+  @spec get_team_tokens(team_id :: integer()) ::
+          {Team.t(), list(TeamToken.t())} | {nil, list(TeamToken.t())}
   def get_team_tokens(team_id) do
     tokens_query = from t in TeamToken, where: t.team_id == ^team_id
     team = Team |> Repo.get(team_id)
@@ -46,6 +48,7 @@ defmodule Turbo.Teams do
     {team, tokens}
   end
 
+  @spec delete_token(token_id :: binary()) :: Turbo.result(binary())
   def delete_token(token_id) do
     {rows_deleted, _} = from(t in TeamToken, where: t.id == ^token_id) |> Repo.delete_all()
 
@@ -56,17 +59,27 @@ defmodule Turbo.Teams do
     end
   end
 
+  def get_team_by_token(token) do
+    token_query = from t in TeamToken, where: t.token == ^token
+
+    with [team_token] <- Repo.all(token_query),
+         [team] <- Repo.all(from(t in Team, where: t.id == ^team_token.team_id)) do
+      {:ok, team}
+    else
+      _ -> {:error, "Invalid token"}
+    end
+  end
+
   @doc """
   Generate a new token for the given team.
   User is stored for future audits.
   """
-  @spec generate_token(Team.t(), User.t()) :: {:ok, TeamToken.t()} | {:error, Ecto.Changeset.t()}
+  @spec generate_token(team_id :: integer(), user :: User.t()) ::
+          {:ok, TeamToken.t()} | {:error, Ecto.Changeset.t()}
   def generate_token(team_id, user) do
     team = Team |> Repo.get(team_id)
 
-    token =
-      :crypto.strong_rand_bytes(@rand_size)
-      |> Base.url_encode64(padding: false)
+    token = Turbo.generate_rand_token()
 
     %TeamToken{}
     |> TeamToken.changeset(team, user, %{token: token})

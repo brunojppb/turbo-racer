@@ -13,4 +13,11 @@ defmodule Turbo do
   - Failure cases return an `:error` tuple with the error reason.
   """
   @type result(t) :: {:ok, t} | {:error, reason :: String.t()}
+
+  @rand_size 32
+
+  def generate_rand_token() do
+    :crypto.strong_rand_bytes(@rand_size)
+    |> Base.url_encode64(padding: false)
+  end
 end

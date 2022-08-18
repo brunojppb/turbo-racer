@@ -2,6 +2,7 @@ defmodule TurboWeb.Router do
   use TurboWeb, :router
 
   import TurboWeb.UserAuth
+  import TurboWeb.ArtifactAuth
 
   pipeline :browser do
     plug :accepts, ["html"]
@@ -25,6 +26,7 @@ defmodule TurboWeb.Router do
 
   # TODO: Add auth and team authorization pipelines
   scope "/v8", TurboWeb do
+    pipe_through [:require_bearer_token]
     get "/artifacts/:hash", ArtifactController, :show
     put "/artifacts/:hash", ArtifactController, :create
     post "/artifacts/events", ArtifactController, :events
