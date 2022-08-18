@@ -4,8 +4,6 @@ defmodule Turbo.Teams do
   alias Turbo.Accounts.User
   alias Turbo.Models.{Team, TeamToken}
 
-  @rand_size 32
-
   def change(user) do
     %Team{}
     |> Team.changeset(user)
@@ -81,9 +79,7 @@ defmodule Turbo.Teams do
   def generate_token(team_id, user) do
     team = Team |> Repo.get(team_id)
 
-    token =
-      :crypto.strong_rand_bytes(@rand_size)
-      |> Base.url_encode64(padding: false)
+    token = Turbo.generate_rand_token()
 
     %TeamToken{}
     |> TeamToken.changeset(team, user, %{token: token})

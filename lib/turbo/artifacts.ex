@@ -36,6 +36,34 @@ defmodule Turbo.Artifacts do
     end
   end
 
+  @spec delete(hash :: String.t()) :: boolean()
+  def delete(hash) do
+    Ecto.Multi.new()
+    |> Ecto.Multi.run(:record, fn _repo, _changes ->
+      query = from a in Artifact, where: a.hash == ^hash
+
+      case Repo.delete_all(query) do
+        {1, _} ->
+          {:ok, "Record deleted"}
+
+        _ ->
+          {:error, "Error while deleting artifact record"}
+      end
+    end)
+    |> Ecto.Multi.run(:file, fn _repo, _changes ->
+      FileStore.delete_file(hash)
+    end)
+    |> Repo.transaction()
+    |> case do
+      {:ok, _mappings} ->
+        true
+
+      error ->
+        Logger.error("could not delete artifact error=#{inspect(error)}")
+        false
+    end
+  end
+
   defp create_artifact(hash, team) do
     %Artifact{}
     |> Artifact.changeset(team, %{hash: hash})

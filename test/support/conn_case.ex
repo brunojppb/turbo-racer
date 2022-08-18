@@ -14,7 +14,6 @@ defmodule TurboWeb.ConnCase do
   by setting `use TurboWeb.ConnCase, async: true`, although
   this option is not recommended for other databases.
   """
-
   use ExUnit.CaseTemplate
 
   using do
@@ -60,5 +59,25 @@ defmodule TurboWeb.ConnCase do
     conn
     |> Phoenix.ConnTest.init_test_session(%{})
     |> Plug.Conn.put_session(:user_token, token)
+  end
+
+  @doc """
+  Setup helper that registers and logs in users.
+
+      setup :register_and_log_in_user
+
+  It stores an updated connection, a team and a Bearer token
+  as part of the headers for artifacts authentcation.
+  """
+  def create_and_log_in_team(%{conn: conn}) do
+    user = Turbo.AccountsFixtures.user_fixture()
+    {team, token} = Turbo.TeamsFixtures.team_and_token_fixtures(user, %{name: "turbo-racer"})
+
+    conn =
+      conn
+      |> Plug.Conn.assign(:team, team)
+      |> Plug.Conn.put_req_header("authorization", "Bearer " <> token.token)
+
+    %{conn: conn, team: team, token: token}
   end
 end
