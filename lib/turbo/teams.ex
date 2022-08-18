@@ -61,6 +61,17 @@ defmodule Turbo.Teams do
     end
   end
 
+  def get_team_by_token(token) do
+    token_query = from t in TeamToken, where: t.token == ^token
+
+    with [team_token] <- Repo.all(token_query),
+         [team] <- Repo.all(from(t in Team, where: t.id == ^team_token.team_id)) do
+      {:ok, team}
+    else
+      _ -> {:error, "Invalid token"}
+    end
+  end
+
   @doc """
   Generate a new token for the given team.
   User is stored for future audits.
