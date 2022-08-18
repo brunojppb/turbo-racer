@@ -4,7 +4,7 @@ An open-source backend for managing your [Turborepo](https://turborepo.org/) cac
 
 > **Note**
 > This is not ready for production yet. It can already be used for storing
-> artifacts in the filesystem, but there is no token enforcement yet.
+> artifacts in the filesystem, but is missing the S3 integration.
 > I will create a tag and prepare a Github Release once it is ready.
 
 ## Features
@@ -15,8 +15,8 @@ An open-source backend for managing your [Turborepo](https://turborepo.org/) cac
 - [x] Web UI for managing
   - [x] Teams
   - [x] Tokens
-  - [ ] purging Artifacts
-- [ ] Provide artifacts scoped by teams
+  - [ ] Manage artifact purging background job
+- [x] Provide artifacts scoped by teams
 
 ## Dependencies
 
