@@ -51,6 +51,22 @@ defmodule TurboWeb.ArtifactControllerTest do
       assert response(conn, 200)
     end
 
+    test "should return not found in case of wrong hash", %{
+      conn: conn,
+      team: team
+    } do
+      conn = get(conn, "/v8/artifacts/wrong-hash?slug=#{team.name}")
+      assert response(conn, 404)
+    end
+
+    test "should return not found in case of team and token mismatch", %{
+      conn: conn,
+      artifact: artifact
+    } do
+      conn = get(conn, "/v8/artifacts/#{artifact.hash}?slug=other-team")
+      assert response(conn, 404)
+    end
+
     test "return unauthorized if Bearer token isn't present" do
       conn =
         build_conn()
