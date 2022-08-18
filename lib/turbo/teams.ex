@@ -28,16 +28,20 @@ defmodule Turbo.Teams do
     end
   end
 
+  @spec get(team_id :: integer() | binary()) :: Team.t() | nil
   def get(team_id) do
     Team
     |> Repo.get(team_id)
   end
 
+  @spec get_all() :: list(Team.t())
   def get_all() do
     Team
     |> Repo.all()
   end
 
+  @spec get_team_tokens(team_id :: integer()) ::
+          {Team.t(), list(TeamToken.t())} | {nil, list(TeamToken.t())}
   def get_team_tokens(team_id) do
     tokens_query = from t in TeamToken, where: t.team_id == ^team_id
     team = Team |> Repo.get(team_id)
@@ -46,6 +50,7 @@ defmodule Turbo.Teams do
     {team, tokens}
   end
 
+  @spec delete_token(token_id :: binary()) :: Turbo.result(binary())
   def delete_token(token_id) do
     {rows_deleted, _} = from(t in TeamToken, where: t.id == ^token_id) |> Repo.delete_all()
 
@@ -60,7 +65,8 @@ defmodule Turbo.Teams do
   Generate a new token for the given team.
   User is stored for future audits.
   """
-  @spec generate_token(Team.t(), User.t()) :: {:ok, TeamToken.t()} | {:error, Ecto.Changeset.t()}
+  @spec generate_token(team_id :: integer(), user :: User.t()) ::
+          {:ok, TeamToken.t()} | {:error, Ecto.Changeset.t()}
   def generate_token(team_id, user) do
     team = Team |> Repo.get(team_id)
 
