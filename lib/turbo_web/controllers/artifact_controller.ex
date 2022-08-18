@@ -34,6 +34,8 @@ defmodule TurboWeb.ArtifactController do
   end
 
   def show(conn, %{"hash" => hash} = _params) do
+    Logger.info("CONN #{inspect(conn)}")
+
     FileStore.get_file(hash)
     |> stream_resp(conn)
   end

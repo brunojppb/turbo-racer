@@ -1,5 +1,5 @@
 defmodule Turbo.Teams do
-  import Ecto.Query, warn: false
+  import Ecto.Query
   alias Turbo.Repo
   alias Turbo.Accounts.User
   alias Turbo.Models.{Team, TeamToken}
