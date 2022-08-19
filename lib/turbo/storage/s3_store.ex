@@ -6,6 +6,7 @@ defmodule Turbo.Storage.S3Store do
 
   def get_file(filename) do
     file_path = remote_file_path(filename)
+
     try do
       stream =
         get_bucket_name()
