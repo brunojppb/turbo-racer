@@ -75,3 +75,15 @@ config :phoenix, :stacktrace_depth, 20
 
 # Initialize plugs at runtime for faster development compilation
 config :phoenix, :plug_init_mode, :runtime
+
+# Init secrets map during development.
+# These secrets are not committed to the codebase.
+# And in production, they must be configured via environment variables.
+# We can now access the these via Application.fetch_env!/2
+#
+# ```elixir
+# value = Application.fetch_env!(:turbo, :key_name)
+# ```
+if File.exists?("config/dev.secrets.exs") do
+  import_config "dev.secrets.exs"
+end
