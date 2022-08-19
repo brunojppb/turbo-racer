@@ -20,6 +20,23 @@ if System.get_env("PHX_SERVER") do
   config :turbo, TurboWeb.Endpoint, server: true
 end
 
+# S3 uploads config
+# If present, it takes over file system uploads for artifacts
+if System.get_env("S3_BUCKET_NAME") &&
+     System.get_env("S3_ACCESS_KEY_ID") &&
+     System.get_env("S3_SECRET_ACCESS_KEY") &&
+     System.get_env("S3_HOST") do
+  config :turbo, s3_bucket_name: System.get_env("S3_BUCKET_NAME")
+
+  config :ex_aws,
+    access_key_id: System.get_env("S3_ACCESS_KEY_ID"),
+    secret_access_key: System.get_env("S3_SECRET_ACCESS_KEY"),
+    s3: [host: System.get_env("S3_HOST")]
+
+  # Make The S3 implementation active
+  config :turbo, :file_store, Turbo.Storage.S3Store
+end
+
 if config_env() == :prod do
   database_url =
     System.get_env("DATABASE_URL") ||

@@ -2,16 +2,11 @@
 
 An open-source backend for managing your [Turborepo](https://turborepo.org/) cache.
 
-> **Note**
-> This is not ready for production yet. It can already be used for storing
-> artifacts in the filesystem, but is missing the S3 integration.
-> I will create a tag and prepare a Github Release once it is ready.
-
 ## Features
 
 - [x] Store artifacts
   - [x] Using file system
-  - [ ] Using S3
+  - [x] Using S3
 - [x] Web UI for managing
   - [x] Teams
   - [x] Tokens
