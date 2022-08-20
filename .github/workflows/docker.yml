@@ -1,11 +1,10 @@
 name: Docker Build
-on: push
+on:
+  workflow_dispatch:
+    inputs: {}
 concurrency:
   group: ${{ github.ref }}
   cancel-in-progress: false
-# on:
-#   workflow_dispatch:
-#     inputs: {}
 
 jobs:
   build:
