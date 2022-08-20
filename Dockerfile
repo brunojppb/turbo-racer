@@ -65,7 +65,9 @@ COPY rel rel
 RUN mix release
 
 # start a new build stage so that the final image will only contain
-# the compiled release and other runtime necessities
+# the compiled release and other runtime necessities.
+# There is no Elixir nor Erlang installed in the final image,
+# The Phoenix app will be a self-contained binary.
 FROM ${RUNNER_IMAGE}
 
 # Runtime dependencies for SSL support and Postgres readyness checks
