@@ -26,6 +26,11 @@ config :turbo, TurboWeb.Endpoint,
 # at the `config/runtime.exs`.
 config :turbo, Turbo.Mailer, adapter: Swoosh.Adapters.Local
 
+# by default, use the priv directory for artifact uploads
+# overwrite this in other environments if you want to have
+# to use /var/turbo_artifacts instead
+config :turbo, :use_priv_for_artifacts, true
+
 # Swoosh API client is needed for adapters other than SMTP.
 config :swoosh, :api_client, false
 

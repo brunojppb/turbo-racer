@@ -11,6 +11,8 @@ import Config
 # before starting your production server.
 config :turbo, TurboWeb.Endpoint, cache_static_manifest: "priv/static/cache_manifest.json"
 
+config :turbo, :use_priv_for_artifacts, false
+
 # Do not print debug messages in production
 config :logger, level: :info
 

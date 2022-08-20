@@ -1,0 +1,53 @@
+volumes:
+  pg_data: {}
+
+services:
+
+  turbo_racer_app:
+    container_name: turbo_racer_app
+    build:
+      context: .
+    environment:
+      # Postgres database URL pattern expected by Ecto: ecto://USER:PASS@HOST/DATABASE
+      - DATABASE_URL=ecto://turbo_racer:please_replace_me@turbo_racer_db/turbo_racer
+      - DATABASE_HOST=turbo_racer_db
+      - DATABASE_USER=turbo_racer
+      - SECRET_KEY_BASE=please_replace_me_with_something_random_and_strong_at_least_64_characters_long
+      - PHX_HOST=localhost
+      - PORT=4000
+      #
+      # If you want to use the Phoenix app directly, without a proxy in front of it
+      # You can enable HTTPS directly here.
+      # - USE_HTTPS=1 (uses http by default)
+      #
+      # If you want to use a S3-compatible storage for your artifacts,
+      # Add the following environment variables
+      # - S3_BUCKET_NAME=bucket_name
+      # - S3_ACCESS_KEY_ID=access_key_id
+      # - S3_SECRET_ACCESS_KEY=secret_access_key
+      # - S3_HOST=s3_host
+      
+    depends_on:
+      turbo_racer_db:
+        condition: service_healthy
+    ports:
+      - "4000:4000"
+    volumes:
+      - ./docker_turbo_artifacts:/var/turbo_artifacts
+
+  turbo_racer_db:
+    image: postgres:14.2
+    container_name: turbo_racer_db
+    healthcheck:
+      test: [ "CMD-SHELL", "pg_isready -U turbo_racer" ]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    environment:
+      - POSTGRES_USER=turbo_racer
+      - POSTGRES_PASSWORD=please_replace_me
+      - POSTGRES_DB=turbo_racer
+    ports:
+      - "5432:5432"
+    volumes:
+      - pg_data:/var/lib/postgresql/data

@@ -29,9 +29,12 @@
 /priv/plts
 /priv/plts
 
-# File uploads storage when using a local file store
-/priv/uploads
-
+# Artifact storage when using a local file store
+/priv/turbo_artifacts
+# When using the docker-compose example for production
+# this is used to demonstrate how to map a volume to the container path
+# which can also be storated locally with the compose file for easy backup
+/docker_turbo_artifacts
 # The directory Mix downloads your dependencies sources to.
 /deps/
 
