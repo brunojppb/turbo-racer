@@ -1,20 +1,34 @@
-# Turborepo Cache
+# Turbo Racer
 
-An open-source backend for managing your [Turborepo](https://turborepo.org/) cache.
-
+An open-source backend with a Web UI for managing your [Turborepo](https://turborepo.org/) cache.
 ## Features
+
+There are a few open-source turborepo cache backends out there, but all of them seem to lack
+management around tokens and teams. If you work in an enterprise, access management is crucial
+for keeping permissions segregated and I could not find anything supporting that.
+
+So I've build my own version called Turbo Racer. Besides giving you full control over
+creating teams, issuing tokens for specific teams and who has access to a given token,
+it also allows you to go from a simple deployment using your file system as artifact storage to
+going full scale using a S3-compatible backend service.
+
+Here is what is available for you:
 
 - [x] Store artifacts
   - [x] Using file system
   - [x] Using S3 (Tested with the following)
     - [x] [Cloudflare R2](https://developers.cloudflare.com/r2/platform/s3-compatibility/api/)
     - [x] [AWS S3](https://aws.amazon.com/s3/)
-- [x] Web UI for managing
+- [x] Management via a Web UI for
   - [x] Teams
   - [x] Tokens
-  - [ ] Manage artifact purging background job
-- [x] Provide artifacts scoped by teams
+  - [x] User sign-up/sign-in (Will refine this part with more permission controls)
 
+## What is coming next
+
+- [ ] User management to toggle user sign-up/sign-in
+- [ ] Artifact cleanup after a configurable period of time (e.g. Automatically delete artifacts older then 60 days)
+- [ ] Statistics dashboard
 ## Dependencies
 
 To run this app locally, you need the following dependencies installed:
