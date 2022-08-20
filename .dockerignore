@@ -47,3 +47,5 @@ erl_crash.dump
 # Turbo Artifact uploads
 /priv/turbo_artifacts
 /docker_turbo_artifacts
+
+/config/*.secrets.exs
