@@ -52,7 +52,16 @@ defmodule Turbo.Storage.LocalFileStore do
     end
   end
 
-  defp upload_dir(), do: Application.app_dir(:turbo, "priv/uploads")
+  defp upload_dir() do
+    # During development and tests, we use the current priv folder for storing artifacts.
+    if Application.fetch_env!(:turbo, :use_priv_for_artifacts) do
+      Application.app_dir(:turbo, Path.join("priv", "turbo_artifacts"))
+    else
+      # In production using Docker, we have a stable path
+      # that doesn't depend on the compiled release path
+      "/var/turbo_artifacts"
+    end
+  end
 
   # Make sure that the upload folder exists first
   defp build_path(filename) do
