@@ -75,13 +75,12 @@ defmodule Turbo.Artifacts do
   @spec delete_older_than(date :: NaiveDateTime.t()) ::
           {deleted :: list(String.t()), failed :: list(String.t())}
   def delete_older_than(%NaiveDateTime{} = date) do
-    query = from a in Artifact, where: a.inserted_at <= ^date
-
     # Delete artifacts one by one so we make sure
     # that for failed artifacts we can retry them later and
     # do not halt the entire process because of one error.
     # Possible TODO: Delete artifacts in batches
-    Repo.all(query)
+    from(a in Artifact, where: a.inserted_at <= ^date)
+    |> Repo.all()
     |> Enum.reduce({[], []}, fn artifact, {deleted, failed} ->
       # Collect list of hashes deleted + failed
       case delete(artifact.hash) do
