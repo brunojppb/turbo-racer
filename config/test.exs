@@ -26,6 +26,9 @@ config :turbo, TurboWeb.Endpoint,
 # In test we don't send emails.
 config :turbo, Turbo.Mailer, adapter: Swoosh.Adapters.Test
 
+# prevent Oban from running jobs and plugins during test runs
+config :turbo, Oban, testing: :inline
+
 # Print only warnings and errors during test
 config :logger, level: :warn
 

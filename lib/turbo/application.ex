@@ -15,7 +15,9 @@ defmodule Turbo.Application do
       # Start the PubSub system
       {Phoenix.PubSub, name: Turbo.PubSub},
       # Start the Endpoint (http/https)
-      TurboWeb.Endpoint
+      TurboWeb.Endpoint,
+      # Background job scheduler
+      {Oban, Application.fetch_env!(:turbo, Oban)}
       # Start a worker by calling: Turbo.Worker.start_link(arg)
       # {Turbo.Worker, arg}
     ]

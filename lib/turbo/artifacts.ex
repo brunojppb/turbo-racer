@@ -36,7 +36,7 @@ defmodule Turbo.Artifacts do
     end
   end
 
-  @spec delete(hash :: String.t()) :: boolean()
+  @spec delete(hash :: String.t()) :: {:ok, hash :: String.t()} | {:error, reason :: String.t()}
   def delete(hash) do
     Ecto.Multi.new()
     |> Ecto.Multi.run(:record, fn _repo, _changes ->
@@ -56,11 +56,11 @@ defmodule Turbo.Artifacts do
     |> Repo.transaction()
     |> case do
       {:ok, _mappings} ->
-        true
+        {:ok, hash}
 
       error ->
         Logger.error("could not delete artifact error=#{inspect(error)}")
-        false
+        {:error, error}
     end
   end
 

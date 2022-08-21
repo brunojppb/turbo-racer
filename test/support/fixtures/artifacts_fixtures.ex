@@ -12,6 +12,6 @@ defmodule Turbo.ArtifactsFixtures do
   end
 
   def clean_up_artifact(hash) do
-    true = Artifacts.delete(hash)
+    {:ok, _} = Artifacts.delete(hash)
   end
 end

@@ -16,6 +16,9 @@ services:
       - SECRET_KEY_BASE=please_replace_me_with_something_random_and_strong_at_least_64_characters_long
       - PHX_HOST=localhost
       - PORT=4000
+      # By default, Artifacts older than 90 days will be deleted to reduce disk usage/S3 bill.
+      # But you can configure it for longer or shorter periods with the following variable
+      # - ARTIFACT_BUSTING_IN_DAYS=90
       #
       # If you want to use the Phoenix app directly, without a proxy in front of it
       # You can enable HTTPS directly here.
