@@ -37,7 +37,9 @@ if System.get_env("S3_BUCKET_NAME") &&
   config :turbo, :file_store, Turbo.Storage.S3Store
 end
 
-# Production-only runtime config that relies on environment variables
+# Production-only runtime config that relies on environment variables.
+# This file does not get compiled during the release, but is read during app boot
+# which allows us to dynamically change values based on the environment.
 if config_env() == :prod do
   database_url =
     System.get_env("DATABASE_URL") ||
