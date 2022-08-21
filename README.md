@@ -19,6 +19,9 @@ Here is what is available for you:
   - [x] Using S3 (Tested with the following)
     - [x] [Cloudflare R2](https://developers.cloudflare.com/r2/platform/s3-compatibility/api/)
     - [x] [AWS S3](https://aws.amazon.com/s3/)
+- [x] Cache busting
+  - [x]  Automatic artifact busting to keep your disk or your S3 bill sane.
+    - [x]  Configurable busting period via environment variable (see `docker-compose.prod.yml`)
 - [x] Management via a Web UI for
   - [x] Teams
   - [x] Tokens
@@ -27,8 +30,8 @@ Here is what is available for you:
 ## What is coming next
 
 - [ ] User management to toggle user sign-up/sign-in
-- [ ] Artifact cleanup after a configurable period of time (e.g. Automatically delete artifacts older then 60 days)
 - [ ] Statistics dashboard
+
 ## Dependencies
 
 To run this app locally, you need the following dependencies installed:
