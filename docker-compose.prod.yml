@@ -7,12 +7,8 @@ services:
     image: brunojppb/turbo-racer:1.0.0
     container_name: turbo_racer_app
     environment:
-      # Postgres database URL pattern expected by Ecto: ecto://USER:PASS@HOST/DATABASE
-      - DATABASE_URL=ecto://turbo_racer:please_replace_me@turbo_racer_db/turbo_racer
-      # DB variables used by the entrypoint script
-      #  for checking if the DB is available before starting the app
-      - DATABASE_HOST=turbo_racer_db
-      - DATABASE_USER=turbo_racer
+      # Postgres database URL pattern expected by Ecto: postgres://USER:PASS@HOST/DATABASE
+      - DATABASE_URL=postgres://turbo_racer:please_replace_me@turbo_racer_db/turbo_racer
       - SECRET_KEY_BASE=please_replace_me_with_something_random_and_strong_at_least_64_characters_long
       - PHX_HOST=localhost
       - PORT=4000
