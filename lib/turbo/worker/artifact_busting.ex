@@ -10,8 +10,30 @@ defmodule Turbo.Worker.ArtifactBusting do
   require Logger
 
   @impl Oban.Worker
-  def perform(%Oban.Job{} = _job) do
-    Logger.info("Artifact busting executing...")
-    :ok
+  def perform(%Oban.Job{args: %{"days_from_now" => days_from_now}} = _job) do
+    days_from_now_in_sec = 60 * 60 * 24 * days_from_now * -1
+
+    days_ago_date =
+      NaiveDateTime.utc_now()
+      |> NaiveDateTime.add(days_from_now_in_sec, :second)
+      |> NaiveDateTime.truncate(:second)
+
+    Logger.info("Deleting artifacts older than #{inspect(days_ago_date)}")
+
+    case Turbo.Artifacts.delete_older_than(days_ago_date) do
+      # No artifacts to be deleted
+      {[], []} ->
+        :ok
+
+      # Old artifacts deleted successfully
+      {deleted, []} ->
+        Logger.info("Old artifacts deleted. hashes=#{inspect(deleted)}")
+        :ok
+
+      # Some artifacts failed to be deleted
+      {_deleted, failed} ->
+        Logger.error("Failed to delete old artifacts hashes=#{inspect(failed)}")
+        {:error, "Some artifacts failed to be deleted. hashes=#{inspect(failed)}"}
+    end
   end
 end

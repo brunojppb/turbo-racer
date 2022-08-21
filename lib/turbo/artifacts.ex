@@ -59,9 +59,31 @@ defmodule Turbo.Artifacts do
         {:ok, hash}
 
       error ->
-        Logger.error("could not delete artifact error=#{inspect(error)}")
         {:error, error}
     end
+  end
+
+  @doc """
+  Delete artifacts older than the given date.
+  Error out if at least one artifact fails to be deleted, which could happen
+  when dealing with the File Storage API.
+  """
+  @spec delete_older_than(date :: NaiveDateTime.t()) ::
+          {deleted :: list(String.t()), failed :: list(String.t())}
+  def delete_older_than(%NaiveDateTime{} = date) do
+    query = from a in Artifact, where: a.inserted_at <= ^date
+
+    Repo.all(query)
+    |> Enum.reduce({[], []}, fn artifact, {deleted, failed} ->
+      # Collect list of hashes deleted + failed
+      case delete(artifact.hash) do
+        {:ok, hash} ->
+          {[hash | deleted], failed}
+
+        {:error, _err} ->
+          {deleted, [artifact.hash | failed]}
+      end
+    end)
   end
 
   defp create_artifact(hash, team) do
