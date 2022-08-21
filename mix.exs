@@ -63,8 +63,7 @@ defmodule Turbo.MixProject do
 
       # Dev dependencies
       {:dialyxir, "~> 1.0", only: [:dev], runtime: false},
-      {:tailwind, "~> 0.1", runtime: Mix.env() == :dev},
-      {:mox, "~> 1.0", only: :test}
+      {:tailwind, "~> 0.1", runtime: Mix.env() == :dev}
     ]
   end
 
