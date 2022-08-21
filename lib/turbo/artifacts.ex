@@ -36,7 +36,7 @@ defmodule Turbo.Artifacts do
     end
   end
 
-  @spec delete(hash :: String.t()) :: boolean()
+  @spec delete(hash :: String.t()) :: {:ok, hash :: String.t()} | {:error, reason :: String.t()}
   def delete(hash) do
     Ecto.Multi.new()
     |> Ecto.Multi.run(:record, fn _repo, _changes ->
@@ -56,12 +56,41 @@ defmodule Turbo.Artifacts do
     |> Repo.transaction()
     |> case do
       {:ok, _mappings} ->
-        true
+        {:ok, hash}
 
       error ->
-        Logger.error("could not delete artifact error=#{inspect(error)}")
-        false
+        {:error, error}
     end
+  end
+
+  @doc """
+  Delete artifacts older than the given date.
+  Error out if at least one artifact fails to be deleted, which could happen
+  when dealing with the File Storage API.
+
+  Returns a tuple with the
+  - hashes of the successfully deleted artifacts
+  - hashes of the artifacts that failed to be deleted
+  """
+  @spec delete_older_than(date :: NaiveDateTime.t()) ::
+          {deleted :: list(String.t()), failed :: list(String.t())}
+  def delete_older_than(%NaiveDateTime{} = date) do
+    # Delete artifacts one by one so we make sure
+    # that for failed artifacts we can retry them later and
+    # do not halt the entire process because of one error.
+    # Possible TODO: Delete artifacts in batches
+    from(a in Artifact, where: a.inserted_at <= ^date)
+    |> Repo.all()
+    |> Enum.reduce({[], []}, fn artifact, {deleted, failed} ->
+      # Collect list of hashes deleted + failed
+      case delete(artifact.hash) do
+        {:ok, hash} ->
+          {[hash | deleted], failed}
+
+        {:error, _err} ->
+          {deleted, [artifact.hash | failed]}
+      end
+    end)
   end
 
   defp create_artifact(hash, team) do

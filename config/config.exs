@@ -31,6 +31,20 @@ config :turbo, Turbo.Mailer, adapter: Swoosh.Adapters.Local
 # to use /var/turbo_artifacts instead
 config :turbo, :use_priv_for_artifacts, true
 
+# Oban job scheduler/processing
+three_days = 60 * 60 * 24 * 3
+
+config :turbo, Oban,
+  repo: Turbo.Repo,
+  plugins: [
+    # Hold Oban jobs for 72h so we can debug in case of any issues.
+    {Oban.Plugins.Pruner, max_age: three_days}
+  ],
+  queues: [
+    default: 10,
+    artifact_busting: 1
+  ]
+
 # Swoosh API client is needed for adapters other than SMTP.
 config :swoosh, :api_client, false
 
