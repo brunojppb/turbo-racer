@@ -38,18 +38,7 @@ config :turbo, Oban,
   repo: Turbo.Repo,
   plugins: [
     # Hold Oban jobs for 72h so we can debug in case of any issues.
-    {Oban.Plugins.Pruner, max_age: three_days},
-    {Oban.Plugins.Cron,
-     crontab: [
-       {
-         # Execute the cleanup job once a day
-         "0 0 * * *",
-         Turbo.Worker.ArtifactBusting,
-         args: %{
-           days_from_now: String.to_integer(System.get_env("ARTIFACT_BUSTING_IN_DAYS") || "90")
-         }
-       }
-     ]}
+    {Oban.Plugins.Pruner, max_age: three_days}
   ],
   queues: [
     default: 10,

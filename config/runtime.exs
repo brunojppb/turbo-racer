@@ -37,6 +37,7 @@ if System.get_env("S3_BUCKET_NAME") &&
   config :turbo, :file_store, Turbo.Storage.S3Store
 end
 
+# Production-only runtime config that relies on environment variables
 if config_env() == :prod do
   database_url =
     System.get_env("DATABASE_URL") ||
@@ -80,6 +81,31 @@ if config_env() == :prod do
       port: port
     ],
     secret_key_base: secret_key_base
+
+  # Oban job scheduler/processing
+  three_days = 60 * 60 * 24 * 3
+
+  config :turbo, Oban,
+    repo: Turbo.Repo,
+    plugins: [
+      # Hold Oban jobs for 72h so we can debug in case of any issues.
+      {Oban.Plugins.Pruner, max_age: three_days},
+      {Oban.Plugins.Cron,
+       crontab: [
+         {
+           # Execute the cleanup job once a day
+           "0 0 * * *",
+           Turbo.Worker.ArtifactBusting,
+           args: %{
+             days_from_now: String.to_integer(System.get_env("ARTIFACT_BUSTING_IN_DAYS") || "90")
+           }
+         }
+       ]}
+    ],
+    queues: [
+      default: 10,
+      artifact_busting: 1
+    ]
 
   # ## Configuring the mailer
   #

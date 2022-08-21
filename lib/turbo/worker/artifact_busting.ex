@@ -23,6 +23,7 @@ defmodule Turbo.Worker.ArtifactBusting do
     case Turbo.Artifacts.delete_older_than(days_ago_date) do
       # No artifacts to be deleted
       {[], []} ->
+        Logger.info("No artifacts to delete. today=#{inspect(DateTime.utc_now())}")
         :ok
 
       # Old artifacts deleted successfully
