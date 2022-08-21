@@ -67,12 +67,20 @@ defmodule Turbo.Artifacts do
   Delete artifacts older than the given date.
   Error out if at least one artifact fails to be deleted, which could happen
   when dealing with the File Storage API.
+
+  Returns a tuple with the
+  - hashes of the successfully deleted artifacts
+  - hashes of the artifacts that failed to be deleted
   """
   @spec delete_older_than(date :: NaiveDateTime.t()) ::
           {deleted :: list(String.t()), failed :: list(String.t())}
   def delete_older_than(%NaiveDateTime{} = date) do
     query = from a in Artifact, where: a.inserted_at <= ^date
 
+    # Delete artifacts one by one so we make sure
+    # that for failed artifacts we can retry them later and
+    # do not halt the entire process because of one error.
+    # Possible TODO: Delete artifacts in batches
     Repo.all(query)
     |> Enum.reduce({[], []}, fn artifact, {deleted, failed} ->
       # Collect list of hashes deleted + failed
