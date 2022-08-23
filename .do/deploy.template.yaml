@@ -35,9 +35,9 @@ spec:
       scope: RUN_TIME
     - key: DATABASE_URL
       scope: RUN_TIME
-      value: ${turbo-db.DATABASE_URL}
+      value: ${turbo_db.DATABASE_URL}
   databases:
-  - name: turbo-db
+  - name: turbo_db
     engine: PG
-    db_name: turbo
-    db_user: turbo
+    db_name: turbo_db
+    db_user: turbo_db
