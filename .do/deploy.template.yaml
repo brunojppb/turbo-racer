@@ -36,6 +36,9 @@ spec:
     - key: DATABASE_URL
       scope: RUN_TIME
       value: ${turbo-db.DATABASE_URL}
+    - key: USE_DB_SSL
+      scope: RUN_TIME
+      value: "1"
   databases:
   - name: turbo-db
     engine: PG
