@@ -7,6 +7,7 @@ defmodule Turbo.Release do
 
   def migrate do
     load_app()
+    ensure_ssl_started()
 
     for repo <- repos() do
       {:ok, _, _} = Ecto.Migrator.with_repo(repo, &Ecto.Migrator.run(&1, :up, all: true))
@@ -24,5 +25,9 @@ defmodule Turbo.Release do
 
   defp load_app do
     Application.load(@app)
+  end
+
+  defp ensure_ssl_started do
+    Application.ensure_all_started(:ssl)
   end
 end
