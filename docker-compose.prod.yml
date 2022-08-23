@@ -4,7 +4,7 @@ volumes:
 services:
 
   turbo_racer_app:
-    image: brunojppb/turbo-racer:1.0.2
+    image: brunojppb/turbo-racer:latest
     container_name: turbo_racer_app
     environment:
       # Postgres database URL pattern expected by Ecto: postgres://USER:PASS@HOST/DATABASE
