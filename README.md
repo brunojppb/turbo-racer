@@ -32,7 +32,17 @@ Here is what is available for you:
 - [ ] User management to toggle user sign-up/sign-in
 - [ ] Statistics dashboard
 
-## Dependencies
+## Deploying to Production
+
+Turbo Racer is designed to be deployed with Docker. The simplest way is to use [docker-compose](https://docs.docker.com/compose/).
+Have a look at the `docker-compose.prod.yml` in the root directory for an deployment example.
+
+### Deploy to Digital Ocean
+
+[![Deploy to DO](https://www.deploytodo.com/do-btn-blue.svg)](https://cloud.digitalocean.com/apps/new?repo=https://github.com/brunojppb/turbo-racer/tree/digital-ocean-deployment-btn)
+
+
+## Dev Dependencies
 
 To run this app locally, you need the following dependencies installed:
 
@@ -42,7 +52,7 @@ To run this app locally, you need the following dependencies installed:
   - The simplest way is to have [Docker](https://docs.docker.com/engine/install/centos/) installed and run `docker-compose up`.
     It will start up a Postgres container with a database ready for your dev server and for running tests.
 
-## Starting development
+### Starting development
 
 To start your Phoenix server:
 
@@ -52,11 +62,6 @@ To start your Phoenix server:
 
 Now you can visit [`localhost:4000`](http://localhost:4000) from your browser.
 
-## Running tests
+### Running tests
 
 Make sure that the Postgres container is running and execute `mix test`
-
-## Ready for Production
-
-Turbo Racer is designed to be deployed with Docker. The simplest way is to use [docker-compose](https://docs.docker.com/compose/).
-Have a look at the `docker-compose.prod.yml` in the root directory for an deployment example.
