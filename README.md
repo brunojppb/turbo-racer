@@ -41,7 +41,7 @@ Have a look at the `docker-compose.prod.yml` in the root directory for an deploy
 
 You can use our Digital Ocean template to get this running quickly in a droplet.
 
-[![Deploy to Digital Ocean](https://www.deploytodo.com/do-btn-blue.svg)](https://cloud.digitalocean.com/apps/new?repo=https://github.com/brunojppb/turbo-racer/tree/digital-ocean-deployment-btn&refcode=3a18edba5ee4)
+[![Deploy to Digital Ocean](https://www.deploytodo.com/do-btn-blue.svg)](https://cloud.digitalocean.com/apps/new?repo=https://github.com/brunojppb/turbo-racer/tree/main&refcode=3a18edba5ee4)
 
 
 ## Dev Dependencies
