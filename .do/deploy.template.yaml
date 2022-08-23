@@ -39,5 +39,3 @@ spec:
   databases:
   - name: turbo_db
     engine: PG
-    db_name: turbo_db
-    db_user: turbo_db
