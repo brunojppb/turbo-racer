@@ -1,26 +1,26 @@
 spec:
   name: turbo-racer
   services:
-    - name: turbo_racer_web
-      image:
-        registry_type: DOCKER_HUB
-        registry: brunojppb
-        repository: turbo-racer
-        tag: latest
-      envs:
-        - key: SECRET_KEY_BASE
-          value: "please_replace_me_with_something_random_and_strong_at_least_64_characters_long"
-          type: SECRET
-        - key: PHX_HOST
-          value: localhost
-        - key: PORT
-          value: '4000'
-        - key: DATABASE_URL
-          scope: RUN_TIME
-          value: '${turbo_racer_db.DATABASE_URL}'
+  - name: turbo_racer_web
+    image:
+      registry_type: DOCKER_HUB
+      registry: brunojppb
+      repository: turbo-racer
+      tag: latest
+  envs:
+  - key: SECRET_KEY_BASE
+    value: "please_replace_me_with_something_random_and_strong_at_least_64_characters_long"
+    type: SECRET
+  - key: PHX_HOST
+    value: localhost
+  - key: PORT
+    value: '4000'
+  - key: DATABASE_URL
+    scope: RUN_TIME
+    value: '${turbo_racer_db.DATABASE_URL}'
   databases:
-    - name: turbo_racer_db
-      engine: PG
-      version: '14.2'
-      db_name: turbo_racer
-      db_user: turbo_racer
+  - name: turbo_racer_db
+    engine: PG
+    version: '14.2'
+    db_name: turbo_racer
+    db_user: turbo_racer
