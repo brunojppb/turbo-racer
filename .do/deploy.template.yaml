@@ -17,7 +17,7 @@ spec:
     value: '4000'
   - key: DATABASE_URL
     scope: RUN_TIME
-    value: '${turbo_racer_db.DATABASE_URL}'
+    value: ${turbo_racer_db.DATABASE_URL}
   databases:
   - name: turbo_racer_db
     engine: PG
