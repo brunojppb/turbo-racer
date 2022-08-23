@@ -17,8 +17,6 @@ spec:
       value: '4000'
     - key: DATABASE_URL
       scope: RUN_TIME
-    - key: DATABASE_URL
-      scope: RUN_TIME
       value: ${turbo-db.DATABASE_URL}
   databases:
   - name: turbo-db
