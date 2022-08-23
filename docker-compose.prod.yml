@@ -9,6 +9,8 @@ services:
     environment:
       # Postgres database URL pattern expected by Ecto: postgres://USER:PASS@HOST/DATABASE
       - DATABASE_URL=postgres://turbo_racer:please_replace_me@turbo_racer_db/turbo_racer
+      # If you want to use SSL when connecting to your DB
+      # - USE_DB_SSL=1
       - SECRET_KEY_BASE=please_replace_me_with_something_random_and_strong_at_least_64_characters_long
       - PHX_HOST=localhost
       - PORT=4000
