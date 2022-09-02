@@ -29,7 +29,7 @@ defmodule TurboWeb.TeamController do
     {flash_level, message} =
       case Teams.delete(team_id) do
         {:ok, _} ->
-          {:info, "Team #{team_id} and all its associated tokens deleted."}
+          {:info, "Team #{team_id} and all its associated artifacts and tokens deleted."}
 
         {:error, _} ->
           {:error, "Could not delete team with ID #{team_id}"}
