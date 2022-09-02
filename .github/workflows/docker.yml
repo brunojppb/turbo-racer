@@ -32,6 +32,6 @@ jobs:
           context: .
           platforms: 'linux/amd64,linux/arm64'
           push: ${{ github.event_name != 'pull_request' }}
-          tags: 'brunojppb/turbo-racer:latest,brunojppb/turbo-racer:1.0.4'
+          tags: 'brunojppb/turbo-racer:latest,brunojppb/turbo-racer:1.0.5'
           cache-from: type=registry,ref=brunojppb/turbo-racer:latest
           cache-to: type=inline
