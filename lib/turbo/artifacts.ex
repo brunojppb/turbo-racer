@@ -36,7 +36,26 @@ defmodule Turbo.Artifacts do
     end
   end
 
-  @spec delete(hash :: String.t()) :: {:ok, hash :: String.t()} | {:error, reason :: String.t()}
+  @spec delete_all_from_team(team_id :: integer() | String.t()) ::
+          :ok | {:error, reason :: String.t()}
+  def delete_all_from_team(team_id) do
+    from(a in Artifact, where: a.team_id == ^team_id)
+    |> Repo.all()
+    |> Enum.map(fn artifact -> artifact.hash end)
+    |> Enum.map(&delete/1)
+    |> Enum.reduce_while(:ok, fn delete_result, _ ->
+      case delete_result do
+        {:ok, _} ->
+          {:cont, :ok}
+
+        {:error, reason} ->
+          Logger.error("Could not delete artifact for team_id=#{team_id} reason=#{reason}")
+          {:halt, {:error, reason}}
+      end
+    end)
+  end
+
+  @spec delete(hash :: String.t()) :: Turbo.result(String.t())
   def delete(hash) do
     Ecto.Multi.new()
     |> Ecto.Multi.run(:record, fn _repo, _changes ->
@@ -47,7 +66,7 @@ defmodule Turbo.Artifacts do
           {:ok, "Record deleted"}
 
         _ ->
-          {:error, "Error while deleting artifact record"}
+          {:error, "Error while deleting artifact record for hash #{hash}"}
       end
     end)
     |> Ecto.Multi.run(:file, fn _repo, _changes ->

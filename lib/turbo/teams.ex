@@ -3,6 +3,7 @@ defmodule Turbo.Teams do
   alias Turbo.Repo
   alias Turbo.Accounts.User
   alias Turbo.Models.{Team, TeamToken}
+  alias Turbo.Artifacts
 
   def change(user) do
     %Team{}
@@ -16,7 +17,13 @@ defmodule Turbo.Teams do
     |> Repo.insert()
   end
 
+  @spec delete(team_id :: integer() | String.t()) :: Turbo.result(team_id :: integer())
   def delete(team_id) do
+    Artifacts.delete_all_from_team(team_id)
+    |> delete_team(team_id)
+  end
+
+  defp delete_team(:ok, team_id) do
     {rows_deleted, _} = from(t in Team, where: t.id == ^team_id) |> Repo.delete_all()
 
     if rows_deleted > 0 do
@@ -25,6 +32,8 @@ defmodule Turbo.Teams do
       {:error, "Could not delete team #{team_id}"}
     end
   end
+
+  defp delete_team({:error, reason}, _team_id), do: {:error, reason}
 
   @spec get(team_id :: integer() | binary()) :: Team.t() | nil
   def get(team_id) do
