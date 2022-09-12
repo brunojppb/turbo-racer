@@ -67,17 +67,17 @@ defmodule TurboWeb.ConnCase do
       setup :register_and_log_in_user
 
   It stores an updated connection, a team and a Bearer token
-  as part of the headers for artifacts authentcation.
+  as part of the headers for artifacts authentication.
   """
-  def create_and_log_in_team(%{conn: conn}) do
+  def create_and_log_in_team(%{conn: conn}, team_name \\ "turbo-racer") do
     user = Turbo.AccountsFixtures.user_fixture()
-    {team, token} = Turbo.TeamsFixtures.team_and_token_fixtures(user, %{name: "turbo-racer"})
+    {team, token} = Turbo.TeamsFixtures.team_and_token_fixtures(user, %{name: team_name})
 
     conn =
       conn
       |> Plug.Conn.assign(:team, team)
       |> Plug.Conn.put_req_header("authorization", "Bearer " <> token.token)
 
-    %{conn: conn, team: team, token: token}
+    %{conn: conn, team: team, token: token, user: user}
   end
 end
