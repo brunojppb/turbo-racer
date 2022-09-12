@@ -18,10 +18,18 @@
     <%= if Enum.empty?(@tokens) do %>
         <p>There are no tokens for this team yet. Please add one.</p>
     <% else %>
-    <p>Usage with Turborepo:</p>
+    <p class="m-2">Usage with Turborepo:</p>
     <code class="block overflow-x-scroll whitespace-pre rounded-lg bg-slate-200">
         turbo run build --api="<%= TurboWeb.Endpoint.url() %>" --token="TOKEN_HERE" --team="<%= @team.name %>"
     </code>
+
+    <p class="mt-4 mb-2">Alternatively, you can export these as environment variables. It will be picked up by Turborepo automatically:</p>
+    <code class="block overflow-x-scroll whitespace-pre rounded-lg bg-slate-200">
+        export TURBO_API="<%= TurboWeb.Endpoint.url() %>"
+        export TURBO_TEAM="<%= @team.name %>"
+        export TURBO_TOKEN="TOKEN_HERE"
+    </code>
+
     <p class="mt-2 text-sm text-slate-500">
         For more information about remote caching, take a look at the turborepo docs <a class="underline" href="https://turborepo.org/docs/core-concepts/remote-caching#custom-remote-caches" target="_blank">here</a>.
     </p>
