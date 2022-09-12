@@ -6,7 +6,7 @@ defmodule Turbo.MixProject do
       app: :turbo,
       name: "Turbo Cache",
       version: "1.0.5",
-      elixir: "~> 1.13",
+      elixir: "~> 1.14",
       elixirc_paths: elixirc_paths(Mix.env()),
       compilers: Mix.compilers(),
       start_permanent: Mix.env() == :prod,
