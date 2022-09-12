@@ -72,9 +72,12 @@ if config_env() == :prod do
   host = System.get_env("PHX_HOST") || "example.com"
   port = String.to_integer(System.get_env("PORT") || "4000")
   scheme = if System.get_env("USE_HTTPS") == "1", do: "https", else: "http"
+  # Using 443 as the default port when HTTPS is enabled.
+  # Will render full URLs in emails and templates without the port component.
+  url_port = if scheme == "https", do: 443, else: port
 
   config :turbo, TurboWeb.Endpoint,
-    url: [host: host, port: port, scheme: scheme],
+    url: [host: host, port: url_port, scheme: scheme],
     http: [
       # Enable IPv6 and bind on all interfaces.
       # Set it to  {0, 0, 0, 0, 0, 0, 0, 1} for local network only access.
