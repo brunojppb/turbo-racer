@@ -30,6 +30,7 @@ defmodule Turbo.Storage.S3Store do
     |> ExAws.request()
     |> case do
       {:ok, _response} ->
+        Logger.info("File #{filename} deleted from S3.")
         {:ok, filename}
 
       {:error, err} ->
@@ -39,8 +40,7 @@ defmodule Turbo.Storage.S3Store do
   end
 
   defp upload_data(binary_data, filename) do
-    tmp_dir = System.tmp_dir!()
-    tmp_file = Path.join(tmp_dir, filename)
+    tmp_file = build_tmp_file_path(filename)
     :ok = File.write(tmp_file, binary_data)
 
     result = upload_file(tmp_file, filename)
@@ -64,10 +64,23 @@ defmodule Turbo.Storage.S3Store do
     end
   end
 
-  # All Turbo artifacts are stored in a flat folder in S3
-  # Relying on the consistent caching algorithm from Turbo to prevent collisions.
+  # Make sure the temp dir path accounts for
+  # path components in the filename
+  defp build_tmp_file_path(filename) do
+    System.tmp_dir!()
+    |> Path.join(filename)
+    |> Path.dirname()
+    |> File.mkdir_p!()
+    |> case do
+      _ ->
+        Path.join(System.tmp_dir!(), filename)
+    end
+  end
+
+  # Filenames can include the artifact path,
+  # usually scoped under the team ID folder.
   defp remote_file_path(filename) do
-    "artifacts/" <> filename
+    Path.join("artifacts", filename)
   end
 
   defp get_bucket_name() do

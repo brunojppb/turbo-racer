@@ -8,7 +8,7 @@ defmodule Turbo.Artifacts do
 
   @spec create(binary(), String.t(), Team.t()) :: Turbo.result(Artifact.t())
   def create(artifact_data, hash, team) do
-    with {:ok, _filename} <- FileStore.put_data(artifact_data, hash),
+    with {:ok, _filename} <- FileStore.put_data(artifact_data, artifact_path(team.id, hash)),
          {:ok, artifact} <- create_artifact(hash, team) do
       {:ok, artifact}
     else
@@ -30,8 +30,8 @@ defmodule Turbo.Artifacts do
       nil ->
         {:error, "artifact not found"}
 
-      artifact ->
-        {:ok, stream} = FileStore.get_file(artifact.hash)
+      _artifact ->
+        {:ok, stream} = artifact_path(team.id, hash) |> FileStore.get_file()
         {:ok, stream}
     end
   end
@@ -41,8 +41,9 @@ defmodule Turbo.Artifacts do
   def delete_all_from_team(team_id) do
     from(a in Artifact, where: a.team_id == ^team_id)
     |> Repo.all()
-    |> Enum.map(fn artifact -> artifact.hash end)
-    |> Enum.map(&delete/1)
+    |> Enum.map(fn artifact ->
+      delete(artifact.hash, artifact.team_id)
+    end)
     |> Enum.reduce_while(:ok, fn delete_result, _ ->
       case delete_result do
         {:ok, _} ->
@@ -55,22 +56,23 @@ defmodule Turbo.Artifacts do
     end)
   end
 
-  @spec delete(hash :: String.t()) :: Turbo.result(String.t())
-  def delete(hash) do
+  @spec delete(hash :: String.t(), team_id :: number()) :: Turbo.result(String.t())
+  def delete(hash, team_id) do
     Ecto.Multi.new()
     |> Ecto.Multi.run(:record, fn _repo, _changes ->
-      query = from a in Artifact, where: a.hash == ^hash
+      query = from a in Artifact, where: a.hash == ^hash and a.team_id == ^team_id
 
       case Repo.delete_all(query) do
         {1, _} ->
           {:ok, "Record deleted"}
 
-        _ ->
-          {:error, "Error while deleting artifact record for hash #{hash}"}
+        err ->
+          {:error,
+           "Error deleting artifact hash=#{hash} team_id=#{team_id}. reason=#{inspect(err)}"}
       end
     end)
     |> Ecto.Multi.run(:file, fn _repo, _changes ->
-      FileStore.delete_file(hash)
+      artifact_path(team_id, hash) |> FileStore.delete_file()
     end)
     |> Repo.transaction()
     |> case do
@@ -102,7 +104,7 @@ defmodule Turbo.Artifacts do
     |> Repo.all()
     |> Enum.reduce({[], []}, fn artifact, {deleted, failed} ->
       # Collect list of hashes deleted + failed
-      case delete(artifact.hash) do
+      case delete(artifact.hash, artifact.team_id) do
         {:ok, hash} ->
           {[hash | deleted], failed}
 
@@ -116,5 +118,11 @@ defmodule Turbo.Artifacts do
     %Artifact{}
     |> Artifact.changeset(team, %{hash: hash})
     |> Repo.insert()
+  end
+
+  # Scope artifact under "team_<team_id>" directory
+  # to avoid potential hash collisions for different teams.
+  defp artifact_path(team_id, hash) do
+    Path.join("team_#{team_id}", hash)
   end
 end

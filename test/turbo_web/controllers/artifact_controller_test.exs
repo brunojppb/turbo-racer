@@ -12,7 +12,7 @@ defmodule TurboWeb.ArtifactControllerTest do
     artifact = ArtifactsFixtures.artifact_fixture(hash, context.team)
 
     on_exit(fn ->
-      ArtifactsFixtures.clean_up_artifact(hash)
+      ArtifactsFixtures.clean_up_artifact(hash, context.team.id)
     end)
 
     {:ok, %{artifact: artifact}}
@@ -28,7 +28,25 @@ defmodule TurboWeb.ArtifactControllerTest do
         |> put("/v8/artifacts/#{hash}?slug=#{team.name}", "some_binary_data")
 
       assert %{"filename" => ^hash} = json_response(conn, 201)
-      ArtifactsFixtures.clean_up_artifact(hash)
+      ArtifactsFixtures.clean_up_artifact(hash, team.id)
+    end
+
+    test "should allow artifact upload with existing hash from other team", %{
+      artifact: artifact,
+      conn: conn
+    } do
+      %{conn: new_conn, team: team} =
+        TurboWeb.ConnCase.create_and_log_in_team(%{conn: conn}, "new-team")
+
+      hash = artifact.hash
+
+      new_conn =
+        new_conn
+        |> put_req_header("content-type", "application/octet-stream")
+        |> put("/v8/artifacts/#{hash}?slug=#{team.name}", "some_binary_data")
+
+      assert %{"filename" => ^hash} = json_response(new_conn, 201)
+      ArtifactsFixtures.clean_up_artifact(hash, team.id)
     end
 
     test "return unauthorized if Bearer token isn't present" do

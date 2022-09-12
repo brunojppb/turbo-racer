@@ -70,5 +70,17 @@ defmodule Turbo.Storage.LocalFileStore do
     end
 
     Path.join(upload_dir(), filename)
+    |> Path.dirname()
+    |> case do
+      "." ->
+        Path.join(upload_dir(), filename)
+
+      path ->
+        if not File.exists?(path) do
+          File.mkdir_p(path)
+        end
+
+        Path.join(upload_dir(), filename)
+    end
   end
 end

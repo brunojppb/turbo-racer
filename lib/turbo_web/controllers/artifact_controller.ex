@@ -19,7 +19,7 @@ defmodule TurboWeb.ArtifactController do
 
     if team.name != team_name do
       conn
-      |> send_json_resp(404, %{error: "artifact not found"})
+      |> send_json_resp(401, %{error: "team token mismatch"})
     else
       {:ok, body_data, conn} = read_body(conn, length: @max_length)
       {:ok, artifact} = Artifacts.create(body_data, hash, team)
