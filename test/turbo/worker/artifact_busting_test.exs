@@ -19,8 +19,8 @@ defmodule Turbo.Worker.ArtifactBustingTest do
     # Just make sure that even if the test fails, the artifact will be cleaned-up.
     # In case it has been deleted successfully during the tests, we can safely ignore.
     on_exit(fn ->
-      Turbo.ArtifactsFixtures.maybe_clean_up_artifact(old_artifact.hash)
-      Turbo.ArtifactsFixtures.maybe_clean_up_artifact(new_artifact.hash)
+      Turbo.ArtifactsFixtures.maybe_clean_up_artifact(old_artifact.hash, old_artifact.team_id)
+      Turbo.ArtifactsFixtures.maybe_clean_up_artifact(new_artifact.hash, new_artifact.team_id)
     end)
 
     %{

@@ -32,11 +32,11 @@ defmodule Turbo.ArtifactsFixtures do
     |> Repo.update!()
   end
 
-  def clean_up_artifact(hash) do
-    {:ok, _} = Artifacts.delete(hash)
+  def clean_up_artifact(hash, team_id) do
+    {:ok, _} = Artifacts.delete(hash, team_id)
   end
 
-  def maybe_clean_up_artifact(hash) do
-    Artifacts.delete(hash)
+  def maybe_clean_up_artifact(hash, team_id) do
+    Artifacts.delete(hash, team_id)
   end
 end
