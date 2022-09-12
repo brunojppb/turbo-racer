@@ -4,8 +4,8 @@ defmodule Turbo.MixProject do
   def project do
     [
       app: :turbo,
-      name: "Turbo Cache",
-      version: "1.0.6",
+      name: "Turbo Racer",
+      version: "1.0.7",
       elixir: "~> 1.14",
       elixirc_paths: elixirc_paths(Mix.env()),
       compilers: Mix.compilers(),
