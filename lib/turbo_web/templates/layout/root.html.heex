@@ -11,7 +11,19 @@
       href={Routes.static_path(@conn, "/images/turbo-racer.svg")}
     />
     <title>Turbo Racer</title>
-    <%= live_title_tag(assigns[:page_title] || "Racer") %>
+
+    <meta name="author" content="Bruno Paulino">
+    <meta name="description" content="High-performance backend for Turborepo cache">
+    <meta name="keywords" content="monorepo,turborepo,typecript,javascript,ci">
+    
+    <!-- Open Graph meta properties for beautifully rendering link previews on social -->
+    <!-- See: https://ogp.me/ -->
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content={TurboWeb.Endpoint.url()} />
+    <meta property="og:title" content="Turbo Racer" />
+    <meta property="og:description" content="High-performance backend for Turborepo cache" />
+    <meta property="og:image" content={Routes.static_url(@conn, "/images/turbo_racer_cover.jpg")} />
+
     <link phx-track-static rel="stylesheet" href={Routes.static_path(@conn, "/assets/app.css")} />
     <script
       defer
