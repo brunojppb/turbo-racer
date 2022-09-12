@@ -1,44 +1,47 @@
 spec:
   name: turbo-racer
   services:
-  - name: turbo-web
-    image:
-      registry_type: DOCKER_HUB
-      registry: brunojppb
-      repository: turbo-racer
-      tag: latest
-    envs:
-    - key: SECRET_KEY_BASE
-      scope: RUN_TIME
-      value: "please_replace_me_with_something_random_and_strong_at_least_64_characters_long"
-      type: SECRET
-    - key: PHX_HOST
-      value: example.com
-      scope: RUN_TIME
-    - key: PORT
-      value: '4000'
-      scope: RUN_TIME
-    - key: PORT
-      value: '4000'
-      scope: RUN_TIME
-    - key: S3_BUCKET_NAME
-      value: 's3_bucket_name'
-      scope: RUN_TIME
-    - key: S3_ACCESS_KEY_ID
-      value: 's3_access_key_id'
-      scope: RUN_TIME
-    - key: S3_SECRET_ACCESS_KEY
-      value: 's3_secret_access_key'
-      scope: RUN_TIME
-    - key: S3_HOST
-      value: 's3_host'
-      scope: RUN_TIME
-    - key: DATABASE_URL
-      scope: RUN_TIME
-      value: ${turbo-db.DATABASE_URL}
-    - key: USE_DB_SSL
-      scope: RUN_TIME
-      value: "1"
+    - name: turbo-web
+      image:
+        registry_type: DOCKER_HUB
+        registry: brunojppb
+        repository: turbo-racer
+        tag: latest
+      envs:
+        - key: SECRET_KEY_BASE
+          scope: RUN_TIME
+          value: "please_replace_me_with_something_random_and_strong_at_least_64_characters_long"
+          type: SECRET
+        - key: PHX_HOST
+          value: example.com
+          scope: RUN_TIME
+        - key: PORT
+          value: "4000"
+          scope: RUN_TIME
+        - key: PORT
+          value: "4000"
+          scope: RUN_TIME
+        - key: S3_BUCKET_NAME
+          value: "s3_bucket_name"
+          scope: RUN_TIME
+        - key: S3_ACCESS_KEY_ID
+          value: "s3_access_key_id"
+          scope: RUN_TIME
+        - key: S3_SECRET_ACCESS_KEY
+          value: "s3_secret_access_key"
+          scope: RUN_TIME
+        - key: S3_HOST
+          value: "s3_host"
+          scope: RUN_TIME
+        - key: DATABASE_URL
+          scope: RUN_TIME
+          value: ${turbo-db.DATABASE_URL}
+        - key: USE_DB_SSL
+          scope: RUN_TIME
+          value: "1"
+        - key: USE_HTTPS
+          scope: RUN_TIME
+          value: "1"
   databases:
-  - name: turbo-db
-    engine: PG
+    - name: turbo-db
+      engine: PG
