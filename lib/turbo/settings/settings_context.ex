@@ -40,7 +40,7 @@ defmodule Turbo.Settings.SettingsContext do
 
   # Upsert the "app_access" settings, always overwriting
   # The existing settings in the DB.
-  @spec update_app_access(map()) :: Turbo.result(AppAccess.t())
+  @spec save_app_access(app_access :: AppAccess.t()) :: Turbo.result(AppAccess.t())
   defp save_app_access(%AppAccess{} = app_access) do
     %AppSettings{}
     |> AppSettings.changeset(%{
