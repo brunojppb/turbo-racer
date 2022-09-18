@@ -112,4 +112,11 @@ defmodule TurboWeb.Router do
     get "/users/confirm/:token", UserConfirmationController, :edit
     post "/users/confirm/:token", UserConfirmationController, :update
   end
+
+  # Admin routes
+  scope "/", TurboWeb do
+    pipe_through [:browser, :require_authenticated_user, :require_admin]
+
+    get "/settings", AppSettingsController, :index
+  end
 end

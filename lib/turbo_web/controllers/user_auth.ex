@@ -139,6 +139,18 @@ defmodule TurboWeb.UserAuth do
     end
   end
 
+  def require_admin(conn, _opts) do
+    if conn.assigns[:current_user] && conn.assigns[:current_user].role == "admin" do
+      conn
+    else
+      conn
+      |> put_flash(:error, "You are not allowed to access this route")
+      |> maybe_store_return_to()
+      |> redirect(to: Routes.page_path(conn, :index))
+      |> halt()
+    end
+  end
+
   defp maybe_store_return_to(%{method: "GET"} = conn) do
     put_session(conn, :user_return_to, current_path(conn))
   end

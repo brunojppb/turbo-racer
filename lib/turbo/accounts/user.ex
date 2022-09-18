@@ -7,6 +7,7 @@ defmodule Turbo.Accounts.User do
     field :password, :string, virtual: true, redact: true
     field :hashed_password, :string, redact: true
     field :confirmed_at, :naive_datetime
+    field :role, :string
 
     timestamps()
   end
@@ -16,6 +17,7 @@ defmodule Turbo.Accounts.User do
           email: String.t(),
           hashed_password: String.t(),
           confirmed_at: NaiveDateTime.t(),
+          role: String.t(),
           inserted_at: NaiveDateTime.t(),
           updated_at: NaiveDateTime.t()
         }
