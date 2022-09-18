@@ -17,7 +17,7 @@ defmodule Turbo.Models.AppSettings do
           updated_at: NaiveDateTime.t()
         }
 
-  def changeset(app_settings, attrs \\ %{}) do
+  def changeset(%__MODULE__{} = app_settings, attrs \\ %{}) do
     app_settings
     |> cast(attrs, [:key, :value])
     |> validate_required([:key, :value])

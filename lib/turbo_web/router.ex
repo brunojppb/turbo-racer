@@ -117,6 +117,7 @@ defmodule TurboWeb.Router do
   scope "/", TurboWeb do
     pipe_through [:browser, :require_authenticated_user, :require_admin]
 
-    get "/settings", AppSettingsController, :index
+    get "/settings/access", AppSettingsController, :index
+    put "/settings/access", AppSettingsController, :update
   end
 end

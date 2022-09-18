@@ -5,7 +5,7 @@ defmodule Turbo.Repo.Migrations.AddAppSettings do
   def up do
     create table(:app_settings) do
       add :key, :string, null: false
-      add :value, :map, default: %{}
+      add :value, :map, default: %{}, null: false
       timestamps()
     end
 
@@ -30,23 +30,24 @@ defmodule Turbo.Repo.Migrations.AddAppSettings do
           Logger.info("User with ID=#{inspect(id)} exists. Making it admin...")
           repo().query!("UPDATE users SET role = 'admin' WHERE id = #{id}")
 
-          Logger.info("Keeping login and signup active...")
-
-          repo().query!("""
-          INSERT INTO app_settings (key, value, inserted_at, updated_at)
-          VALUES (
-            'app_access',
-            '{ "can_login": true, "can_signup": true }'::jsonb,
-            NOW(),
-            NOW()
-          );
-          """)
-
         # First time settings up Turbo Racer or users table is still empty.
-        # Defer admin and app settings setup for later
+        # Defer admin setup for when they signup
         [] ->
           Logger.info("No existing users. Skipping app settings...")
       end
+
+      # Always have an "app_access" entry in the DB by default to drive
+      # The app access and account creation. All active by default so it's
+      # backwards compatible with older versions of Turbo Racer
+      repo().query!("""
+      INSERT INTO app_settings (key, value, inserted_at, updated_at)
+      VALUES (
+        'app_access',
+        '{ "can_manage_tokens": true, "can_signup": true }'::jsonb,
+        NOW(),
+        NOW()
+      );
+      """)
     end)
   end
 
