@@ -25,7 +25,7 @@ defmodule Turbo.Settings.SettingsContext do
   @doc """
   Update app settings using a schemaless struct `AppAccess`
   """
-  @spec update_app_access(map()) :: Turbo.result(Ecto.Changeset.t())
+  @spec update_app_access(map()) :: Turbo.result(AppAccess.t(), Ecto.Changeset.t())
   def update_app_access(attrs \\ %{}) do
     app_access_changeset(attrs)
     |> case do
