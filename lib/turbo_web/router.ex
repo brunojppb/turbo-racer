@@ -114,10 +114,10 @@ defmodule TurboWeb.Router do
   end
 
   # Admin routes
-  scope "/", TurboWeb do
+  scope "/admin", TurboWeb.Admin do
     pipe_through [:browser, :require_authenticated_user, :require_admin]
 
-    get "/settings/access", AppSettingsController, :index
-    put "/settings/access", AppSettingsController, :update
+    get "/settings/access", AppAccessController, :index
+    put "/settings/access", AppAccessController, :update
   end
 end

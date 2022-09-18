@@ -1,4 +1,4 @@
-defmodule TurboWeb.AppSettingsController do
+defmodule TurboWeb.Admin.AppAccessController do
   use TurboWeb, :controller
   alias Turbo.Settings.SettingsContext
   require Logger
@@ -13,12 +13,12 @@ defmodule TurboWeb.AppSettingsController do
       {:ok, _app_access} ->
         conn
         |> put_flash(:info, "App Access updated successfully")
-        |> redirect(to: Routes.app_settings_path(conn, :index))
+        |> redirect(to: Routes.app_access_path(conn, :index))
 
       {:error, _changeset} ->
         conn
         |> put_flash(:error, "Oops... Something went wrong. Please try again")
-        |> redirect(to: Routes.app_settings_path(conn, :index))
+        |> redirect(to: Routes.app_access_path(conn, :index))
     end
   end
 end

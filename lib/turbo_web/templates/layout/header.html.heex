@@ -15,7 +15,7 @@
         <%= if @is_admin do %>
           <li>
             <%= link("Settings",
-              to: Routes.app_settings_path(@conn, :index),
+              to: Routes.app_access_path(@conn, :index),
               class: "underline"
             ) %>
           </li>
