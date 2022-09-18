@@ -12,7 +12,7 @@
             class: "underline"
           ) %>
         </li>
-        <%= if @current_user.role == "admin" do %>
+        <%= if @is_admin do %>
           <li>
             <%= link("Settings",
               to: Routes.app_settings_path(@conn, :index),

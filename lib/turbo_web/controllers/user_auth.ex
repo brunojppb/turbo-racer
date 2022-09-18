@@ -91,7 +91,13 @@ defmodule TurboWeb.UserAuth do
   def fetch_current_user(conn, _opts) do
     {user_token, conn} = ensure_user_token(conn)
     user = user_token && Accounts.get_user_by_session_token(user_token)
-    assign(conn, :current_user, user)
+    user_conn = assign(conn, :current_user, user)
+
+    if user do
+      assign(user_conn, :is_admin, user.role == "admin")
+    else
+      user_conn
+    end
   end
 
   defp ensure_user_token(conn) do
@@ -140,7 +146,7 @@ defmodule TurboWeb.UserAuth do
   end
 
   def require_admin(conn, _opts) do
-    if conn.assigns[:current_user] && conn.assigns[:current_user].role == "admin" do
+    if conn.assigns[:is_admin] do
       conn
     else
       conn
