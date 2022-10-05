@@ -16,13 +16,13 @@
     <fieldset class="flex flex-col">
       <%= label(f, :password, "New password", class: "font-semibold") %>
       <%= password_input(f, :password, required: true, class: "input-primary") %>
-      <%= error_tag f, :password %>
+      <%= error_tag(f, :password) %>
     </fieldset>
 
     <fieldset class="flex flex-col">
       <%= label(f, :password_confirmation, "Confirm new password", class: "font-semibold") %>
       <%= password_input(f, :password_confirmation, required: true, class: "input-primary") %>
-      <%= error_tag f, :password_confirmation %>
+      <%= error_tag(f, :password_confirmation) %>
     </fieldset>
 
     <div>
@@ -31,7 +31,8 @@
   </.form>
 
   <p>
-    <%= link "Register", to: Routes.user_registration_path(@conn, :new) %> |
-    <%= link "Log in", to: Routes.user_session_path(@conn, :new) %>
+    <%= link("Register", to: Routes.user_registration_path(@conn, :new)) %> | <%= link("Log in",
+      to: Routes.user_session_path(@conn, :new)
+    ) %>
   </p>
 </div>
