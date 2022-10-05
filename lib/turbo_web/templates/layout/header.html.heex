@@ -6,7 +6,6 @@
   <nav class="font-bold">
     <ul class="flex gap-2 md:gap-4">
       <%= if @current_user do %>
-      <%# #TODO: Replace with valid App links once the admin UI is ready %>
         <li>
           <%= link("Teams",
             to: Routes.team_path(@conn, :index),
@@ -15,7 +14,7 @@
         </li>
         <li>
           <%= link("Logout",
-            to: Routes.user_session_path(@conn, :delete), 
+            to: Routes.user_session_path(@conn, :delete),
             method: :delete,
             class: "underline"
           ) %>

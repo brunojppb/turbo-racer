@@ -2,70 +2,71 @@
 <h2 class="pl-2 mt-2 text-2xl text-slate-500">Tokens</h2>
 
 <div>
-    <.form
-        let={f}
-        for={@conn}
-        action={Routes.team_token_path(@conn, :create, @team.id)}
-        as={:token}
-        >
-
-        <%= hidden_input(f, :team_id, value: @team.id) %>
-        <%= submit("Generate new token", class: "btn-primary mt-4") %>
-    </.form>
+  <.form let={f} for={@conn} action={Routes.team_token_path(@conn, :create, @team.id)} as={:token}>
+    <%= hidden_input(f, :team_id, value: @team.id) %>
+    <%= submit("Generate new token", class: "btn-primary mt-4") %>
+  </.form>
 </div>
 
 <section class="mt-8">
-    <%= if Enum.empty?(@tokens) do %>
-        <p>There are no tokens for this team yet. Please add one.</p>
-    <% else %>
+  <%= if Enum.empty?(@tokens) do %>
+    <p>There are no tokens for this team yet. Please add one.</p>
+  <% else %>
     <p class="m-2">Usage with Turborepo:</p>
     <code class="block overflow-x-scroll whitespace-pre rounded-lg bg-slate-200">
-        turbo run build --api="<%= TurboWeb.Endpoint.url() %>" --token="TOKEN_HERE" --team="<%= @team.name %>"
+      turbo run build --api="<%= TurboWeb.Endpoint.url() %>" --token="TOKEN_HERE" --team="<%= @team.name %>"
     </code>
 
-    <p class="mt-4 mb-2">Alternatively, you can export these as environment variables. It will be picked up by Turborepo automatically:</p>
+    <p class="mt-4 mb-2">
+      Alternatively, you can export these as environment variables. It will be picked up by Turborepo automatically:
+    </p>
     <code class="block overflow-x-scroll whitespace-pre rounded-lg bg-slate-200">
-        export TURBO_API="<%= TurboWeb.Endpoint.url() %>"
-        export TURBO_TEAM="<%= @team.name %>"
-        export TURBO_TOKEN="TOKEN_HERE"
+      export TURBO_API="<%= TurboWeb.Endpoint.url() %>"
+      export TURBO_TEAM="<%= @team.name %>"
+      export TURBO_TOKEN="TOKEN_HERE"
     </code>
 
     <p class="mt-2 text-sm text-slate-500">
-        For more information about remote caching, take a look at the turborepo docs <a class="underline" href="https://turborepo.org/docs/core-concepts/remote-caching#custom-remote-caches" target="_blank">here</a>.
+      For more information about remote caching, take a look at the turborepo docs <a
+        class="underline"
+        href="https://turborepo.org/docs/core-concepts/remote-caching#custom-remote-caches"
+        target="_blank"
+      >here</a>.
     </p>
     <table class="w-full mt-4 text-sm text-left text-gray-500">
-        <thead class="text-xs text-gray-700 uppercase bg-gray-50 ">
+      <thead class="text-xs text-gray-700 uppercase bg-gray-50 ">
         <tr>
-            <th scope="col" class="px-6 py-3">
-                Token
-            </th>
-            <th scope="col" class="px-6 py-3">
-                Created at
-            </th>
-            <th scope="col" class="px-6 py-3">
-                Actions
-            </th>
+          <th scope="col" class="px-6 py-3">
+            Token
+          </th>
+          <th scope="col" class="px-6 py-3">
+            Created at
+          </th>
+          <th scope="col" class="px-6 py-3">
+            Actions
+          </th>
         </tr>
-        </thead>
-        <tbody>
-            <%= for token <- @tokens do %>
-            <tr class="bg-white border-b">
-                <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap ">
-                    <%= token.token %>
-                </th>
-                <td class="px-6 py-4">
-                    <%= token.inserted_at %> UTC
-                </td>
-                <td class="px-6 py-4">
-                    <%= link "Delete token",
-                        to: Routes.team_token_path(@conn, :delete, @team.id, token.id),
-                        method: :delete,
-                        data: [confirm: "Are you sure you want to delete token \"#{token.token}\"?"],
-                        class: "underline text-red-700" %>
-                </td>
-            </tr>
-            <% end %>
-        </tbody>
+      </thead>
+      <tbody>
+        <%= for token <- @tokens do %>
+          <tr class="bg-white border-b">
+            <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap ">
+              <%= token.token %>
+            </th>
+            <td class="px-6 py-4">
+              <%= token.inserted_at %> UTC
+            </td>
+            <td class="px-6 py-4">
+              <%= link("Delete token",
+                to: Routes.team_token_path(@conn, :delete, @team.id, token.id),
+                method: :delete,
+                data: [confirm: "Are you sure you want to delete token \"#{token.token}\"?"],
+                class: "underline text-red-700"
+              ) %>
+            </td>
+          </tr>
+        <% end %>
+      </tbody>
     </table>
-    <% end %>
+  <% end %>
 </section>
