@@ -6,7 +6,6 @@
   <nav class="font-bold">
     <ul class="flex gap-2 md:gap-4">
       <%= if @current_user do %>
-        
         <li>
           <%= link("Teams",
             to: Routes.team_path(@conn, :index),
