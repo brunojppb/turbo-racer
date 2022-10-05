@@ -33,7 +33,7 @@ defmodule Turbo.Repo.Migrations.AddAppSettings do
         # First time settings up Turbo Racer or users table is still empty.
         # Defer admin setup for when they signup
         [] ->
-          Logger.info("No existing users. Skipping app settings...")
+          Logger.info("No existing users. Skipping admin user updates...")
       end
 
       # Always have an "app_access" entry in the DB by default to drive
