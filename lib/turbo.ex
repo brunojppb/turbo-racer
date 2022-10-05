@@ -14,6 +14,13 @@ defmodule Turbo do
   """
   @type result(t) :: {:ok, t} | {:error, reason :: String.t()}
 
+  @typedoc """
+  Represents the result of a generic operation that can fail.
+  - Success cases return an `:ok` tuple with the given type `success_t`.
+  - Failure cases return an `:error` tuple with the given type `error_t`
+  """
+  @type result(success_t, failure_t) :: {:ok, success_t} | {:error, failure_t}
+
   @rand_size 32
 
   def generate_rand_token() do
