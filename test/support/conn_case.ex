@@ -75,6 +75,16 @@ defmodule TurboWeb.ConnCase do
   end
 
   @doc """
+  Reset app settings to enable signup and token management
+  """
+  def reset_app_settings() do
+    Turbo.Settings.SettingsContext.update_app_access(%{
+      "can_signup" => "true",
+      "can_manage_tokens" => "true"
+    })
+  end
+
+  @doc """
   Setup helper that registers and logs in users.
 
       setup :register_and_log_in_user

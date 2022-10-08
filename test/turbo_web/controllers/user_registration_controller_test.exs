@@ -1,7 +1,14 @@
 defmodule TurboWeb.UserRegistrationControllerTest do
-  use TurboWeb.ConnCase, async: true
+  use TurboWeb.ConnCase
 
   import Turbo.AccountsFixtures
+  alias Turbo.Settings.SettingsContext
+
+  setup do
+    on_exit(fn ->
+      reset_app_settings()
+    end)
+  end
 
   describe "GET /users/register" do
     test "renders registration page", %{conn: conn} do
@@ -15,6 +22,13 @@ defmodule TurboWeb.UserRegistrationControllerTest do
     test "redirects if already logged in", %{conn: conn} do
       conn = conn |> log_in_user(user_fixture()) |> get(Routes.user_registration_path(conn, :new))
       assert redirected_to(conn) == "/"
+    end
+
+    test "redirects to login when registration is disabled", %{conn: conn} do
+      SettingsContext.update_app_access(%{"can_signup" => false, "can_manage_tokens" => true})
+      conn = get(conn, Routes.user_registration_path(conn, :new))
+      assert redirected_to(conn) == Routes.user_session_path(conn, :new)
+      SettingsContext.update_app_access(%{"can_signup" => true, "can_manage_tokens" => true})
     end
   end
 

@@ -1,8 +1,14 @@
 defmodule TurboWeb.Controllers.Admin.AppAccessControllerTest do
-  use TurboWeb.ConnCase, async: true
+  use TurboWeb.ConnCase
 
   setup :register_and_log_in_admin
   alias Turbo.Settings.SettingsContext
+
+  setup do
+    on_exit(fn ->
+      reset_app_settings()
+    end)
+  end
 
   describe "GET /admin/settings/access" do
     test "redirects if user is not logged in" do

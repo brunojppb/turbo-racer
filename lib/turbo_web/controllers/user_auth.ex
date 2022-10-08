@@ -4,6 +4,7 @@ defmodule TurboWeb.UserAuth do
 
   alias Turbo.Accounts
   alias TurboWeb.Router.Helpers, as: Routes
+  alias Turbo.Settings.SettingsContext
 
   # Make the remember me cookie valid for 60 days.
   # If you want bump or reduce this value, also change
@@ -100,6 +101,11 @@ defmodule TurboWeb.UserAuth do
     end
   end
 
+  def fetch_app_access(conn, _opts) do
+    app_access = SettingsContext.get_app_access()
+    assign(conn, :app_access, app_access)
+  end
+
   defp ensure_user_token(conn) do
     if user_token = get_session(conn, :user_token) do
       {user_token, conn}
@@ -124,6 +130,25 @@ defmodule TurboWeb.UserAuth do
       |> halt()
     else
       conn
+    end
+  end
+
+  @doc """
+  Ensure signup settings are active before allowing users to create accounts
+  """
+  def ensure_signup_access(conn, _opts) do
+    case SettingsContext.get_app_access() do
+      app_access when app_access.can_signup ->
+        conn
+
+      _ ->
+        conn
+        |> put_flash(
+          :error,
+          "Creating accounts is disabled for this instance. Please, contact an admin."
+        )
+        |> redirect(to: Routes.user_session_path(conn, :new))
+        |> halt()
     end
   end
 

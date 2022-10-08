@@ -12,6 +12,7 @@ defmodule TurboWeb.Router do
     plug :protect_from_forgery
     plug :put_secure_browser_headers
     plug :fetch_current_user
+    plug :fetch_app_access
   end
 
   pipeline :api do
@@ -71,13 +72,17 @@ defmodule TurboWeb.Router do
     end
   end
 
-  ## Authentication routes
+  # To allow user signups, first make sure that signup is enabled in the admin settings
+  scope "/", TurboWeb do
+    pipe_through [:browser, :redirect_if_user_is_authenticated, :ensure_signup_access]
+    get "/users/register", UserRegistrationController, :new
+    post "/users/register", UserRegistrationController, :create
+  end
 
+  ## Authentication routes
   scope "/", TurboWeb do
     pipe_through [:browser, :redirect_if_user_is_authenticated]
 
-    get "/users/register", UserRegistrationController, :new
-    post "/users/register", UserRegistrationController, :create
     get "/users/log_in", UserSessionController, :new
     post "/users/log_in", UserSessionController, :create
     get "/users/reset_password", UserResetPasswordController, :new

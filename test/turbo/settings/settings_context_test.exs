@@ -1,7 +1,16 @@
 defmodule Turbo.Settings.SettingsContextTest do
-  use Turbo.DataCase, async: true
+  use Turbo.DataCase
 
   alias Turbo.Settings.{AppAccess, SettingsContext}
+
+  setup do
+    on_exit(fn ->
+      Turbo.Settings.SettingsContext.update_app_access(%{
+        "can_signup" => "true",
+        "can_manage_tokens" => "true"
+      })
+    end)
+  end
 
   describe "get_app_access/0" do
     test "always returns an existing app settings" do
