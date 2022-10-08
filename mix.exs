@@ -60,6 +60,7 @@ defmodule Turbo.MixProject do
       {:jason, "~> 1.2"},
       {:plug_cowboy, "~> 2.5"},
       {:oban, "~> 2.13"},
+      {:cachex, "~> 3.4"},
 
       # Dev dependencies
       {:dialyxir, "~> 1.0", only: [:dev], runtime: false},

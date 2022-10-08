@@ -7,18 +7,34 @@ defmodule Turbo.Settings.SettingsContext do
 
   @access_settings_key "app_access"
 
+  @doc """
+  Get App Access config from cache. Fallback to DB
+  """
   @spec get_app_access() :: AppAccess.t()
   def get_app_access() do
-    AppSettings
-    |> Repo.get_by!(key: @access_settings_key)
-    |> AppAccess.new()
+    case Cachex.get(:turbo, @access_settings_key) do
+      {:ok, nil} ->
+        get_from_db()
+
+      {:ok, app_access} ->
+        app_access
+    end
+  end
+
+  @spec get_from_db() :: AppAccess.t()
+  defp get_from_db() do
+    app_access =
+      AppSettings
+      |> Repo.get_by!(key: @access_settings_key)
+      |> AppAccess.new()
+
+    {:ok, true} = Cachex.put(:turbo, @access_settings_key, app_access)
+    app_access
   end
 
   @spec app_access_changeset(attrs :: map()) :: Ecto.Changeset.t()
   def app_access_changeset(attrs \\ %{}) do
-    AppSettings
-    |> Repo.get_by!(key: @access_settings_key)
-    |> AppAccess.new()
+    get_app_access()
     |> AppAccess.changeset(attrs)
   end
 
@@ -54,7 +70,9 @@ defmodule Turbo.Settings.SettingsContext do
     )
     |> case do
       {:ok, app_settings} ->
-        {:ok, AppAccess.new(app_settings)}
+        app_access = AppAccess.new(app_settings)
+        {:ok, true} = Cachex.put(:turbo, @access_settings_key, app_access)
+        {:ok, app_access}
 
       {:error, changeset} ->
         {:error, changeset}

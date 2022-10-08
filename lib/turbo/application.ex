@@ -17,7 +17,9 @@ defmodule Turbo.Application do
       # Start the Endpoint (http/https)
       TurboWeb.Endpoint,
       # Background job scheduler
-      {Oban, Application.fetch_env!(:turbo, Oban)}
+      {Oban, Application.fetch_env!(:turbo, Oban)},
+      # In-memory cache
+      {Cachex, name: :turbo}
       # Start a worker by calling: Turbo.Worker.start_link(arg)
       # {Turbo.Worker, arg}
     ]
