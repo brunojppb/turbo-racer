@@ -7,6 +7,7 @@ defmodule Turbo.Accounts.User do
     field :password, :string, virtual: true, redact: true
     field :hashed_password, :string, redact: true
     field :confirmed_at, :naive_datetime
+    # Role is either "admin" or "user". "user" is the default
     field :role, :string
 
     timestamps()
@@ -44,6 +45,11 @@ defmodule Turbo.Accounts.User do
     |> cast(attrs, [:email, :password])
     |> validate_email()
     |> validate_password(opts)
+  end
+
+  def admin_changeset(user, attrs, opts \\ []) do
+    registration_changeset(user, attrs, opts)
+    |> put_change(:role, "admin")
   end
 
   defp validate_email(changeset) do
