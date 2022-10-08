@@ -1,0 +1,16 @@
+<div class="p-4 border-r">
+  <ul>
+    <%= render("admin/menu_item.html",
+      text: "App Access",
+      path: Routes.app_access_path(@conn, :index),
+      conn: @conn
+    ) %>
+
+    <%!-- @TODO: Replace Path with proper Phoenix generated route --%>
+    <%= render("admin/menu_item.html",
+      text: "Users",
+      path: "/admin/settings/users",
+      conn: @conn
+    ) %>
+  </ul>
+</div>

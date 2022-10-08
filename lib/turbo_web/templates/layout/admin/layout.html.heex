@@ -1,0 +1,12 @@
+<%!-- 
+  render_layout is a global helper defined in the TurboWeb.LayoutView module,
+  and can be shared across all other templates to compose nested layouts
+--%>
+<%= render_layout "app.html", assigns do %>
+  <div class="grid max-w-5xl grid-cols-5 mx-auto rounded-md shadow-sm">
+    <%= render("admin/menu.html", assigns) %>
+    <div class="col-span-4 p-4">
+      <%= @inner_content %>
+    </div>
+  </div>
+<% end %>

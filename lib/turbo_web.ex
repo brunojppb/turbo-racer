@@ -57,7 +57,8 @@ defmodule TurboWeb do
     quote do
       use Phoenix.View,
         root: "lib/turbo_web/templates",
-        namespace: TurboWeb
+        namespace: TurboWeb,
+        pattern: "**/*"
 
       # Import convenience functions from controllers
       import Phoenix.Controller,
