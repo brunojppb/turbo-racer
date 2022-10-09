@@ -103,13 +103,6 @@ defmodule Turbo.Accounts do
   defp maybe_update_admin_cache(val), do: val
 
   @doc """
-  Update "has_admin" in-memory cache
-  """
-  def update_has_admin_cache(is_admin_present) do
-    Cachex.put(:turbo, @is_admin_present_cache_key, is_admin_present)
-  end
-
-  @doc """
   Returns an `%Ecto.Changeset{}` for tracking user changes.
 
   ## Examples
@@ -388,12 +381,19 @@ defmodule Turbo.Accounts do
     case Cachex.get(:turbo, @is_admin_present_cache_key) do
       {:ok, nil} ->
         is_present = is_admin_registered_in_db?()
-        Cachex.put(:turbo, @is_admin_present_cache_key, is_present)
+        update_has_admin_cache(is_present)
         is_present
 
       {:ok, is_present} ->
         is_present
     end
+  end
+
+  @doc """
+  Update "has_admin" in-memory cache
+  """
+  def update_has_admin_cache(is_admin_present) when is_boolean(is_admin_present) do
+    Cachex.put(:turbo, @is_admin_present_cache_key, is_admin_present)
   end
 
   defp is_admin_registered_in_db?() do
