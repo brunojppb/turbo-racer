@@ -106,6 +106,11 @@ defmodule TurboWeb.UserAuth do
     assign(conn, :app_access, app_access)
   end
 
+  def fetch_has_admin(conn, _opts) do
+    has_admin = Accounts.is_admin_present?()
+    assign(conn, :has_admin, has_admin)
+  end
+
   defp ensure_user_token(conn) do
     if user_token = get_session(conn, :user_token) do
       {user_token, conn}

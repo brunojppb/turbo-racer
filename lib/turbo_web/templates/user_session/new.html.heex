@@ -1,5 +1,5 @@
-<div class="container mx-auto flex flex-col items-center">
-  <h1 class="font-bold text-3xl">Log in</h1>
+<div class="container flex flex-col items-center mx-auto">
+  <h1 class="text-3xl font-bold">Log in</h1>
 
   <.form
     let={f}
@@ -41,7 +41,10 @@
   </.form>
 
   <p>
-    <%= link("Create Account", to: Routes.user_registration_path(@conn, :new)) %> | <%= link(
+    <%= if @app_access.can_signup do %>
+      <%= link("Create Account", to: Routes.user_registration_path(@conn, :new)) %> |
+    <% end %>
+    <%= link(
       "Forgot your password?",
       to: Routes.user_reset_password_path(@conn, :new)
     ) %>

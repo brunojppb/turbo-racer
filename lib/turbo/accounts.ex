@@ -8,6 +8,8 @@ defmodule Turbo.Accounts do
 
   alias Turbo.Accounts.{User, UserToken, UserNotifier}
 
+  @is_admin_present_cache_key "is_admin_present"
+
   ## Database getters
 
   @doc """
@@ -80,10 +82,31 @@ defmodule Turbo.Accounts do
     |> Repo.insert()
   end
 
+  @doc """
+  Registers and admin user
+  """
   def register_admin(attrs) do
     %User{}
     |> User.admin_changeset(attrs)
     |> Repo.insert()
+    |> maybe_update_admin_cache()
+  end
+
+  # When an admin user is registered, make sure that the in-memory cache
+  # is up-to-date with the new entry in the db
+  defp maybe_update_admin_cache({:ok, user}) do
+    update_has_admin_cache(true)
+    {:ok, user}
+  end
+
+  # In case of failures, just pass through
+  defp maybe_update_admin_cache(val), do: val
+
+  @doc """
+  Update "has_admin" in-memory cache
+  """
+  def update_has_admin_cache(is_admin_present) do
+    Cachex.put(:turbo, @is_admin_present_cache_key, is_admin_present)
   end
 
   @doc """
@@ -354,6 +377,33 @@ defmodule Turbo.Accounts do
     |> case do
       {:ok, %{user: user}} -> {:ok, user}
       {:error, :user, changeset, _} -> {:error, changeset}
+    end
+  end
+
+  @doc """
+  Whether an admin user is already registered in the database
+  """
+  @spec is_admin_present?() :: boolean()
+  def is_admin_present?() do
+    case Cachex.get(:turbo, @is_admin_present_cache_key) do
+      {:ok, nil} ->
+        is_present = is_admin_registered_in_db?()
+        Cachex.put(:turbo, @is_admin_present_cache_key, is_present)
+        is_present
+
+      {:ok, is_present} ->
+        is_present
+    end
+  end
+
+  defp is_admin_registered_in_db?() do
+    # There is no index on this column, but we will be using an in-memory cache
+    # before calling this helper to avoid these DB round-trips, so it will be cheap enough.
+    query = from a in User, where: a.role == "admin", limit: 1
+
+    case Repo.one(query) do
+      nil -> false
+      _admin -> true
     end
   end
 end

@@ -11,7 +11,15 @@ defmodule TurboWeb.UserRegistrationController do
   end
 
   def create(conn, %{"user" => user_params}) do
-    case Accounts.register_user(user_params) do
+    # This is a bit of a hack, but whenever booting up the system
+    # for the first time, the first user to signup will be an admin
+    # so they can toggle admin settings from the start.
+    registration_fn =
+      if Accounts.is_admin_present?(),
+        do: &Accounts.register_user/1,
+        else: &Accounts.register_admin/1
+
+    case registration_fn.(user_params) do
       {:ok, user} ->
         {:ok, _} =
           Accounts.deliver_user_confirmation_instructions(

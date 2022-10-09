@@ -6,10 +6,9 @@
       conn: @conn
     ) %>
 
-    <%!-- @TODO: Replace Path with proper Phoenix generated route --%>
     <%= render("admin/menu_item.html",
-      text: "Users",
-      path: "/admin/settings/users",
+      text: "Live Dashboard",
+      path: Routes.live_dashboard_path(@conn, :home),
       conn: @conn
     ) %>
   </ul>

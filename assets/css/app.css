@@ -33,7 +33,7 @@
   }
 
   .center-form {
-      @apply w-full max-w-md px-8 pt-6 pb-8 mt-8 mb-4;
+      @apply w-full max-w-md px-8 pt-4 pb-8 mt-4 mb-4;
   }
 
   .checkbox {

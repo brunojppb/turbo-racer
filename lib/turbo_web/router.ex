@@ -3,6 +3,7 @@ defmodule TurboWeb.Router do
 
   import TurboWeb.UserAuth
   import TurboWeb.ArtifactAuth
+  import Phoenix.LiveDashboard.Router
 
   pipeline :browser do
     plug :accepts, ["html"]
@@ -13,6 +14,7 @@ defmodule TurboWeb.Router do
     plug :put_secure_browser_headers
     plug :fetch_current_user
     plug :fetch_app_access
+    plug :fetch_has_admin
   end
 
   pipeline :api do
@@ -25,7 +27,8 @@ defmodule TurboWeb.Router do
     get "/", PageController, :index
   end
 
-  # TODO: Add auth and team authorization pipelines
+  # Turborepo API endpoints. Reverse-engineered from the Turborepo source
+  # See: https://github.com/vercel/turborepo/blob/main/cli/internal/client/client.go
   scope "/v8", TurboWeb do
     pipe_through [:require_bearer_token]
     get "/artifacts/:hash", ArtifactController, :show
@@ -33,48 +36,21 @@ defmodule TurboWeb.Router do
     post "/artifacts/events", ArtifactController, :events
   end
 
+  # Turborepo analytics endpoints.
+  # Adding dummy responses for now. We can explore some dashboards later around these.
   scope "/v2", TurboWeb do
     get "/teams", TeamController, :teams
     get "/user", TeamController, :user
   end
 
-  # Other scopes may use custom stacks.
-  # scope "/api", TurboWeb do
-  #   pipe_through :api
-  # end
-
-  # Enables LiveDashboard only for development
-  #
-  # If you want to use the LiveDashboard in production, you should put
-  # it behind authentication and allow only admins to access it.
-  # If your application does not have an admins-only section yet,
-  # you can use Plug.BasicAuth to set up some basic authentication
-  # as long as you are also using SSL (which you should anyway).
-  if Mix.env() in [:dev, :test] do
-    import Phoenix.LiveDashboard.Router
-
-    scope "/" do
-      pipe_through :browser
-
-      live_dashboard "/dashboard", metrics: TurboWeb.Telemetry
-    end
-  end
-
-  # Enables the Swoosh mailbox preview in development.
-  #
-  # Note that preview only shows emails that were sent by the same
-  # node running the Phoenix server.
-  if Mix.env() == :dev do
-    scope "/dev" do
-      pipe_through :browser
-
-      forward "/mailbox", Plug.Swoosh.MailboxPreview
-    end
-  end
-
   # To allow user signups, first make sure that signup is enabled in the admin settings
   scope "/", TurboWeb do
-    pipe_through [:browser, :redirect_if_user_is_authenticated, :ensure_signup_access]
+    pipe_through [
+      :browser,
+      :redirect_if_user_is_authenticated,
+      :ensure_signup_access
+    ]
+
     get "/users/register", UserRegistrationController, :new
     post "/users/register", UserRegistrationController, :create
   end
@@ -124,5 +100,23 @@ defmodule TurboWeb.Router do
 
     get "/settings/access", AppAccessController, :index
     put "/settings/access", AppAccessController, :update
+  end
+
+  scope "/ops", TurboWeb do
+    pipe_through [:browser, :require_authenticated_user, :require_admin]
+    # Enables LiveDashboard (Behind Admin auth)
+    live_dashboard "/dashboard", metrics: TurboWeb.Telemetry
+  end
+
+  # Enables the Swoosh mailbox preview in development.
+  #
+  # Note that preview only shows emails that were sent by the same
+  # node running the Phoenix server.
+  if Mix.env() == :dev do
+    scope "/dev" do
+      pipe_through :browser
+
+      forward "/mailbox", Plug.Swoosh.MailboxPreview
+    end
   end
 end

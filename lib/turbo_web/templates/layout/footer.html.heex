@@ -1,9 +1,4 @@
 <footer class="container pb-16 mx-auto mt-16 text-sm leading-6 border-t-2 border-solid">
-  <%= if function_exported?(Routes, :live_dashboard_path, 2) do %>
-    <ul>
-      <li><%= link("Live Dashboard", to: Routes.live_dashboard_path(@conn, :home)) %></li>
-    </ul>
-  <% end %>
   <ul>
     <li>
       <%= link("Created with 🖤 by Bruno Paulino", to: "https://twitter.com/bpaulino0") %>

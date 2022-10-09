@@ -6,6 +6,12 @@ defmodule Turbo.AccountsTest do
   import Turbo.AccountsFixtures
   alias Turbo.Accounts.{User, UserToken}
 
+  setup do
+    on_exit(fn ->
+      clean_up_admins()
+    end)
+  end
+
   describe "get_user_by_email/1" do
     test "does not return the user if the email does not exist" do
       refute Accounts.get_user_by_email("unknown@example.com")
@@ -497,6 +503,17 @@ defmodule Turbo.AccountsTest do
       _ = Accounts.generate_user_session_token(user)
       {:ok, _} = Accounts.reset_user_password(user, %{password: "new valid password"})
       refute Repo.get_by(UserToken, user_id: user.id)
+    end
+  end
+
+  describe "is_admin_present?/0" do
+    test "should be false when there is no admin users in the system" do
+      refute Accounts.is_admin_present?()
+    end
+
+    test "should be true when an admin is registered" do
+      _ = admin_fixture()
+      assert Accounts.is_admin_present?()
     end
   end
 
