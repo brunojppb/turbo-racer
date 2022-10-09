@@ -28,7 +28,9 @@ defmodule TurboWeb.UserRegistrationControllerTest do
       SettingsContext.update_app_access(%{"can_signup" => false, "can_manage_tokens" => true})
       conn = get(conn, Routes.user_registration_path(conn, :new))
       assert redirected_to(conn) == Routes.user_session_path(conn, :new)
-      SettingsContext.update_app_access(%{"can_signup" => true, "can_manage_tokens" => true})
+
+      assert get_flash(conn, :error) =~
+               "Creating accounts is disabled for this instance. Please, contact an admin."
     end
   end
 
