@@ -1,0 +1,15 @@
+<div class="p-4 border-r">
+  <ul>
+    <%= render("admin/menu_item.html",
+      text: "App Access",
+      path: Routes.app_access_path(@conn, :index),
+      conn: @conn
+    ) %>
+
+    <%= render("admin/menu_item.html",
+      text: "Live Dashboard",
+      path: Routes.live_dashboard_path(@conn, :home),
+      conn: @conn
+    ) %>
+  </ul>
+</div>

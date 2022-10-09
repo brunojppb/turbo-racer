@@ -4,7 +4,7 @@ defmodule Turbo.AccountsFixtures do
   entities via the `Turbo.Accounts` context.
   """
 
-  def unique_user_email, do: "user#{System.unique_integer()}@example.com"
+  def unique_user_email, do: "user#{Ecto.UUID.generate()}@example.com"
   def valid_user_password, do: "hello world!"
 
   def valid_user_attributes(attrs \\ %{}) do
@@ -21,6 +21,24 @@ defmodule Turbo.AccountsFixtures do
       |> Turbo.Accounts.register_user()
 
     user
+  end
+
+  def admin_fixture(attrs \\ %{}) do
+    {:ok, admin_user} =
+      attrs
+      |> valid_user_attributes()
+      |> Turbo.Accounts.register_admin()
+
+    admin_user
+  end
+
+  import Ecto.Query
+  alias Turbo.Repo
+
+  def clean_up_admins() do
+    query = from u in Turbo.Accounts.User, where: u.role == "admin"
+    Repo.delete_all(query)
+    Turbo.Accounts.update_has_admin_cache(false)
   end
 
   def extract_user_token(fun) do

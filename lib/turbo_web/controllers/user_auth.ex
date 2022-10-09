@@ -4,6 +4,7 @@ defmodule TurboWeb.UserAuth do
 
   alias Turbo.Accounts
   alias TurboWeb.Router.Helpers, as: Routes
+  alias Turbo.Settings.SettingsContext
 
   # Make the remember me cookie valid for 60 days.
   # If you want bump or reduce this value, also change
@@ -91,7 +92,23 @@ defmodule TurboWeb.UserAuth do
   def fetch_current_user(conn, _opts) do
     {user_token, conn} = ensure_user_token(conn)
     user = user_token && Accounts.get_user_by_session_token(user_token)
-    assign(conn, :current_user, user)
+    user_conn = assign(conn, :current_user, user)
+
+    if user do
+      assign(user_conn, :is_admin, user.role == "admin")
+    else
+      user_conn
+    end
+  end
+
+  def fetch_app_access(conn, _opts) do
+    app_access = SettingsContext.get_app_access()
+    assign(conn, :app_access, app_access)
+  end
+
+  def fetch_has_admin(conn, _opts) do
+    has_admin = Accounts.is_admin_present?()
+    assign(conn, :has_admin, has_admin)
   end
 
   defp ensure_user_token(conn) do
@@ -122,6 +139,25 @@ defmodule TurboWeb.UserAuth do
   end
 
   @doc """
+  Ensure signup settings are active before allowing users to create accounts
+  """
+  def ensure_signup_access(conn, _opts) do
+    case SettingsContext.get_app_access() do
+      app_access when app_access.can_signup ->
+        conn
+
+      _ ->
+        conn
+        |> put_flash(
+          :error,
+          "Creating accounts is disabled for this instance. Please, contact an admin."
+        )
+        |> redirect(to: Routes.user_session_path(conn, :new))
+        |> halt()
+    end
+  end
+
+  @doc """
   Used for routes that require the user to be authenticated.
 
   If you want to enforce the user email is confirmed before
@@ -135,6 +171,18 @@ defmodule TurboWeb.UserAuth do
       |> put_flash(:error, "You must log in to access this page.")
       |> maybe_store_return_to()
       |> redirect(to: Routes.user_session_path(conn, :new))
+      |> halt()
+    end
+  end
+
+  def require_admin(conn, _opts) do
+    if conn.assigns[:is_admin] do
+      conn
+    else
+      conn
+      |> put_flash(:error, "You are not allowed to access this route")
+      |> maybe_store_return_to()
+      |> redirect(to: Routes.page_path(conn, :index))
       |> halt()
     end
   end

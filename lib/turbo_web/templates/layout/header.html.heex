@@ -1,4 +1,4 @@
-<header class="container mx-auto flex justify-between items-center py-4">
+<header class="container flex items-center justify-between py-4 mx-auto">
   <%= link to: Routes.page_path(@conn, :index) do %>
     <img src={Routes.static_path(@conn, "/images/turbo-racer.svg")} alt="Turbo Racer Logo" />
   <% end %>
@@ -12,6 +12,14 @@
             class: "underline"
           ) %>
         </li>
+        <%= if @is_admin do %>
+          <li>
+            <%= link("Settings",
+              to: Routes.app_access_path(@conn, :index),
+              class: "underline"
+            ) %>
+          </li>
+        <% end %>
         <li>
           <%= link("Logout",
             to: Routes.user_session_path(@conn, :delete),
@@ -20,11 +28,13 @@
           ) %>
         </li>
       <% else %>
-        <li>
-          <%= link("Signup",
-            to: Routes.user_registration_path(@conn, :new)
-          ) %>
-        </li>
+        <%= if @app_access.can_signup do %>
+          <li>
+            <%= link("Signup",
+              to: Routes.user_registration_path(@conn, :new)
+            ) %>
+          </li>
+        <% end %>
         <li>
           <%= link("Log in",
             to: Routes.user_session_path(@conn, :new)

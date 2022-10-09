@@ -1,0 +1,41 @@
+<.form
+  let={f}
+  for={@changeset}
+  action={Routes.app_access_path(@conn, :update)}
+  method="put"
+  class="center-form"
+>
+  <div class="flex gap-4 mb-4">
+    <%= label f, :can_manage_tokens do %>
+      <div class="flex flex-col">
+        <span>Allow users to to manage teams and tokens</span>
+        <span class="text-sm text-slate-500">
+          Existing users will be able to create teams and access existing teams, including existing tokens.
+        </span>
+        <span class="mt-2 text-xs text-slate-400">
+          Admins can still manage teams and tokens if this settings is disabled.
+        </span>
+      </div>
+    <% end %>
+    <%= checkbox(f, :can_manage_tokens, class: "checkbox mt-4") %>
+  </div>
+
+  <div class="flex gap-4 mb-4">
+    <%= label f, :can_signup do %>
+      <div class="flex flex-col">
+        <span>Allow users to create accounts</span>
+        <span class="text-sm text-slate-500">
+          Users will be able to create their own accounts and login to the system.
+        </span>
+        <span class="mt-2 text-xs text-slate-400">
+          Admins can still create accounts on behalf of users
+        </span>
+      </div>
+    <% end %>
+    <%= checkbox(f, :can_signup, class: "checkbox mt-4") %>
+  </div>
+
+  <div>
+    <%= submit("Update", class: "btn-primary mt-4") %>
+  </div>
+</.form>
