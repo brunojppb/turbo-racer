@@ -2,8 +2,11 @@ defmodule Turbo.Settings.AppAccess do
   @moduledoc """
   Read-only, Schemaless App access settings where admins can define
   whether users can:
+
   - Login and manage tokens
   - Create new accounts
+
+  it should be stored and mapped as a `Turbo.Models.AppSettings` in the data layer.
   """
   alias Turbo.Models.AppSettings
   import Ecto.Changeset
