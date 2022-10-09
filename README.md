@@ -32,10 +32,11 @@ Here is what is available for you:
   - [x] Tokens
   - [x] User sign-up/sign-in (Will refine this part with more permission
         controls)
+- [x] Whether users can create accounts (Admin settings)
 
 ## What is coming next
 
-- [ ] User management to toggle user sign-up/sign-in
+- [ ] User management
 - [ ] Statistics dashboard
 
 ## Deploying to Production
@@ -50,6 +51,15 @@ Whenever a new release is out, a new Docker image is built and pushed to Docker
 hub.  
 Here you can find the latest tags:
 [brunojppb/turbo-racer](https://hub.docker.com/r/brunojppb/turbo-racer/tags)
+
+### Admin account when running for the first time
+
+Once you deploy Turbo Racer for the first time, you must create an admin
+account. The first account you signup with from the `Sign up` Web UI will be the
+system admin.
+
+Admins can control whether users can create accounts so they can login and
+manage teams and tokens.
 
 ### Deploy to Digital Ocean
 
