@@ -102,10 +102,15 @@ defmodule TurboWeb.Router do
     put "/settings/access", AppAccessController, :update
   end
 
+  # Telemetry/Operations endpoints (Behind Admin auth)
   scope "/ops", TurboWeb do
     pipe_through [:browser, :require_authenticated_user, :require_admin]
-    # Enables LiveDashboard (Behind Admin auth)
     live_dashboard "/dashboard", metrics: TurboWeb.Telemetry
+  end
+
+  # Health check endpoints
+  scope "/management", TurboWeb do
+    get "/health", HealthCheckController, :index
   end
 
   # Enables the Swoosh mailbox preview in development.
