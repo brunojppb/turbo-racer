@@ -9,6 +9,7 @@ defmodule Turbo.Accounts.User do
     field :confirmed_at, :naive_datetime
     # Role is either "admin" or "user". "user" is the default
     field :role, :string
+    field :is_locked, :boolean
 
     timestamps()
   end
@@ -19,6 +20,7 @@ defmodule Turbo.Accounts.User do
           hashed_password: String.t(),
           confirmed_at: NaiveDateTime.t(),
           role: String.t(),
+          is_locked: boolean(),
           inserted_at: NaiveDateTime.t(),
           updated_at: NaiveDateTime.t()
         }
@@ -50,6 +52,14 @@ defmodule Turbo.Accounts.User do
   def admin_changeset(user, attrs, opts \\ []) do
     registration_changeset(user, attrs, opts)
     |> put_change(:role, "admin")
+  end
+
+  @doc """
+  Changeset for locking/unlocking user accounts
+  """
+  def lock_changeset(user, attrs) do
+    user
+    |> cast(attrs, [:is_locked])
   end
 
   defp validate_email(changeset) do
