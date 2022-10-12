@@ -414,4 +414,34 @@ defmodule Turbo.Accounts do
       _admin -> true
     end
   end
+
+  @doc """
+  Toggle user access to the system
+  """
+  @spec toggle_access(user_id :: String.t() | integer()) :: Turbo.result(User.t())
+  def toggle_access(user_id) do
+    case Repo.get(User, user_id) do
+      nil ->
+        {:error, "User not found"}
+
+      user ->
+        toggle_access(user, !user.is_locked)
+    end
+  end
+
+  defp toggle_access(%User{} = user, true) do
+    Ecto.Multi.new()
+    |> Ecto.Multi.update(:user, User.lock_changeset(user, %{is_locked: true}))
+    |> Ecto.Multi.delete_all(:tokens, UserToken.user_and_contexts_query(user, :all))
+    |> Repo.transaction()
+    |> case do
+      {:ok, %{user: user}} -> {:ok, user}
+      {:error, :user, _changeset, _} -> {:error, "Could not lock user account"}
+    end
+  end
+
+  defp toggle_access(%User{} = user, false) do
+    {:ok, updated_user} = Repo.update(User.lock_changeset(user, %{is_locked: false}))
+    {:ok, updated_user}
+  end
 end

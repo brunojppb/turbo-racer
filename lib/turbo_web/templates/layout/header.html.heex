@@ -42,5 +42,10 @@
         </li>
       <% end %>
     </ul>
+    <%= if @current_user do %>
+      <p class="block mt-2 text-xs text-right text-slate-500">
+        Hi, <%= @current_user.email %> <span aria-hidden="true">👋</span>
+      </p>
+    <% end %>
   </nav>
 </header>
