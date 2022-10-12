@@ -1,0 +1,25 @@
+defmodule TurboWeb.Admin.UserManagementController do
+  use TurboWeb, :controller
+  require Logger
+
+  plug :put_layout, "admin/layout.html"
+
+  def index(conn, _params) do
+    users = Turbo.Accounts.get_all_users()
+    render(conn, "index.html", users: users)
+  end
+
+  def toggle_access(conn, %{"user_id" => user_id}) do
+    Logger.info("User toggle: #{user_id}")
+
+    conn
+    |> put_flash(:info, "User access updated.")
+    |> redirect(to: Routes.user_management_path(conn, :index))
+  end
+
+  def update_role(conn, _params) do
+    conn
+    |> put_flash(:info, "User role updated.")
+    |> redirect(to: Routes.user_management_path(conn, :index))
+  end
+end

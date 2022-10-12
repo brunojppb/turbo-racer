@@ -100,6 +100,10 @@ defmodule TurboWeb.Router do
 
     get "/settings/access", AppAccessController, :index
     put "/settings/access", AppAccessController, :update
+
+    get "/settings/users", UserManagementController, :index
+    post "/settings/users/access", UserManagementController, :toggle_access
+    post "/settings/users/role", UserManagementController, :update_role
   end
 
   # Telemetry/Operations endpoints (Behind Admin auth)

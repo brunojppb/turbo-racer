@@ -62,6 +62,14 @@ defmodule Turbo.Accounts do
   """
   def get_user!(id), do: Repo.get!(User, id)
 
+  @doc """
+  Get a list of all users
+  """
+  @spec get_all_users() :: list(User.t())
+  def get_all_users() do
+    Repo.all(User)
+  end
+
   ## User registration
 
   @doc """

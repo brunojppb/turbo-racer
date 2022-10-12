@@ -1,7 +1,6 @@
 defmodule TurboWeb.Admin.AppAccessController do
   use TurboWeb, :controller
   alias Turbo.Settings.SettingsContext
-  require Logger
 
   plug :put_layout, "admin/layout.html"
 
