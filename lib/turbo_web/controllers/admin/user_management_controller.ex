@@ -32,11 +32,9 @@ defmodule TurboWeb.Admin.UserManagementController do
         |> put_flash(:info, "#{user.email} role updated.")
         |> redirect(to: Routes.user_management_path(conn, :index))
 
-      {:error, changeset} ->
-        Logger.error("Could not update user #{user_id} role: #{inspect(changeset.errors)}")
-
+      {:error, error} ->
         conn
-        |> put_flash(:error, "Could not update user. Please try again.")
+        |> put_flash(:error, error)
         |> redirect(to: Routes.user_management_path(conn, :index))
     end
   end

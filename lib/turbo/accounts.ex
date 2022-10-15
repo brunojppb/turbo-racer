@@ -422,9 +422,20 @@ defmodule Turbo.Accounts do
         {:error, "User not found"}
 
       user ->
-        user
-        |> User.role_changeset(%{role: role})
-        |> Repo.update()
+        maybe_update_role(user, role)
+    end
+  end
+
+  defp maybe_update_role(user, role) do
+    user
+    |> User.role_changeset(%{role: role})
+    |> Repo.update()
+    |> case do
+      {:ok, user} ->
+        {:ok, user}
+
+      {:error, _changeset} ->
+        {:error, "Could not update user role"}
     end
   end
 
