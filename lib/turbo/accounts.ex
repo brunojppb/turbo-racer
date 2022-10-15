@@ -415,6 +415,19 @@ defmodule Turbo.Accounts do
     end
   end
 
+  @spec update_user_role(String.t() | integer(), String.t()) :: Turbo.result(User.t())
+  def update_user_role(user_id, role) do
+    case Repo.get(User, user_id) do
+      nil ->
+        {:error, "User not found"}
+
+      user ->
+        user
+        |> User.role_changeset(%{role: role})
+        |> Repo.update()
+    end
+  end
+
   @doc """
   Toggle user access to the system
   """

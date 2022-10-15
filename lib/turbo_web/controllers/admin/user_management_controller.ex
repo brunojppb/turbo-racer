@@ -1,31 +1,63 @@
 defmodule TurboWeb.Admin.UserManagementController do
   use TurboWeb, :controller
   alias Turbo.Accounts
+  alias Turbo.Accounts.User
   require Logger
 
   plug :put_layout, "admin/layout.html"
 
   def index(conn, _params) do
     users = Turbo.Accounts.get_all_users()
-    render(conn, "index.html", users: users)
+    render(conn, "index.html", users: users, available_roles: User.available_roles())
+  end
+
+  def update_role(conn, %{"user_id" => user_id, "role" => _role} = params) do
+    current_user = conn.assigns[:current_user]
+
+    if is_current_logged_in_user(current_user, user_id) do
+      halt_current_user_lock(conn)
+    else
+      update_user_role(conn, params)
+    end
+  end
+
+  defp update_user_role(conn, %{"user_id" => user_id, "role" => role}) do
+    case Accounts.update_user_role(user_id, role) do
+      {:ok, user} ->
+        Logger.info(
+          "User #{user.id} got its role updated to #{role} by admin #{conn.assigns[:current_user].id}"
+        )
+
+        conn
+        |> put_flash(:info, "#{user.email} role updated.")
+        |> redirect(to: Routes.user_management_path(conn, :index))
+
+      {:error, changeset} ->
+        Logger.error("Could not update user #{user_id} role: #{inspect(changeset.errors)}")
+
+        conn
+        |> put_flash(:error, "Could not update user. Please try again.")
+        |> redirect(to: Routes.user_management_path(conn, :index))
+    end
   end
 
   def toggle_access(conn, %{"user_id" => user_id}) do
     current_user = conn.assigns[:current_user]
 
-    int_user_id = if is_binary(user_id), do: String.to_integer(user_id), else: user_id
-
-    if int_user_id == current_user.id do
+    if is_current_logged_in_user(current_user, user_id) do
       halt_current_user_lock(conn)
     else
       toggle_user_access(conn, current_user, user_id)
     end
   end
 
-  def update_role(conn, _params) do
-    conn
-    |> put_flash(:info, "User role updated.")
-    |> redirect(to: Routes.user_management_path(conn, :index))
+  defp is_current_logged_in_user(current_user, changing_user_id) do
+    int_user_id =
+      if is_binary(changing_user_id),
+        do: String.to_integer(changing_user_id),
+        else: changing_user_id
+
+    int_user_id == current_user.id
   end
 
   # This smells a bit. Would be better to have lock and unlock functions

@@ -54,6 +54,18 @@ defmodule Turbo.Accounts.User do
     |> put_change(:role, "admin")
   end
 
+  def role_changeset(user, attrs) do
+    user
+    |> cast(attrs, [:role])
+    |> validate_inclusion(:role, available_roles())
+  end
+
+  @doc """
+  Available roles for any given user using the system
+  """
+  @spec available_roles() :: list(String.t())
+  def available_roles(), do: ["admin", "user"]
+
   @doc """
   Changeset for locking/unlocking user accounts
   """
