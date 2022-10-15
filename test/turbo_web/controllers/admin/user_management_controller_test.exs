@@ -44,5 +44,18 @@ defmodule TurboWeb.Controllers.Admin.UserManagementControllerTest do
 
       assert get_flash(user_access_conn, :info) =~ "#{common_user.email} access granted."
     end
+
+    test "cannot lock its own admin account", %{conn: conn, user: admin} do
+      user_access_conn =
+        post(conn, Routes.user_management_path(conn, :toggle_access), %{
+          "user_id" => admin.id
+        })
+
+      assert redirected_to(user_access_conn) ==
+               Routes.user_management_path(user_access_conn, :index)
+
+      assert get_flash(user_access_conn, :error) =~
+               "To avoid lockouts, you cannot update your own account. Please contact another admin."
+    end
   end
 end
