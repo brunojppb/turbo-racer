@@ -517,6 +517,21 @@ defmodule Turbo.AccountsTest do
     end
   end
 
+  describe "toggle_access/1" do
+    test "should lock a user that previously had access to the system" do
+      common_user = user_fixture()
+      {:ok, locked_user} = Accounts.toggle_access(common_user.id)
+      assert locked_user.is_locked
+    end
+
+    test "should unlock a user that previously had no access to the system" do
+      common_user = user_fixture()
+      {:ok, locked_user} = Accounts.toggle_access(common_user.id)
+      {:ok, unlocked_user} = Accounts.toggle_access(locked_user.id)
+      refute unlocked_user.is_locked
+    end
+  end
+
   describe "inspect/2" do
     test "does not include password" do
       refute inspect(%User{password: "123456"}) =~ "password: \"123456\""
