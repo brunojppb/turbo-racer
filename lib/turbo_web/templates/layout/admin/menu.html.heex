@@ -7,6 +7,12 @@
     ) %>
 
     <%= render("admin/menu_item.html",
+      text: "Users",
+      path: Routes.user_management_path(@conn, :index),
+      conn: @conn
+    ) %>
+
+    <%= render("admin/menu_item.html",
       text: "Live Dashboard",
       path: Routes.live_dashboard_path(@conn, :home),
       conn: @conn

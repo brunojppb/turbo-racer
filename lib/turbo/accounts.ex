@@ -62,6 +62,14 @@ defmodule Turbo.Accounts do
   """
   def get_user!(id), do: Repo.get!(User, id)
 
+  @doc """
+  Get a list of all users
+  """
+  @spec get_all_users() :: list(User.t())
+  def get_all_users() do
+    Repo.all(User)
+  end
+
   ## User registration
 
   @doc """
@@ -405,5 +413,59 @@ defmodule Turbo.Accounts do
       nil -> false
       _admin -> true
     end
+  end
+
+  @spec update_user_role(String.t() | integer(), String.t()) :: Turbo.result(User.t())
+  def update_user_role(user_id, role) do
+    case Repo.get(User, user_id) do
+      nil ->
+        {:error, "User not found"}
+
+      user ->
+        maybe_update_role(user, role)
+    end
+  end
+
+  defp maybe_update_role(user, role) do
+    user
+    |> User.role_changeset(%{role: role})
+    |> Repo.update()
+    |> case do
+      {:ok, user} ->
+        {:ok, user}
+
+      {:error, _changeset} ->
+        {:error, "Could not update user role"}
+    end
+  end
+
+  @doc """
+  Toggle user access to the system
+  """
+  @spec toggle_access(user_id :: String.t() | integer()) :: Turbo.result(User.t())
+  def toggle_access(user_id) do
+    case Repo.get(User, user_id) do
+      nil ->
+        {:error, "User not found"}
+
+      user ->
+        toggle_access(user, !user.is_locked)
+    end
+  end
+
+  defp toggle_access(%User{} = user, true) do
+    Ecto.Multi.new()
+    |> Ecto.Multi.update(:user, User.lock_changeset(user, %{is_locked: true}))
+    |> Ecto.Multi.delete_all(:tokens, UserToken.user_and_contexts_query(user, :all))
+    |> Repo.transaction()
+    |> case do
+      {:ok, %{user: user}} -> {:ok, user}
+      {:error, :user, _changeset, _} -> {:error, "Could not lock user account"}
+    end
+  end
+
+  defp toggle_access(%User{} = user, false) do
+    {:ok, updated_user} = Repo.update(User.lock_changeset(user, %{is_locked: false}))
+    {:ok, updated_user}
   end
 end

@@ -1,0 +1,49 @@
+<%= for user <- @users do %>
+  <div class="p-6 mb-8 bg-white border border-gray-200 divide-y rounded-lg shadow-md">
+    <div class="py-4">
+      <a href="#">
+        <h2 class="mb-2 text-2xl font-bold tracking-tight">
+          <%= user.email %>
+        </h2>
+      </a>
+      <p class="mb-3 font-normal text-gray-700">
+        Account created at <%= user.inserted_at %>
+      </p>
+      <div class="py-2">
+        <div>
+          <.form let={f} for={@conn} action={Routes.user_management_path(@conn, :update_role)}>
+            <%= hidden_input(f, :user_id, value: user.id) %>
+            <%= label(f, :role, "System role",
+              class: "block mb-2 text-sm font-medium text-gray-900"
+            ) %>
+            <%= select(
+              f,
+              :role,
+              Enum.map(@available_roles, fn role ->
+                [key: role, value: role, selected: user.role == role]
+              end),
+              class:
+                "bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
+            ) %>
+            <%= submit("Update role", class: "mt-4 btn-primary") %>
+          </.form>
+        </div>
+      </div>
+    </div>
+    <div class="py-4">
+      <.form let={f} for={@conn} action={Routes.user_management_path(@conn, :toggle_access)}>
+        <%= hidden_input(f, :user_id, value: user.id) %>
+        <span class="block mb-2 text-sm font-medium text-gray-900">Account Management</span>
+
+        <%= if user.is_locked do %>
+          <%= submit("Unlock account", class: "mt-4 btn-primary") %>
+        <% else %>
+          <%= submit("Lock account", class: "mt-4 btn-danger") %>
+        <% end %>
+        <span class="block mt-4 text-xs text-slate-400">
+          Locked accounts lose all their valid sessions to the Turbo Racer Web UI and won't be able to login anymore. This action can be reverted.
+        </span>
+      </.form>
+    </div>
+  </div>
+<% end %>
