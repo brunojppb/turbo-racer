@@ -58,4 +58,33 @@ defmodule TurboWeb.Controllers.Admin.UserManagementControllerTest do
                "To avoid lockouts, you cannot update your own account. Please contact another admin."
     end
   end
+
+  describe "POST /admin/users/role (user role form)" do
+    test "update user role", %{conn: conn} do
+      common_user = user_fixture()
+
+      user_role_conn =
+        post(conn, Routes.user_management_path(conn, :update_role), %{
+          "user_id" => common_user.id,
+          "role" => "admin"
+        })
+
+      assert redirected_to(user_role_conn) == Routes.user_management_path(user_role_conn, :index)
+
+      assert get_flash(user_role_conn, :info) =~ "#{common_user.email} role updated."
+    end
+
+    test "cannot change its own role as an admin", %{conn: conn, user: admin} do
+      user_role_conn =
+        post(conn, Routes.user_management_path(conn, :update_role), %{
+          "user_id" => admin.id,
+          "role" => "user"
+        })
+
+      assert redirected_to(user_role_conn) == Routes.user_management_path(user_role_conn, :index)
+
+      assert get_flash(user_role_conn, :error) =~
+               "To avoid lockouts, you cannot update your own account. Please contact another admin."
+    end
+  end
 end
