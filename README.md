@@ -36,7 +36,6 @@ Here is what is available for you:
 
 ## What is coming next
 
-- [ ] User management
 - [ ] Statistics dashboard
 
 ## Deploying to Production
@@ -73,9 +72,11 @@ To run this app locally, you need the following dependencies installed:
 
 - [Elixir 1.14](https://elixir-lang.org/) and
   [Erlang OTP 25](https://www.erlang.org/)
-  - You can quickly setup with [asdf](https://asdf-vm.com/) following this guide
-    [here](https://thinkingelixir.com/install-elixir-using-asdf/).
-- Postgres 14
+  - You can quickly do it with [asdf](https://asdf-vm.com/). Once asdf is
+    installed and then execute `asdf install` within the context of the
+    `turbo-racer` directory. It will automatically pick up the right Elixir and
+    Erlang versions defined in the `.tool-versions` file at the root of the repo.
+- [Postgres 14](https://www.postgresql.org/)
   - The simplest way is to have
     [Docker](https://docs.docker.com/engine/install/centos/) installed and run
     `docker-compose up`. It will start up a Postgres container with a database
