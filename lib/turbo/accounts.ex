@@ -8,8 +8,6 @@ defmodule Turbo.Accounts do
 
   alias Turbo.Accounts.{User, UserToken, UserNotifier}
 
-  @is_admin_present_cache_key "is_admin_present"
-
   ## Database getters
 
   @doc """
@@ -97,18 +95,7 @@ defmodule Turbo.Accounts do
     %User{}
     |> User.admin_changeset(attrs)
     |> Repo.insert()
-    |> maybe_update_admin_cache()
   end
-
-  # When an admin user is registered, make sure that the in-memory cache
-  # is up-to-date with the new entry in the db
-  defp maybe_update_admin_cache({:ok, user}) do
-    update_has_admin_cache(true)
-    {:ok, user}
-  end
-
-  # In case of failures, just pass through
-  defp maybe_update_admin_cache(val), do: val
 
   @doc """
   Returns an `%Ecto.Changeset{}` for tracking user changes.
@@ -386,22 +373,7 @@ defmodule Turbo.Accounts do
   """
   @spec is_admin_present?() :: boolean()
   def is_admin_present?() do
-    case Cachex.get(:turbo, @is_admin_present_cache_key) do
-      {:ok, nil} ->
-        is_present = is_admin_registered_in_db?()
-        update_has_admin_cache(is_present)
-        is_present
-
-      {:ok, is_present} ->
-        is_present
-    end
-  end
-
-  @doc """
-  Update "has_admin" in-memory cache
-  """
-  def update_has_admin_cache(is_admin_present) when is_boolean(is_admin_present) do
-    Cachex.put(:turbo, @is_admin_present_cache_key, is_admin_present)
+    is_admin_registered_in_db?()
   end
 
   defp is_admin_registered_in_db?() do
