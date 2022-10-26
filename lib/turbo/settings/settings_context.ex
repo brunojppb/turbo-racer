@@ -8,7 +8,7 @@ defmodule Turbo.Settings.SettingsContext do
   @access_settings_key "app_access"
 
   @doc """
-  Get App Access config from cache. Fallback to DB
+  Get App Access config.
   """
   @spec get_app_access() :: AppAccess.t()
   def get_app_access() do

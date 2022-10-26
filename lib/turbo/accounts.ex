@@ -377,8 +377,9 @@ defmodule Turbo.Accounts do
   end
 
   defp is_admin_registered_in_db?() do
-    # There is no index on this column, but we will be using an in-memory cache
-    # before calling this helper to avoid these DB round-trips, so it will be cheap enough.
+    # There is no index on this column,
+    # so this might become a bottleneck.
+    # We should probably cache that in a AppSettings key later on.
     query = from a in User, where: a.role == "admin", limit: 1
 
     case Repo.one(query) do

@@ -4,7 +4,7 @@ defmodule TurboWeb.HealthCheckController do
   alias Turbo.Settings.SettingsContext
 
   def index(conn, _params) do
-    # Just force a dummy DB query/cache read.
+    # Just force a dummy DB query.
     # If that doesn't crash, we can assume the system is up
     _ = SettingsContext.get_app_access()
 
