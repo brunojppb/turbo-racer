@@ -38,7 +38,6 @@ defmodule Turbo.AccountsFixtures do
   def clean_up_admins() do
     query = from u in Turbo.Accounts.User, where: u.role == "admin"
     Repo.delete_all(query)
-    Turbo.Accounts.update_has_admin_cache(false)
   end
 
   def extract_user_token(fun) do
