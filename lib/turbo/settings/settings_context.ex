@@ -12,11 +12,6 @@ defmodule Turbo.Settings.SettingsContext do
   """
   @spec get_app_access() :: AppAccess.t()
   def get_app_access() do
-    get_from_db()
-  end
-
-  @spec get_from_db() :: AppAccess.t()
-  defp get_from_db() do
     AppSettings
     |> Repo.get_by!(key: @access_settings_key)
     |> AppAccess.new()

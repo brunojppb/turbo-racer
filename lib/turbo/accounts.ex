@@ -373,10 +373,6 @@ defmodule Turbo.Accounts do
   """
   @spec is_admin_present?() :: boolean()
   def is_admin_present?() do
-    is_admin_registered_in_db?()
-  end
-
-  defp is_admin_registered_in_db?() do
     # There is no index on this column,
     # so this might become a bottleneck.
     # We should probably cache that in a AppSettings key later on.
