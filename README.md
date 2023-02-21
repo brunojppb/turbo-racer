@@ -10,7 +10,7 @@ seem to lack management around tokens and teams. If you work in an enterprise,
 access management is crucial for keeping permissions segregated and I could not
 find anything supporting that.
 
-So I've build my own version called Turbo Racer. Besides giving you full control
+So I've built my own version called Turbo Racer. Besides giving you full control
 over creating teams, issuing tokens for specific teams and who has access to a
 given token, it also allows you to go from a simple deployment using your file
 system as artifact storage to going full scale using a S3-compatible backend
