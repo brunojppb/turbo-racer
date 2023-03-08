@@ -2,7 +2,12 @@
 <h2 class="pl-2 mt-2 text-2xl text-slate-500">Tokens</h2>
 
 <div>
-  <.form let={f} for={@conn} action={Routes.team_token_path(@conn, :create, @team.id)} as={:token}>
+  <.form
+    :let={f}
+    for={@conn}
+    action={Routes.team_token_path(@conn, :create, @team.id)}
+    as={:token}
+  >
     <%= hidden_input(f, :team_id, value: @team.id) %>
     <%= submit("Generate new token", class: "btn-primary mt-4") %>
   </.form>

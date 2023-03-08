@@ -2,7 +2,7 @@
   <h1 class="text-3xl font-bold">Create Your Account</h1>
 
   <.form
-    let={f}
+    :let={f}
     for={@changeset}
     action={Routes.user_registration_path(@conn, :create)}
     class="center-form"

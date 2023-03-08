@@ -12,6 +12,9 @@
 # Postgres volume used by Docker
 /db
 
+# Temporary files
+/tmp
+
 # Ex language server
 .elixir_ls
 

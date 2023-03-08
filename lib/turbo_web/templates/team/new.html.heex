@@ -1,7 +1,7 @@
 <div class="container mx-auto flex flex-col items-center">
   <h1 class="font-bold text-3xl">Add New Team</h1>
 
-  <.form let={f} for={@changeset} action={Routes.team_path(@conn, :create)} class="center-form">
+  <.form :let={f} for={@changeset} action={Routes.team_path(@conn, :create)} class="center-form">
     <%= if @changeset.action do %>
       <div class="alert alert-danger">
         <p>Oops, something went wrong! Please check the errors below.</p>

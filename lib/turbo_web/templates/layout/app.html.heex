@@ -1,11 +1,11 @@
 <main class="container mx-auto">
-  <%= if get_flash(@conn, :info) != nil do %>
+  <%= if Phoenix.Flash.get(@flash, :info) != nil do %>
     <div class="p-4 mb-4 text-sm text-green-700 bg-green-100 rounded-lg" role="alert">
-      <%= get_flash(@conn, :info) %>
+      <%= Phoenix.Flash.get(@flash, :info) %>
     </div>
   <% end %>
-  <%= if get_flash(@conn, :error) != nil do %>
-    <p class="alert alert-danger" role="alert"><%= get_flash(@conn, :error) %></p>
+  <%= if Phoenix.Flash.get(@flash, :error) != nil do %>
+    <p class="alert alert-danger" role="alert"><%= Phoenix.Flash.get(@flash, :error) %></p>
   <% end %>
 
   <%= @inner_content %>

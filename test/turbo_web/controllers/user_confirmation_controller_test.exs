@@ -26,7 +26,7 @@ defmodule TurboWeb.UserConfirmationControllerTest do
         })
 
       assert redirected_to(conn) == "/"
-      assert Phoenix.Flash.get(conn, :info) =~ "If your email is in our system"
+      assert Phoenix.Flash.get(conn.assigns.flash, :info) =~ "If your email is in our system"
       assert Repo.get_by!(Accounts.UserToken, user_id: user.id).context == "confirm"
     end
 
@@ -39,7 +39,7 @@ defmodule TurboWeb.UserConfirmationControllerTest do
         })
 
       assert redirected_to(conn) == "/"
-      assert Phoenix.Flash.get(conn, :info) =~ "If your email is in our system"
+      assert Phoenix.Flash.get(conn.assigns.flash, :info) =~ "If your email is in our system"
       refute Repo.get_by(Accounts.UserToken, user_id: user.id)
     end
 
@@ -50,7 +50,7 @@ defmodule TurboWeb.UserConfirmationControllerTest do
         })
 
       assert redirected_to(conn) == "/"
-      assert Phoenix.Flash.get(conn, :info) =~ "If your email is in our system"
+      assert Phoenix.Flash.get(conn.assigns.flash, :info) =~ "If your email is in our system"
       assert Repo.all(Accounts.UserToken) == []
     end
   end
@@ -75,7 +75,7 @@ defmodule TurboWeb.UserConfirmationControllerTest do
 
       conn = post(conn, Routes.user_confirmation_path(conn, :update, token))
       assert redirected_to(conn) == "/"
-      assert Phoenix.Flash.get(conn, :info) =~ "User confirmed successfully"
+      assert Phoenix.Flash.get(conn.assigns.flash, :info) =~ "User confirmed successfully"
       assert Accounts.get_user!(user.id).confirmed_at
       refute get_session(conn, :user_token)
       assert Repo.all(Accounts.UserToken) == []
@@ -84,7 +84,7 @@ defmodule TurboWeb.UserConfirmationControllerTest do
       conn = post(conn, Routes.user_confirmation_path(conn, :update, token))
       assert redirected_to(conn) == "/"
 
-      assert Phoenix.Flash.get(conn, :error) =~
+      assert Phoenix.Flash.get(conn.assigns.flash, :error) =~
                "User confirmation link is invalid or it has expired"
 
       # When logged in
@@ -94,14 +94,14 @@ defmodule TurboWeb.UserConfirmationControllerTest do
         |> post(Routes.user_confirmation_path(conn, :update, token))
 
       assert redirected_to(conn) == "/"
-      refute Phoenix.Flash.get(conn, :error)
+      refute Phoenix.Flash.get(conn.assigns.flash, :error)
     end
 
     test "does not confirm email with invalid token", %{conn: conn, user: user} do
       conn = post(conn, Routes.user_confirmation_path(conn, :update, "oops"))
       assert redirected_to(conn) == "/"
 
-      assert Phoenix.Flash.get(conn, :error) =~
+      assert Phoenix.Flash.get(conn.assigns.flash, :error) =~
                "User confirmation link is invalid or it has expired"
 
       refute Accounts.get_user!(user.id).confirmed_at
