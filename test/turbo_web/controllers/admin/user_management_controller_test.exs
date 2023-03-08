@@ -32,7 +32,7 @@ defmodule TurboWeb.Controllers.Admin.UserManagementControllerTest do
       assert redirected_to(user_access_conn) ==
                Routes.user_management_path(user_access_conn, :index)
 
-      assert get_flash(user_access_conn, :info) =~ "#{common_user.email} access revoked."
+      assert Phoenix.Flash.get(user_access_conn, :info) =~ "#{common_user.email} access revoked."
 
       user_access_conn =
         post(conn, Routes.user_management_path(conn, :toggle_access), %{
@@ -42,7 +42,7 @@ defmodule TurboWeb.Controllers.Admin.UserManagementControllerTest do
       assert redirected_to(user_access_conn) ==
                Routes.user_management_path(user_access_conn, :index)
 
-      assert get_flash(user_access_conn, :info) =~ "#{common_user.email} access granted."
+      assert Phoenix.Flash.get(user_access_conn, :info) =~ "#{common_user.email} access granted."
     end
 
     test "cannot lock its own admin account", %{conn: conn, user: admin} do
@@ -54,7 +54,7 @@ defmodule TurboWeb.Controllers.Admin.UserManagementControllerTest do
       assert redirected_to(user_access_conn) ==
                Routes.user_management_path(user_access_conn, :index)
 
-      assert get_flash(user_access_conn, :error) =~
+      assert Phoenix.Flash.get(user_access_conn, :error) =~
                "To avoid lockouts, you cannot update your own account. Please contact another admin."
     end
   end
@@ -71,7 +71,7 @@ defmodule TurboWeb.Controllers.Admin.UserManagementControllerTest do
 
       assert redirected_to(user_role_conn) == Routes.user_management_path(user_role_conn, :index)
 
-      assert get_flash(user_role_conn, :info) =~ "#{common_user.email} role updated."
+      assert Phoenix.Flash.get(user_role_conn, :info) =~ "#{common_user.email} role updated."
     end
 
     test "cannot change its own role as an admin", %{conn: conn, user: admin} do
@@ -83,7 +83,7 @@ defmodule TurboWeb.Controllers.Admin.UserManagementControllerTest do
 
       assert redirected_to(user_role_conn) == Routes.user_management_path(user_role_conn, :index)
 
-      assert get_flash(user_role_conn, :error) =~
+      assert Phoenix.Flash.get(user_role_conn, :error) =~
                "To avoid lockouts, you cannot update your own account. Please contact another admin."
     end
   end

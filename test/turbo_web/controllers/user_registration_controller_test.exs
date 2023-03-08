@@ -29,7 +29,7 @@ defmodule TurboWeb.UserRegistrationControllerTest do
       conn = get(conn, Routes.user_registration_path(conn, :new))
       assert redirected_to(conn) == Routes.user_session_path(conn, :new)
 
-      assert get_flash(conn, :error) =~
+      assert Phoenix.Flash.get(conn, :error) =~
                "Creating accounts is disabled for this instance. Please, contact an admin."
     end
   end
