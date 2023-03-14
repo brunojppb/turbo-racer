@@ -3,7 +3,8 @@
 
   <.form
     :let={f}
-    for={:user}
+    for={%{}}
+    as={:user}
     action={Routes.user_reset_password_path(@conn, :create)}
     class="center-form"
   >
