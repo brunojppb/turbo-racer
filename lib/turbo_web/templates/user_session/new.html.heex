@@ -1,13 +1,7 @@
 <div class="container flex flex-col items-center mx-auto">
   <h1 class="text-3xl font-bold">Log in</h1>
 
-  <.form
-    let={f}
-    for={@conn}
-    action={Routes.user_session_path(@conn, :create)}
-    as={:user}
-    class="center-form"
-  >
+  <.form :let={f} for={@conn} action={~p"/users/log_in"} as={:user} class="center-form">
     <%= if @error_message do %>
       <div class="alert alert-danger">
         <p><%= @error_message %></p>
@@ -42,11 +36,11 @@
 
   <p>
     <%= if @app_access.can_signup do %>
-      <%= link("Create Account", to: Routes.user_registration_path(@conn, :new)) %> |
+      <%= link("Create Account", to: ~p"/users/register") %> |
     <% end %>
     <%= link(
       "Forgot your password?",
-      to: Routes.user_reset_password_path(@conn, :new)
+      to: ~p"/users/reset_password"
     ) %>
   </p>
 </div>

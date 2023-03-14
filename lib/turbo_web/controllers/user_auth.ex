@@ -3,8 +3,9 @@ defmodule TurboWeb.UserAuth do
   import Phoenix.Controller
 
   alias Turbo.Accounts
-  alias TurboWeb.Router.Helpers, as: Routes
   alias Turbo.Settings.SettingsContext
+
+  use TurboWeb, :controller
 
   # Make the remember me cookie valid for 60 days.
   # If you want bump or reduce this value, also change
@@ -152,7 +153,7 @@ defmodule TurboWeb.UserAuth do
           :error,
           "Creating accounts is disabled for this instance. Please, contact an admin."
         )
-        |> redirect(to: Routes.user_session_path(conn, :new))
+        |> redirect(to: ~p"/users/log_in")
         |> halt()
     end
   end
@@ -170,7 +171,7 @@ defmodule TurboWeb.UserAuth do
       conn
       |> put_flash(:error, "You must log in to access this page.")
       |> maybe_store_return_to()
-      |> redirect(to: Routes.user_session_path(conn, :new))
+      |> redirect(to: ~p"/users/log_in")
       |> halt()
     end
   end
@@ -182,7 +183,7 @@ defmodule TurboWeb.UserAuth do
       conn
       |> put_flash(:error, "You are not allowed to access this route")
       |> maybe_store_return_to()
-      |> redirect(to: Routes.page_path(conn, :index))
+      |> redirect(to: ~p"/")
       |> halt()
     end
   end

@@ -10,7 +10,7 @@ seem to lack management around tokens and teams. If you work in an enterprise,
 access management is crucial for keeping permissions segregated and I could not
 find anything supporting that.
 
-So I've built my own version called Turbo Racer. Besides giving you full control
+So I've built my own remote cache. Besides giving you full control
 over creating teams, issuing tokens for specific teams and who has access to a
 given token, it also allows you to go from a simple deployment using your file
 system as artifact storage to going full scale using a S3-compatible backend
@@ -86,8 +86,7 @@ To run this app locally, you need the following dependencies installed:
 
 To start your Phoenix server:
 
-- Install dependencies with `mix deps.get`
-- Create and migrate your database with `mix ecto.setup`
+- Run `mix setup` to install and setup dependencies
 - Start Phoenix endpoint with `mix phx.server` or inside IEx with
   `iex -S mix phx.server`
 

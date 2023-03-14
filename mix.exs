@@ -5,7 +5,7 @@ defmodule Turbo.MixProject do
     [
       app: :turbo,
       name: "Turbo Racer",
-      version: "1.3.4",
+      version: "1.4.0",
       elixir: "~> 1.14",
       elixirc_paths: elixirc_paths(Mix.env()),
       compilers: Mix.compilers(),
@@ -39,7 +39,7 @@ defmodule Turbo.MixProject do
   defp deps do
     [
       {:bcrypt_elixir, "~> 3.0"},
-      {:phoenix, "~> 1.6.14"},
+      {:phoenix, "~> 1.7.0"},
       {:phoenix_ecto, "~> 4.4"},
       {:ecto_sql, "~> 3.9.0"},
       {:ex_aws, "~> 2.3"},
@@ -48,10 +48,11 @@ defmodule Turbo.MixProject do
       {:hackney, "~> 1.16"},
       {:postgrex, ">= 0.0.0"},
       {:phoenix_html, "~> 3.0"},
+      {:phoenix_view, "~> 2.0"},
       {:phoenix_live_reload, "~> 1.2", only: :dev},
-      {:phoenix_live_view, "~> 0.17.5"},
+      {:phoenix_live_view, "~> 0.18.3"},
       {:floki, ">= 0.30.0", only: :test},
-      {:phoenix_live_dashboard, "~> 0.6"},
+      {:phoenix_live_dashboard, "~> 0.7.2"},
       {:esbuild, "~> 0.4", runtime: Mix.env() == :dev},
       {:swoosh, "~> 1.3"},
       {:telemetry_metrics, "~> 0.6"},
@@ -62,7 +63,7 @@ defmodule Turbo.MixProject do
       {:oban, "~> 2.13"},
 
       # Dev dependencies
-      {:dialyxir, "~> 1.0", only: [:dev], runtime: false},
+      {:dialyxir, "~> 1.2", only: [:dev], runtime: false},
       {:tailwind, "~> 0.1", runtime: Mix.env() == :dev}
     ]
   end

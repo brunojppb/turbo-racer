@@ -1,7 +1,7 @@
 <.form
-  let={f}
+  :let={f}
   for={@changeset}
-  action={Routes.app_access_path(@conn, :update)}
+  action={~p"/admin/settings/access"}
   method="put"
   class="center-form"
 >

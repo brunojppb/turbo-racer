@@ -27,7 +27,7 @@ defmodule TurboWeb.UserSettingsController do
           :info,
           "A link to confirm your email change has been sent to the new address."
         )
-        |> redirect(to: Routes.user_settings_path(conn, :edit))
+        |> redirect(to: ~p"/users/settings")
 
       {:error, changeset} ->
         render(conn, "edit.html", email_changeset: changeset)
@@ -55,12 +55,12 @@ defmodule TurboWeb.UserSettingsController do
       :ok ->
         conn
         |> put_flash(:info, "Email changed successfully.")
-        |> redirect(to: Routes.user_settings_path(conn, :edit))
+        |> redirect(to: ~p"/users/settings")
 
       :error ->
         conn
         |> put_flash(:error, "Email change link is invalid or it has expired.")
-        |> redirect(to: Routes.user_settings_path(conn, :edit))
+        |> redirect(to: ~p"/users/settings")
     end
   end
 

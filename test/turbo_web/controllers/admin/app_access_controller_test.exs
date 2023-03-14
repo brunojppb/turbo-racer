@@ -21,7 +21,9 @@ defmodule TurboWeb.Controllers.Admin.AppAccessControllerTest do
       %{conn: user_conn} = register_and_log_in_user(%{conn: conn})
       user_conn = get(user_conn, Routes.app_access_path(user_conn, :index))
       assert redirected_to(user_conn) == Routes.page_path(user_conn, :index)
-      assert get_flash(user_conn, :error) =~ "You are not allowed to access this route"
+
+      assert Phoenix.Flash.get(user_conn.assigns.flash, :error) =~
+               "You are not allowed to access this route"
     end
 
     test "renders app access page for admin users", %{conn: conn} do
@@ -44,7 +46,7 @@ defmodule TurboWeb.Controllers.Admin.AppAccessControllerTest do
         })
 
       assert redirected_to(app_settings_conn) == Routes.app_access_path(conn, :index)
-      assert get_flash(app_settings_conn, :info) =~ "App Access updated"
+      assert Phoenix.Flash.get(app_settings_conn.assigns.flash, :info) =~ "App Access updated"
       app_access = SettingsContext.get_app_access()
       assert app_access.can_manage_tokens
       refute app_access.can_signup

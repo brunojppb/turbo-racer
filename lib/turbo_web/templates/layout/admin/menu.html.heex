@@ -2,19 +2,19 @@
   <ul>
     <%= render("admin/menu_item.html",
       text: "App Access",
-      path: Routes.app_access_path(@conn, :index),
+      path: ~p"/admin/settings/access",
       conn: @conn
     ) %>
 
     <%= render("admin/menu_item.html",
       text: "Users",
-      path: Routes.user_management_path(@conn, :index),
+      path: ~p"/admin/settings/users",
       conn: @conn
     ) %>
 
     <%= render("admin/menu_item.html",
       text: "Live Dashboard",
-      path: Routes.live_dashboard_path(@conn, :home),
+      path: ~p"/ops/dashboard",
       conn: @conn
     ) %>
   </ul>

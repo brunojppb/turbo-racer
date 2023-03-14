@@ -1,12 +1,7 @@
 <div class="container flex flex-col items-center mx-auto">
   <h1 class="text-3xl font-bold">Forgot your password?</h1>
 
-  <.form
-    let={f}
-    for={:user}
-    action={Routes.user_reset_password_path(@conn, :create)}
-    class="center-form"
-  >
+  <.form :let={f} for={%{}} as={:user} action={~p"/users/reset_password"} class="center-form">
     <fieldset class="flex flex-col">
       <%= label(f, :email, class: "font-semibold") %>
       <%= email_input(f, :email, required: true, class: "input-primary") %>
@@ -18,9 +13,9 @@
   </.form>
 
   <p>
-    <%= link("Log in", to: Routes.user_session_path(@conn, :new)) %>
+    <%= link("Log in", to: ~p"/users/log_in") %>
     <%= if @app_access.can_signup do %>
-      | <%= link("Create Account", to: Routes.user_registration_path(@conn, :new)) %>
+      | <%= link("Create Account", to: ~p"/users/register") %>
     <% end %>
   </p>
 </div>

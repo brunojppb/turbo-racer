@@ -27,6 +27,8 @@ defmodule TurboWeb.ConnCase do
 
       # The default endpoint for testing
       @endpoint TurboWeb.Endpoint
+
+      use TurboWeb, :verified_routes
     end
   end
 
