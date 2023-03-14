@@ -28,12 +28,12 @@ defmodule TurboWeb.Admin.UserManagementController do
 
         conn
         |> put_flash(:info, "#{user.email} role updated.")
-        |> redirect(to: Routes.user_management_path(conn, :index))
+        |> redirect(to: ~p"/admin/settings/users")
 
       {:error, error} ->
         conn
         |> put_flash(:error, error)
-        |> redirect(to: Routes.user_management_path(conn, :index))
+        |> redirect(to: ~p"/admin/settings/users")
     end
   end
 
@@ -68,12 +68,12 @@ defmodule TurboWeb.Admin.UserManagementController do
 
         conn
         |> put_flash(:info, "User #{user.email} #{status}.")
-        |> redirect(to: Routes.user_management_path(conn, :index))
+        |> redirect(to: ~p"/admin/settings/users")
 
       {:error, error} ->
         conn
         |> put_flash(:error, error)
-        |> redirect(to: Routes.user_management_path(conn, :index))
+        |> redirect(to: ~p"/admin/settings/users")
     end
   end
 
@@ -83,6 +83,6 @@ defmodule TurboWeb.Admin.UserManagementController do
       :error,
       "To avoid lockouts, you cannot update your own account. Please contact another admin."
     )
-    |> redirect(to: Routes.user_management_path(conn, :index))
+    |> redirect(to: ~p"/admin/settings/users")
   end
 end

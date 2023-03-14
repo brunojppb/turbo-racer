@@ -1,10 +1,10 @@
-<div class="container mx-auto flex flex-col items-center">
-  <h1 class="font-bold text-3xl">Reset Your Password</h1>
+<div class="container flex flex-col items-center mx-auto">
+  <h1 class="text-3xl font-bold">Reset Your Password</h1>
 
   <.form
     :let={f}
     for={@changeset}
-    action={Routes.user_reset_password_path(@conn, :update, @token)}
+    action={~p"/users/reset_password/#{@token}"}
     class="center-form"
   >
     <%= if @changeset.action do %>
@@ -31,8 +31,8 @@
   </.form>
 
   <p>
-    <%= link("Register", to: Routes.user_registration_path(@conn, :new)) %> | <%= link("Log in",
-      to: Routes.user_session_path(@conn, :new)
+    <%= link("Register", to: ~p"/users/register") %> | <%= link("Log in",
+      to: ~p"/users/log_in"
     ) %>
   </p>
 </div>

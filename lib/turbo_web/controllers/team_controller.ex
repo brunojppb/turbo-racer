@@ -18,7 +18,7 @@ defmodule TurboWeb.TeamController do
 
     case Teams.create(user, params) do
       {:ok, _team} ->
-        redirect(conn, to: Routes.team_path(conn, :index))
+        redirect(conn, to: ~p"/teams")
 
       {:error, changeset} ->
         render(conn, "new.html", changeset: changeset)
@@ -37,7 +37,7 @@ defmodule TurboWeb.TeamController do
 
     conn
     |> put_flash(flash_level, message)
-    |> redirect(to: Routes.team_path(conn, :index))
+    |> redirect(to: ~p"/teams")
   end
 
   # TODO: These endpoints seem to be used by Vercel only

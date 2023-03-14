@@ -11,7 +11,7 @@
       </p>
       <div class="py-2">
         <div>
-          <.form :let={f} for={@conn} action={Routes.user_management_path(@conn, :update_role)}>
+          <.form :let={f} for={@conn} action={~p"/admin/settings/users/role"}>
             <%= hidden_input(f, :user_id, value: user.id) %>
             <%= label(f, :role, "System role",
               class: "block mb-2 text-sm font-medium text-gray-900"
@@ -31,7 +31,7 @@
       </div>
     </div>
     <div class="py-4">
-      <.form :let={f} for={@conn} action={Routes.user_management_path(@conn, :toggle_access)}>
+      <.form :let={f} for={@conn} action={~p"/admin/settings/users/access"}>
         <%= hidden_input(f, :user_id, value: user.id) %>
         <span class="block mb-2 text-sm font-medium text-gray-900">Account Management</span>
 
