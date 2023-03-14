@@ -2,8 +2,6 @@ defmodule TurboWeb.Admin.AppAccessController do
   use TurboWeb, :controller
   alias Turbo.Settings.SettingsContext
 
-  plug :put_layout, "admin/layout.html"
-
   def index(conn, _params) do
     app_access = SettingsContext.app_access_changeset()
     render(conn, "index.html", changeset: app_access)

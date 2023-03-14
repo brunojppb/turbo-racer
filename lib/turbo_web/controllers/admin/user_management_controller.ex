@@ -4,8 +4,6 @@ defmodule TurboWeb.Admin.UserManagementController do
   alias Turbo.Accounts.User
   require Logger
 
-  plug :put_layout, "admin/layout.html"
-
   def index(conn, _params) do
     users = Turbo.Accounts.get_all_users()
     render(conn, "index.html", users: users, available_roles: User.available_roles())

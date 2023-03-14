@@ -21,6 +21,12 @@ defmodule TurboWeb.Router do
     plug :accepts, ["json"]
   end
 
+  pipeline :admin do
+    plug :put_layout, {TurboWeb.LayoutView, "admin/layout.html"}
+    plug :require_authenticated_user
+    plug :require_admin
+  end
+
   scope "/", TurboWeb do
     pipe_through :browser
 
@@ -96,7 +102,7 @@ defmodule TurboWeb.Router do
 
   # Admin routes
   scope "/admin", TurboWeb.Admin do
-    pipe_through [:browser, :require_authenticated_user, :require_admin]
+    pipe_through [:browser, :admin]
 
     get "/settings/access", AppAccessController, :index
     put "/settings/access", AppAccessController, :update
@@ -108,6 +114,8 @@ defmodule TurboWeb.Router do
 
   # Telemetry/Operations endpoints (Behind Admin auth)
   scope "/ops", TurboWeb do
+    # Skip :admin pipeline given that we do not want to overwrite the layout
+    # But just require admin auth.
     pipe_through [:browser, :require_authenticated_user, :require_admin]
     live_dashboard "/dashboard", metrics: TurboWeb.Telemetry
   end
