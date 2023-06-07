@@ -45,6 +45,8 @@ jobs:
 
       - name: push to Github Container Registry
         run: |
+          docker pull brunojppb/turbo-racer:1.4.1
+          docker pull brunojppb/turbo-racer:latest 
           docker tag brunojppb/turbo-racer:1.4.1 ghcr.io/brunojppb/turbo-racer:1.4.1
           docker tag brunojppb/turbo-racer:latest ghcr.io/brunojppb/turbo-racer:latest
           docker push ghcr.io/brunojppb/turbo-racer:latest
