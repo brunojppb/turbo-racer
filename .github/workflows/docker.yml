@@ -18,6 +18,7 @@ jobs:
         id: app-version
         run: |
           APP_VERSION_FROM_MIX=$(grep "version: " mix.exs | grep -o "[0-9.]*")
+          echo "App version from mix: ${APP_VERSION_FROM_MIX}"
           echo "APP_VERSION=$APP_VERSION_FROM_MIX" >> "$GITHUB_OUTPUT"
 
       - name: Set up QEMU
