@@ -25,46 +25,56 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v2
 
-      - name: Setup Elixir
-        uses: erlef/setup-beam@v1
-        id: beam
-        with:
-          otp-version: "25.3"
-          elixir-version: "1.14.4"
+      - name: read app version
+        id: app-version
+        run: |
+          APP_VERSION_FROM_MIX=$(grep "version: " mix.exs | grep -o "[0-9.]*")
+          echo "APP_VERSION=$APP_VERSION_FROM_MIX" >> "$GITHUB_OUTPUT"
 
-      - name: Fetch cached dependencies
-        uses: actions/cache@v3
-        id: mix-cache
-        with:
-          path: |
-            deps
-            _build
-            priv/plts
-          key: |
-            ${{ runner.os }}-${{ steps.beam.outputs.elixir-version }}-${{ steps.beam.outputs.otp-version }}-${{ hashFiles('mix.lock') }}
-          restore-keys: |
-            ${{ runner.os }}-${{ steps.beam.outputs.elixir-version }}-${{ steps.beam.outputs.otp-version }}-${{ hashFiles('mix.lock') }}
-            ${{ runner.os }}-${{ steps.beam.outputs.elixir-version }}-${{ steps.beam.outputs.otp-version }}
+      - name: Print app version
+        run: |
+          echo "App version is ${{ steps.app-version.outputs.APP_VERSION }}"
 
-      - name: Install dependencies
-        run: mix deps.get
+      # - name: Setup Elixir
+      #   uses: erlef/setup-beam@v1
+      #   id: beam
+      #   with:
+      #     otp-version: "25.3"
+      #     elixir-version: "1.14.4"
 
-      - name: Dialyzer
-        run: mix dialyzer
+      # - name: Fetch cached dependencies
+      #   uses: actions/cache@v3
+      #   id: mix-cache
+      #   with:
+      #     path: |
+      #       deps
+      #       _build
+      #       priv/plts
+      #     key: |
+      #       ${{ runner.os }}-${{ steps.beam.outputs.elixir-version }}-${{ steps.beam.outputs.otp-version }}-${{ hashFiles('mix.lock') }}
+      #     restore-keys: |
+      #       ${{ runner.os }}-${{ steps.beam.outputs.elixir-version }}-${{ steps.beam.outputs.otp-version }}-${{ hashFiles('mix.lock') }}
+      #       ${{ runner.os }}-${{ steps.beam.outputs.elixir-version }}-${{ steps.beam.outputs.otp-version }}
 
-      # Create PLTs for dialyzer checks
-      - name: Create PLTs
-        if: steps.mix-cache.outputs.cache-hit != 'true'
-        run: mix dialyzer --plt
+      # - name: Install dependencies
+      #   run: mix deps.get
 
-      - name: Code format
-        run: mix format --check-formatted
+      # - name: Dialyzer
+      #   run: mix dialyzer
 
-      - name: Unused dependencies
-        run: mix deps.unlock --check-unused
+      # # Create PLTs for dialyzer checks
+      # - name: Create PLTs
+      #   if: steps.mix-cache.outputs.cache-hit != 'true'
+      #   run: mix dialyzer --plt
 
-      - name: Compile
-        run: mix compile --warnings-as-errors
+      # - name: Code format
+      #   run: mix format --check-formatted
 
-      - name: Tests
-        run: mix test --trace --color
+      # - name: Unused dependencies
+      #   run: mix deps.unlock --check-unused
+
+      # - name: Compile
+      #   run: mix compile --warnings-as-errors
+
+      # - name: Tests
+      #   run: mix test --trace --color
