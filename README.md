@@ -1,8 +1,9 @@
 # Turbo Racer
+
 ![Workflow badge](https://github.com/brunojppb/turbo-racer/actions/workflows/checks.yml/badge.svg?branch=main)
 
 An open-source backend with a Web UI for managing your
-[Turborepo](https://turborepo.org/) cache.
+[Turborepo](https://turbo.build/repo) cache.
 
 ## Features
 
