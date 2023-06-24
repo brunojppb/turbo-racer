@@ -42,13 +42,13 @@ Turbo Racer provides a fully fledged Web UI for managing user accounts, roles
 and tokens for cache access and segmentation. Below you can see a few screenshots
 on how it looks like:
 
-<img src="./assets/docs/teams.jpg" width="400px" alt="Teams screen"/>
+| Teams                                    | Settings                                       |
+| ---------------------------------------- | ---------------------------------------------- |
+| ![Teams screen](./assets/docs/teams.jpg) | ![Settings screen](./assets/docs/settings.jpg) |
 
-<img src="./assets/docs/tokens.jpg" width="400px" alt="Tokens screen"/>
-
-<img src="./assets/docs/settings.jpg" width="400px" alt="Settings screen"/>
-
-<img src="./assets/docs/users.jpg" width="400px" alt="Users screen"/>
+| Tokens                                     | Users                                    |
+| ------------------------------------------ | ---------------------------------------- |
+| ![Tokens screen](./assets/docs/tokens.jpg) | ![Users screen](./assets/docs/users.jpg) |
 
 ### Admin account when running for the first time
 
