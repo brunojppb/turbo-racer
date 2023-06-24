@@ -29,8 +29,8 @@ jobs:
         uses: erlef/setup-beam@v1
         id: beam
         with:
-          otp-version: "25.3"
-          elixir-version: "1.14.4"
+          otp-version: "26.0.1"
+          elixir-version: "1.15.0"
 
       - name: Fetch cached dependencies
         uses: actions/cache@v3

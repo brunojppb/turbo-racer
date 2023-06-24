@@ -12,9 +12,9 @@
 #   - https://pkgs.org/ - resource for finding needed packages
 #   - Ex: hexpm/elixir:1.14.0-erlang-25.0.4-ubuntu-xenial-20210804
 #
-ARG ELIXIR_VERSION=1.14.4
-ARG OTP_VERSION=25.3
-ARG UBUNTU_VERSION=xenial-20210804
+ARG ELIXIR_VERSION=1.15.0
+ARG OTP_VERSION=26.0.1
+ARG UBUNTU_VERSION=jammy-20230126
 
 ARG BUILDER_IMAGE="hexpm/elixir:${ELIXIR_VERSION}-erlang-${OTP_VERSION}-ubuntu-${UBUNTU_VERSION}"
 ARG RUNNER_IMAGE="ubuntu:${UBUNTU_VERSION}"

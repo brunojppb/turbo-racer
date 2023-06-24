@@ -1,8 +1,9 @@
 # Turbo Racer
+
 ![Workflow badge](https://github.com/brunojppb/turbo-racer/actions/workflows/checks.yml/badge.svg?branch=main)
 
 An open-source backend with a Web UI for managing your
-[Turborepo](https://turborepo.org/) cache.
+[Turborepo](https://turbo.build/repo) cache.
 
 ## Features
 
@@ -35,6 +36,29 @@ Here is what is available for you:
         controls)
 - [x] Whether users can create accounts (Admin settings)
 
+## Web UI for managing accounts, tokens and roles
+
+Turbo Racer provides a fully fledged Web UI for managing user accounts, roles
+and tokens for cache access and segmentation. Below you can see a few screenshots
+on how it looks like:
+
+| Teams                                    | Settings                                       |
+| ---------------------------------------- | ---------------------------------------------- |
+| ![Teams screen](./assets/docs/teams.jpg) | ![Settings screen](./assets/docs/settings.jpg) |
+
+| Tokens                                     | Users                                    |
+| ------------------------------------------ | ---------------------------------------- |
+| ![Tokens screen](./assets/docs/tokens.jpg) | ![Users screen](./assets/docs/users.jpg) |
+
+### Admin account when running for the first time
+
+Once you deploy Turbo Racer for the first time, you must create an admin
+account. The first account you signup with from the `Sign up` Web UI will be the
+system admin.
+
+Admins can control whether users can create accounts so they can login and
+manage teams and tokens.
+
 ## What is coming next
 
 - [ ] Statistics dashboard
@@ -51,15 +75,6 @@ Whenever a new release is out, a new Docker image is built and pushed to Docker
 hub.  
 Here you can find the latest tags:
 [brunojppb/turbo-racer](https://hub.docker.com/r/brunojppb/turbo-racer/tags)
-
-### Admin account when running for the first time
-
-Once you deploy Turbo Racer for the first time, you must create an admin
-account. The first account you signup with from the `Sign up` Web UI will be the
-system admin.
-
-Admins can control whether users can create accounts so they can login and
-manage teams and tokens.
 
 ### Deploy to Digital Ocean
 
