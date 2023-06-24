@@ -37,7 +37,10 @@ jobs:
         uses: docker/build-push-action@v3
         with:
           context: .
-          platforms: "linux/amd64,linux/arm64"
+          # I'm having troubles with arm64 and Elixir 1.15.
+          # need to investigate that further.
+          # platforms: "linux/amd64,linux/arm64"
+          platforms: "linux/amd64"
           push: ${{ github.event_name != 'pull_request' }}
           tags: "brunojppb/turbo-racer:latest,brunojppb/turbo-racer:${{ steps.app-version.outputs.APP_VERSION }}"
           cache-from: type=registry,ref=brunojppb/turbo-racer:latest

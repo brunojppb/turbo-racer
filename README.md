@@ -74,7 +74,9 @@ Turbo Racer is designed to be deployed with Docker. The simplest way is to use
 Whenever a new release is out, a new Docker image is built and pushed to Docker
 hub.  
 Here you can find the latest tags:
-[brunojppb/turbo-racer](https://hub.docker.com/r/brunojppb/turbo-racer/tags)
+
+- Docker at [brunojppb/turbo-racer](https://hub.docker.com/r/brunojppb/turbo-racer/tags)
+- Github Container Registry at [brunojppb/turbo-racer](https://github.com/brunojppb/turbo-racer/pkgs/container/turbo-racer)
 
 ### Deploy to Digital Ocean
 
