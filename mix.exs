@@ -58,6 +58,10 @@ defmodule Turbo.MixProject do
       {:jason, "~> 1.4"},
       {:plug_cowboy, "~> 2.6"},
       {:oban, "~> 2.15"},
+      # Temporary override so ssl_verify_fun works with Elixir 1.15
+      # this is a dependency of hackney that needs this patch.
+      # See: https://elixirforum.com/t/ssl-verify-fun-cert-helpers-erl/56310/7?u=bpaulino0
+      {:ssl_verify_fun, "~> 1.1", manager: :rebar3, override: true},
 
       # Dev dependencies
       {:dialyxir, "~> 1.2", only: [:dev], runtime: false},
