@@ -36,6 +36,29 @@ Here is what is available for you:
         controls)
 - [x] Whether users can create accounts (Admin settings)
 
+## Web UI for managing accounts, tokens and roles
+
+Turbo Racer provides a fully fledged Web UI for managing user accounts, roles
+and tokens for cache access and segmentation. Below you can see a few screenshots
+on how it looks like:
+
+<img src="./assets/docs/teams.jpg" width="400px" alt="Teams screen"/>
+
+<img src="./assets/docs/tokens.jpg" width="400px" alt="Tokens screen"/>
+
+<img src="./assets/docs/settings.jpg" width="400px" alt="Settings screen"/>
+
+<img src="./assets/docs/users.jpg" width="400px" alt="Users screen"/>
+
+### Admin account when running for the first time
+
+Once you deploy Turbo Racer for the first time, you must create an admin
+account. The first account you signup with from the `Sign up` Web UI will be the
+system admin.
+
+Admins can control whether users can create accounts so they can login and
+manage teams and tokens.
+
 ## What is coming next
 
 - [ ] Statistics dashboard
@@ -52,15 +75,6 @@ Whenever a new release is out, a new Docker image is built and pushed to Docker
 hub.  
 Here you can find the latest tags:
 [brunojppb/turbo-racer](https://hub.docker.com/r/brunojppb/turbo-racer/tags)
-
-### Admin account when running for the first time
-
-Once you deploy Turbo Racer for the first time, you must create an admin
-account. The first account you signup with from the `Sign up` Web UI will be the
-system admin.
-
-Admins can control whether users can create accounts so they can login and
-manage teams and tokens.
 
 ### Deploy to Digital Ocean
 
