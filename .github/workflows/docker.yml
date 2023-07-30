@@ -64,9 +64,9 @@ jobs:
 
       # - name: push to Github Container Registry
       #   run: |
-      #     docker pull brunojppb/turbo-racer:${{ steps.app-version.outputs.APP_VERSION }}
+      #     docker pull brunojppb/turbo-racer:${{ steps.tool-versions.outputs.app }}
       #     docker pull brunojppb/turbo-racer:latest
-      #     docker tag brunojppb/turbo-racer:${{ steps.app-version.outputs.APP_VERSION }} ghcr.io/brunojppb/turbo-racer:${{ steps.app-version.outputs.APP_VERSION }}
+      #     docker tag brunojppb/turbo-racer:${{ steps.tool-versions.outputs.app }} ghcr.io/brunojppb/turbo-racer:${{ steps.tool-versions.outputs.app }}
       #     docker tag brunojppb/turbo-racer:latest ghcr.io/brunojppb/turbo-racer:latest
       #     docker push ghcr.io/brunojppb/turbo-racer:latest
-      #     docker push ghcr.io/brunojppb/turbo-racer:${{ steps.app-version.outputs.APP_VERSION }}
+      #     docker push ghcr.io/brunojppb/turbo-racer:${{ steps.tool-versions.outputs.app }}
