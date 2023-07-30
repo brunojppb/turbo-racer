@@ -14,12 +14,18 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v3
 
-      - name: Read app version
-        id: app-version
+      - name: Read Tools and App version
+        id: tool-versions
         run: |
+          ERLANG_VERSION_FROM_FILE=$(awk 'NR==1{print $2}' .tool-versions)
+          ELIXIR_VERSION_FROM_FILE=$(awk 'NR==2' .tool-versions | awk 'NR==1{print $2}')
           APP_VERSION_FROM_MIX=$(grep "version: " mix.exs | grep -o "[0-9.]*")
+          echo "Erlang version: ${ERLANG_VERSION_FROM_FILE}"
+          echo "Elixir version: ${ELIXIR_VERSION_FROM_FILE}"
           echo "App version from mix: ${APP_VERSION_FROM_MIX}"
-          echo "APP_VERSION=$APP_VERSION_FROM_MIX" >> "$GITHUB_OUTPUT"
+          echo "erlang=$ERLANG_VERSION_FROM_FILE" >> "$GITHUB_OUTPUT"
+          echo "elixir=$ELIXIR_VERSION_FROM_FILE" >> "$GITHUB_OUTPUT"
+          echo "app=$APP_VERSION_FROM_MIX" >> "$GITHUB_OUTPUT"
 
       - name: Set up QEMU
         uses: docker/setup-qemu-action@v2
@@ -42,7 +48,10 @@ jobs:
           # platforms: "linux/amd64,linux/arm64"
           platforms: "linux/amd64"
           push: ${{ github.event_name != 'pull_request' }}
-          tags: "brunojppb/turbo-racer:latest,brunojppb/turbo-racer:${{ steps.app-version.outputs.APP_VERSION }}"
+          build-args: |
+            ELIXIR_VERSION=${{ steps.tool-versions.outputs.elixir }}
+            OTP_VERSION=${{ steps.tool-versions.outputs.erlang }}
+          tags: "brunojppb/turbo-racer:latest,brunojppb/turbo-racer:${{ steps.tool-versions.outputs.app }}"
           cache-from: type=registry,ref=brunojppb/turbo-racer:latest
           cache-to: type=inline
 
@@ -55,9 +64,9 @@ jobs:
 
       - name: push to Github Container Registry
         run: |
-          docker pull brunojppb/turbo-racer:${{ steps.app-version.outputs.APP_VERSION }}
+          docker pull brunojppb/turbo-racer:${{ steps.tool-versions.outputs.app }}
           docker pull brunojppb/turbo-racer:latest
-          docker tag brunojppb/turbo-racer:${{ steps.app-version.outputs.APP_VERSION }} ghcr.io/brunojppb/turbo-racer:${{ steps.app-version.outputs.APP_VERSION }}
+          docker tag brunojppb/turbo-racer:${{ steps.tool-versions.outputs.app }} ghcr.io/brunojppb/turbo-racer:${{ steps.tool-versions.outputs.app }}
           docker tag brunojppb/turbo-racer:latest ghcr.io/brunojppb/turbo-racer:latest
           docker push ghcr.io/brunojppb/turbo-racer:latest
-          docker push ghcr.io/brunojppb/turbo-racer:${{ steps.app-version.outputs.APP_VERSION }}
+          docker push ghcr.io/brunojppb/turbo-racer:${{ steps.tool-versions.outputs.app }}

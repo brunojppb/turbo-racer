@@ -5,7 +5,7 @@ defmodule Turbo.MixProject do
     [
       app: :turbo,
       name: "Turbo Racer",
-      version: "1.5.0",
+      version: "1.5.1",
       elixir: "~> 1.15",
       elixirc_paths: elixirc_paths(Mix.env()),
       compilers: Mix.compilers(),
@@ -41,7 +41,7 @@ defmodule Turbo.MixProject do
       {:bcrypt_elixir, "~> 3.0"},
       {:phoenix, "~> 1.7.2"},
       {:phoenix_ecto, "~> 4.4"},
-      {:ecto_sql, "~> 3.10.1"},
+      {:ecto_sql, "~> 3.10"},
       {:ex_aws, "~> 2.4"},
       {:ex_aws_s3, "~> 2.4"},
       {:sweet_xml, "~> 0.7"},
@@ -58,11 +58,6 @@ defmodule Turbo.MixProject do
       {:jason, "~> 1.4"},
       {:plug_cowboy, "~> 2.6"},
       {:oban, "~> 2.15"},
-      # Temporary override so ssl_verify_fun works with Elixir 1.15
-      # this is a dependency of hackney that needs this patch.
-      # See: https://elixirforum.com/t/ssl-verify-fun-cert-helpers-erl/56310/7?u=bpaulino0
-      {:ssl_verify_fun, "~> 1.1", manager: :rebar3, override: true},
-
       # Dev dependencies
       {:dialyxir, "~> 1.2", only: [:dev], runtime: false},
       {:esbuild, "~> 0.4", runtime: Mix.env() == :dev},

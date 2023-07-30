@@ -10,10 +10,10 @@
 #   - https://hub.docker.com/r/hexpm/elixir/tags - for the build image
 #   - https://hub.docker.com/_/ubuntu?tab=tags&page=1&name=xenial-20210804 - for the release image
 #   - https://pkgs.org/ - resource for finding needed packages
-#   - Ex: hexpm/elixir:1.14.0-erlang-25.0.4-ubuntu-xenial-20210804
+#   - Ex: hexpm/elixir:1.15.4-erlang-26.0.2-ubuntu-jammy-20230126
 #
-ARG ELIXIR_VERSION=1.15.0
-ARG OTP_VERSION=25.3
+ARG ELIXIR_VERSION
+ARG OTP_VERSION
 ARG UBUNTU_VERSION=jammy-20230126
 
 ARG BUILDER_IMAGE="hexpm/elixir:${ELIXIR_VERSION}-erlang-${OTP_VERSION}-ubuntu-${UBUNTU_VERSION}"
