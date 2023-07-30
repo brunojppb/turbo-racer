@@ -25,12 +25,22 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v2
 
+      - name: Read tooling version from .tool-versions
+        id: tool-versions
+        run: |
+          ERLANG_VERSION_FROM_FILE=$(awk 'NR==1{print $2}' .tool-versions)
+          ELIXIR_VERSION_FROM_FILE=$(awk 'NR==2' .tool-versions | awk 'NR==1{print $2}')
+          echo "Erlang version: ${ERLANG_VERSION_FROM_FILE}"
+          echo "Elixir version: ${ELIXIR_VERSION_FROM_FILE}"
+          echo "erlang=$ERLANG_VERSION_FROM_FILE" >> "$GITHUB_OUTPUT"
+          echo "elixir=$ELIXIR_VERSION_FROM_FILE" >> "$GITHUB_OUTPUT"
+
       - name: Setup Elixir
         uses: erlef/setup-beam@v1
         id: beam
         with:
-          otp-version: "26.0.2"
-          elixir-version: "1.15.4"
+          otp-version: ${{ steps.tool-versions.outputs.erlang }}
+          elixir-version: ${{ steps.tool-versions.outputs.elixir }}
 
       - name: Fetch cached dependencies
         uses: actions/cache@v3
