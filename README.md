@@ -88,8 +88,8 @@ You can use our Digital Ocean template to get this running quickly in a droplet.
 
 To run this app locally, you need the following dependencies installed:
 
-- [Elixir 1.14](https://elixir-lang.org/) and
-  [Erlang OTP 25](https://www.erlang.org/)
+- [Elixir 1.16](https://elixir-lang.org/) and
+  [Erlang OTP 26](https://www.erlang.org/)
   - You can quickly do it with [asdf](https://asdf-vm.com/). Once asdf is
     installed and then execute `asdf install` within the context of the
     `turbo-racer` directory. It will automatically pick up the right Elixir and
