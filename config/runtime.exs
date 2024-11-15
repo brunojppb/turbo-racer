@@ -53,6 +53,12 @@ if config_env() == :prod do
 
   config :turbo, Turbo.Repo,
     ssl: use_db_ssl,
+    ssl_opts: [
+      verify: :verify_peer,
+      cacertfile: System.get_env("DATABASE_CA_CERT"),
+      verify_fun: &:ssl_verify_hostname.verify_fun/3,
+      server_name_indication: String.to_charlist(System.get_env("DATABASE_HOST", "")),
+    ],
     url: database_url,
     pool_size: String.to_integer(System.get_env("POOL_SIZE") || "10"),
     socket_options: maybe_ipv6
