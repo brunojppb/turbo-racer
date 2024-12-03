@@ -8,7 +8,7 @@ defmodule Turbo.Storage.LocalFileStore do
     path = build_path(filename)
 
     if File.exists?(path) do
-      {:ok, File.stream!(path, [], 2048)}
+      {:ok, File.stream!(path, 2048)}
     else
       {:error, "#{filename} not found"}
     end
