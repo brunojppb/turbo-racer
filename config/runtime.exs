@@ -51,14 +51,21 @@ if config_env() == :prod do
   maybe_ipv6 = if System.get_env("ECTO_IPV6"), do: [:inet6], else: []
   use_db_ssl = System.get_env("USE_DB_SSL") == "1"
 
+  db_ssl_opts =
+    if System.get_env("DATABASE_CA_CERT") do
+      [
+        verify: :verify_peer,
+        cacertfile: System.get_env("DATABASE_CA_CERT"),
+        verify_fun: &:ssl_verify_hostname.verify_fun/3,
+        server_name_indication: String.to_charlist(System.get_env("DATABASE_HOST", ""))
+      ]
+    else
+      []
+    end
+
   config :turbo, Turbo.Repo,
     ssl: use_db_ssl,
-    ssl_opts: [
-      verify: :verify_peer,
-      cacertfile: System.get_env("DATABASE_CA_CERT"),
-      verify_fun: &:ssl_verify_hostname.verify_fun/3,
-      server_name_indication: String.to_charlist(System.get_env("DATABASE_HOST", "")),
-    ],
+    ssl_opts: db_ssl_opts,
     url: database_url,
     pool_size: String.to_integer(System.get_env("POOL_SIZE") || "10"),
     socket_options: maybe_ipv6
