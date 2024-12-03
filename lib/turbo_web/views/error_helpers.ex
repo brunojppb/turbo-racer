@@ -2,6 +2,7 @@ defmodule TurboWeb.ErrorHelpers do
   @moduledoc """
   Conveniences for translating and building error messages.
   """
+  use Gettext, backend: Turbo.Gettext
 
   use Phoenix.HTML
 

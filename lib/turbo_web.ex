@@ -22,9 +22,9 @@ defmodule TurboWeb do
   def controller do
     quote do
       use Phoenix.Controller, namespace: TurboWeb
+      use Gettext, backend: Turbo.Gettext
 
       import Plug.Conn
-      import TurboWeb.Gettext
       alias TurboWeb.Router.Helpers, as: Routes
 
       unquote(verified_routes())
@@ -111,7 +111,7 @@ defmodule TurboWeb do
   def channel do
     quote do
       use Phoenix.Channel
-      import TurboWeb.Gettext
+      use Gettext, backend: Turbo.Gettext
     end
   end
 
@@ -119,6 +119,7 @@ defmodule TurboWeb do
     quote do
       # Use all HTML functionality (forms, tags, etc)
       use Phoenix.HTML
+      use Gettext, backend: Turbo.Gettext
 
       # Import LiveView and .heex helpers (live_render, live_patch, <.form>, etc)
       import Phoenix.Component
@@ -127,7 +128,6 @@ defmodule TurboWeb do
       import Phoenix.View
 
       import TurboWeb.ErrorHelpers
-      import TurboWeb.Gettext
       alias TurboWeb.Router.Helpers, as: Routes
 
       unquote(verified_routes())

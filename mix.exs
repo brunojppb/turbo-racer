@@ -38,34 +38,34 @@ defmodule Turbo.MixProject do
   # Type `mix help deps` for examples and options.
   defp deps do
     [
-      {:bcrypt_elixir, "~> 3.0"},
-      {:phoenix, "~> 1.7.2"},
-      {:phoenix_ecto, "~> 4.4"},
-      {:ecto_sql, "~> 3.10"},
-      {:ex_aws, "~> 2.4"},
-      {:ex_aws_s3, "~> 2.4"},
+      {:bcrypt_elixir, "~> 3.2"},
+      {:phoenix, "~> 1.7.15"},
+      {:phoenix_ecto, "~> 4.6"},
+      {:ecto_sql, "~> 3.12"},
+      {:ex_aws, "~> 2.5"},
+      {:ex_aws_s3, "~> 2.5"},
       {:sweet_xml, "~> 0.7"},
-      {:hackney, "~> 1.18"},
+      {:hackney, "~> 1.20"},
       {:postgrex, ">= 0.0.0"},
       {:phoenix_html, "~> 3.3.1"},
       {:phoenix_view, "~> 2.0"},
-      {:phoenix_live_view, "~> 0.18.18"},
-      {:phoenix_live_dashboard, "~> 0.7.2"},
-      {:swoosh, "~> 1.10"},
-      {:telemetry_metrics, "~> 0.6"},
-      {:telemetry_poller, "~> 1.0"},
-      {:gettext, "~> 0.22"},
+      {:phoenix_live_view, "~> 0.20"},
+      {:phoenix_live_dashboard, "~> 0.8"},
+      {:swoosh, "~> 1.17"},
+      {:telemetry_metrics, "~> 1.0"},
+      {:telemetry_poller, "~> 1.1"},
+      {:gettext, "~> 0.26"},
       {:jason, "~> 1.4"},
-      {:plug_cowboy, "~> 2.6"},
-      {:oban, "~> 2.15"},
+      {:plug_cowboy, "~> 2.7"},
+      {:oban, "~> 2.18"},
       # Dev dependencies
-      {:dialyxir, "~> 1.2", only: [:dev], runtime: false},
-      {:esbuild, "~> 0.4", runtime: Mix.env() == :dev},
-      {:tailwind, "~> 0.1", runtime: Mix.env() == :dev},
-      {:phoenix_live_reload, "~> 1.2", only: :dev},
+      {:dialyxir, "~> 1.4", only: [:dev], runtime: false},
+      {:esbuild, "~> 0.8", runtime: Mix.env() == :dev},
+      {:tailwind, "~> 0.2", runtime: Mix.env() == :dev},
+      {:phoenix_live_reload, "~> 1.5", only: :dev},
 
       # Test dependencies
-      {:floki, "~> 0.34", only: :test}
+      {:floki, "~> 0.36", only: :test}
     ]
   end
 
