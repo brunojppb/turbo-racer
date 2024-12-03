@@ -33,7 +33,6 @@ services:
       - "4000:4000"
     volumes:
       - ./docker_turbo_artifacts:/var/turbo_artifacts
-
   turbo_racer_db:
     image: postgres:14.2
     container_name: turbo_racer_db
