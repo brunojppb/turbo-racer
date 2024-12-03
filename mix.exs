@@ -5,8 +5,8 @@ defmodule Turbo.MixProject do
     [
       app: :turbo,
       name: "Turbo Racer",
-      version: "1.6.0",
-      elixir: "~> 1.16",
+      version: "1.6.1",
+      elixir: "~> 1.17",
       elixirc_paths: elixirc_paths(Mix.env()),
       compilers: Mix.compilers(),
       start_permanent: Mix.env() == :prod,
