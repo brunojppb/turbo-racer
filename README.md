@@ -88,7 +88,7 @@ You can use our Digital Ocean template to get this running quickly in a droplet.
 
 To run this app locally, you need the following dependencies installed:
 
-- [Elixir 1.17](https://elixir-lang.org/) and
+- [Elixir 1.18](https://elixir-lang.org/) and
   [Erlang OTP 27](https://www.erlang.org/)
   - You can quickly do it with [asdf](https://asdf-vm.com/). Once asdf is
     installed and then execute `asdf install` within the context of the
