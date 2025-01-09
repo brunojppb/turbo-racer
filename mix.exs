@@ -65,7 +65,7 @@ defmodule Turbo.MixProject do
       {:phoenix_live_reload, "~> 1.5", only: :dev},
 
       # Test dependencies
-      {:floki, "~> 0.36", only: :test}
+      {:floki, "~> 0.37", only: :test}
     ]
   end
 
