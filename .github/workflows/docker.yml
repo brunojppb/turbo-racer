@@ -40,7 +40,7 @@ jobs:
           password: ${{ secrets.DOCKER_TOKEN }}
 
       - name: docker build
-        uses: docker/build-push-action@v3
+        uses: docker/build-push-action@v6
         with:
           context: .
           # I'm having troubles with arm64 and Elixir 1.15.
