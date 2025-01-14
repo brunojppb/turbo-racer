@@ -43,7 +43,7 @@ jobs:
           elixir-version: ${{ steps.tool-versions.outputs.elixir }}
 
       - name: Fetch cached dependencies
-        uses: actions/cache@v3
+        uses: actions/cache@v4
         id: mix-cache
         with:
           path: |
