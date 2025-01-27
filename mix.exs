@@ -47,7 +47,7 @@ defmodule Turbo.MixProject do
       {:sweet_xml, "~> 0.7"},
       {:hackney, "~> 1.20"},
       {:postgrex, ">= 0.0.0"},
-      {:phoenix_html, "~> 3.3.1"},
+      {:phoenix_html, "~> 4.2.0"},
       {:phoenix_view, "~> 2.0"},
       {:phoenix_live_view, "~> 0.20"},
       {:phoenix_live_dashboard, "~> 0.8"},
