@@ -60,7 +60,7 @@ defmodule Turbo.MixProject do
       {:oban, "~> 2.18"},
       # Dev dependencies
       {:dialyxir, "~> 1.4", only: [:dev], runtime: false},
-      {:esbuild, "~> 0.8", runtime: Mix.env() == :dev},
+      {:esbuild, "~> 0.9", runtime: Mix.env() == :dev},
       {:tailwind, "~> 0.2", runtime: Mix.env() == :dev},
       {:phoenix_live_reload, "~> 1.5", only: :dev},
 
