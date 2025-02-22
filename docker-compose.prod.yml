@@ -34,7 +34,7 @@ services:
     volumes:
       - ./docker_turbo_artifacts:/var/turbo_artifacts
   turbo_racer_db:
-    image: postgres:17.3
+    image: postgres:17.4
     container_name: turbo_racer_db
     healthcheck:
       test: ["CMD-SHELL", "pg_isready -U turbo_racer"]
