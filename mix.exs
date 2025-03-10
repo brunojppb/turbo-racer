@@ -49,7 +49,7 @@ defmodule Turbo.MixProject do
       {:postgrex, ">= 0.0.0"},
       {:phoenix_html, "~> 3.3.1"},
       {:phoenix_view, "~> 2.0"},
-      {:phoenix_live_view, "~> 0.20"},
+      {:phoenix_live_view, "~> 1.0"},
       {:phoenix_live_dashboard, "~> 0.8"},
       {:swoosh, "~> 1.17"},
       {:telemetry_metrics, "~> 1.0"},
