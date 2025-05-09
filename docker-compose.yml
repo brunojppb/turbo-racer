@@ -3,7 +3,7 @@ version: "3.7"
 services:
 
   dev_db:
-    image: postgres:17.4
+    image: postgres:17.5
     container_name: pg_turbo_dev
     environment:
       - POSTGRES_USER=turbo
