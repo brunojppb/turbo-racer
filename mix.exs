@@ -54,7 +54,7 @@ defmodule Turbo.MixProject do
       {:swoosh, "~> 1.17"},
       {:telemetry_metrics, "~> 1.0"},
       {:telemetry_poller, "~> 1.1"},
-      {:gettext, "~> 0.26"},
+      {:gettext, "~> 1.0"},
       {:jason, "~> 1.4"},
       {:plug_cowboy, "~> 2.7"},
       {:oban, "~> 2.18"},
