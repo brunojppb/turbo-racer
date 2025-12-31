@@ -39,7 +39,7 @@ defmodule Turbo.MixProject do
   defp deps do
     [
       {:bcrypt_elixir, "~> 3.2"},
-      {:phoenix, "~> 1.7.15"},
+      {:phoenix, "~> 1.8.0"},
       {:phoenix_ecto, "~> 4.6"},
       {:ecto_sql, "~> 3.12"},
       {:ex_aws, "~> 2.5"},
