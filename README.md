@@ -1,3 +1,6 @@
+> [!WARNING]
+> This project is no longer maintained. A more efficient and maintained version of a Turborepo Cache Server [is available here.](https://github.com/brunojppb/turbo-cache-server)
+
 # Turbo Racer
 
 ![Workflow badge](https://github.com/brunojppb/turbo-racer/actions/workflows/checks.yml/badge.svg?branch=main)
